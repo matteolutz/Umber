@@ -11,8 +11,8 @@ namespace umber
 	class Node : public Stringable
 	{
 	protected:
-		const Position m_pos_start;
-		const Position m_pos_end;
+		Position m_pos_start;
+		Position m_pos_end;
 
 		Node(Position pos_start, Position pos_end);
 

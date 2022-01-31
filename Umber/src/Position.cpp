@@ -20,7 +20,7 @@ namespace umber
 		}
 	}
 
-	Position Position::copy_advance(std::optional<char> current_char = std::nullopt)
+	Position Position::copy_advance(std::optional<char> current_char)
 	{
 		Position copy = *this;
 		copy.advance(current_char);

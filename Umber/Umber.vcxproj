@@ -148,6 +148,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\nodes\BinOpNode.h" />
+    <ClInclude Include="src\nodes\BreakNode.h" />
+    <ClInclude Include="src\nodes\CallNode.h" />
+    <ClInclude Include="src\nodes\ContinueNode.h" />
+    <ClInclude Include="src\nodes\ForNode.h" />
+    <ClInclude Include="src\nodes\FunctionDefNode.h" />
+    <ClInclude Include="src\nodes\IfNode.h" />
     <ClInclude Include="src\nodes\ListNode.h" />
     <ClInclude Include="src\nodes\NumberNode.h" />
     <ClInclude Include="src\Node.h" />
@@ -155,15 +161,28 @@
     <ClInclude Include="src\errors\IllegalCharacterError.h" />
     <ClInclude Include="src\Error.h" />
     <ClInclude Include="src\Constants.h" />
+    <ClInclude Include="src\nodes\ReturnNode.h" />
     <ClInclude Include="src\nodes\StringNode.h" />
+    <ClInclude Include="src\nodes\UnaryOpNode.h" />
     <ClInclude Include="src\nodes\VarAccessNode.h" />
+    <ClInclude Include="src\nodes\VarAssignNode.h" />
+    <ClInclude Include="src\nodes\WhileNode.h" />
+    <ClInclude Include="src\Parser.h" />
     <ClInclude Include="src\Position.h" />
     <ClInclude Include="src\Lexer.h" />
+    <ClInclude Include="src\result\ParseResult.h" />
     <ClInclude Include="src\Stringable.h" />
     <ClInclude Include="src\Umber.h" />
     <ClInclude Include="src\Token.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\nodes\BinOpNode.cpp" />
+    <ClCompile Include="src\nodes\BreakNode.cpp" />
+    <ClCompile Include="src\nodes\CallNode.cpp" />
+    <ClCompile Include="src\nodes\ContinueNode.cpp" />
+    <ClCompile Include="src\nodes\ForNode.cpp" />
+    <ClCompile Include="src\nodes\FunctionDefNode.cpp" />
+    <ClCompile Include="src\nodes\IfNode.cpp" />
     <ClCompile Include="src\nodes\ListNode.cpp" />
     <ClCompile Include="src\nodes\NumberNode.cpp" />
     <ClCompile Include="src\Node.cpp" />
@@ -171,10 +190,16 @@
     <ClCompile Include="src\errors\ExpectedCharError.cpp" />
     <ClCompile Include="src\errors\IllegalCharacterError.cpp" />
     <ClCompile Include="src\Error.cpp" />
+    <ClCompile Include="src\nodes\ReturnNode.cpp" />
     <ClCompile Include="src\nodes\StringNode.cpp" />
+    <ClCompile Include="src\nodes\UnaryOpNode.cpp" />
     <ClCompile Include="src\nodes\VarAccessNode.cpp" />
+    <ClCompile Include="src\nodes\VarAssignNode.cpp" />
+    <ClCompile Include="src\nodes\WhileNode.cpp" />
+    <ClCompile Include="src\Parser.cpp" />
     <ClCompile Include="src\Position.cpp" />
     <ClCompile Include="src\Lexer.cpp" />
+    <ClCompile Include="src\result\ParseResult.cpp" />
     <ClCompile Include="src\Token.cpp" />
     <ClCompile Include="src\Umber.cpp" />
   </ItemGroup>

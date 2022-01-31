@@ -12,10 +12,10 @@ namespace umber
 	class Error : public Stringable
 	{
 	protected:
-		const Position m_pos_start;
-		const Position m_pos_end;
-		const std::string m_error_name;
-		const std::string m_details;
+		Position m_pos_start;
+		Position m_pos_end;
+		std::string m_error_name;
+		std::string m_details;
 
 	protected:
 		Error(Position pos_start, Position pos_end, std::string error_name, std::string details);
