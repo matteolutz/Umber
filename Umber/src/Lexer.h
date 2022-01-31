@@ -1,0 +1,47 @@
+#pragma once
+
+#include "Position.h"
+#include "Token.h"
+#include "Error.h"
+#include "errors/IllegalCharacterError.h"
+#include "errors/ExpectedCharError.h"
+#include "Constants.h"
+
+#include <string>
+#include <memory>
+#include <optional>
+#include <vector>
+#include <map>
+#include <ctype.h>
+
+namespace umber
+{
+	class Lexer
+	{
+	private:
+		std::string m_filename;
+		std::string m_filetext;
+
+		Position m_pos;
+		std::optional<char> m_current_char;
+
+	private:
+		void skip_comment();
+		Token make_number();
+		Token make_identifier();
+		Token make_string();
+		Token make_minus_or_arrow();
+
+		std::tuple<std::optional<Token>, std::optional<Error>> make_not_equals();
+		Token make_equals();
+		Token make_less_than();
+		Token make_greater_than();
+
+	public:
+		Lexer(std::string filename, std::string filetext);
+
+		void advance();
+		std::tuple<std::optional<std::vector<Token>>, std::optional<Error>> make_tokens();
+
+	};
+}
