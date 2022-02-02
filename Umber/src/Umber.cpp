@@ -3,11 +3,6 @@
 namespace umber
 {
 
-	void Test()
-	{
-		printf("Umber-Lang test was successful!\n");
-	}
-
 	void RunFile(std::string path)
 	{
 
@@ -26,6 +21,24 @@ namespace umber
 		Lexer l("<cin>", text);
 
 		return l.make_tokens();
+	}
+
+	void Test()
+	{
+		Lexer l("<cin>", "1+1");
+		std::tuple<std::optional<std::vector<Token>>, std::optional<Error>> lexer_res = l.make_tokens();
+
+		if (std::get<1>(lexer_res).has_value())
+		{
+			printf("Error");
+			return;
+		}
+
+		std::vector<Token> tokens = std::get<0>(lexer_res).value();
+
+		Parser p(tokens);
+		result::ParseResult res = p.parse();
+
 	}
 
 }

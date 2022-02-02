@@ -2,7 +2,6 @@
 
 #include "../Node.h"
 #include "../Position.h"
-#include "../Token.h"
 
 #include <vector>
 
@@ -15,10 +14,10 @@ namespace umber
 		class ListNode : public Node
 		{
 		private:
-			std::vector<Token> m_elements;
+			std::vector<Node> m_elements;
 
 		public:
-			ListNode(std::vector<Token> elements, Position pos_start, Position pos_end);
+			ListNode(std::vector<Node> elements, Position pos_start, Position pos_end);
 
 		};
 

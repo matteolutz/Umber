@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Position.h"
-#include "Stringable.h"
 
 #include <string>
 #include <iostream>
@@ -9,7 +8,7 @@
 
 namespace umber
 {
-	class Error : public Stringable
+	class Error
 	{
 	protected:
 		Position m_pos_start;
@@ -21,7 +20,7 @@ namespace umber
 		Error(Position pos_start, Position pos_end, std::string error_name, std::string details);
 
 	public:
-		std::string as_string() const override;
+		std::string as_string() const;
 
 	};
 }

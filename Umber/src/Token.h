@@ -3,6 +3,7 @@
 #include "Position.h"
 
 #include <optional>
+#include <string>
 
 namespace umber
 {
@@ -39,8 +40,10 @@ namespace umber
 		Eof
 	};
 
-	static const std::string KEYWORDS[16] = {
-		"var",
+	static const std::string KEYWORDS[17] = 
+	{
+		"let",
+		"mut",
 		"and",
 		"or",
 		"not",
@@ -68,8 +71,8 @@ namespace umber
 		Position m_pos_end;
 
 	public:
-		Token(TokenType type, std::optional<std::string> value, Position pos_start, std::optional<Position> pos_end = std::nullopt);
-		Token(TokenType type, Position pos_start, std::optional<Position> pos_end = std::nullopt);
+		Token(TokenType type, std::optional<std::string> value, Position pos_start = Position{}, std::optional<Position> pos_end = std::nullopt);
+		Token(TokenType type, Position pos_start = Position{}, std::optional<Position> pos_end = std::nullopt);
 
 		const TokenType& type() const;
 		const std::optional<std::string>& value() const;
@@ -77,9 +80,13 @@ namespace umber
 		const Position& pos_start() const;
 		const Position& pos_end() const;
 
+		bool matches(TokenType type, std::optional<std::string> value) const;
+
+		bool has_value() const;
+
 		bool operator==(const Token& other) const
 		{
-			return this->m_type == other.m_type && this->m_value == other.m_value;
+			return this->matches(other.m_type, other.m_value);
 		}
 	};
 

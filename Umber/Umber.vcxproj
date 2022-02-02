@@ -147,10 +147,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\errors\InvalidSyntaxError.h" />
     <ClInclude Include="src\nodes\BinOpNode.h" />
     <ClInclude Include="src\nodes\BreakNode.h" />
     <ClInclude Include="src\nodes\CallNode.h" />
     <ClInclude Include="src\nodes\ContinueNode.h" />
+    <ClInclude Include="src\nodes\ElseNode.h" />
     <ClInclude Include="src\nodes\ForNode.h" />
     <ClInclude Include="src\nodes\FunctionDefNode.h" />
     <ClInclude Include="src\nodes\IfNode.h" />
@@ -166,20 +168,22 @@
     <ClInclude Include="src\nodes\UnaryOpNode.h" />
     <ClInclude Include="src\nodes\VarAccessNode.h" />
     <ClInclude Include="src\nodes\VarAssignNode.h" />
+    <ClInclude Include="src\nodes\VarDeclarationNode.h" />
     <ClInclude Include="src\nodes\WhileNode.h" />
     <ClInclude Include="src\Parser.h" />
     <ClInclude Include="src\Position.h" />
     <ClInclude Include="src\Lexer.h" />
     <ClInclude Include="src\result\ParseResult.h" />
-    <ClInclude Include="src\Stringable.h" />
     <ClInclude Include="src\Umber.h" />
     <ClInclude Include="src\Token.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\errors\InvalidSyntaxError.cpp" />
     <ClCompile Include="src\nodes\BinOpNode.cpp" />
     <ClCompile Include="src\nodes\BreakNode.cpp" />
     <ClCompile Include="src\nodes\CallNode.cpp" />
     <ClCompile Include="src\nodes\ContinueNode.cpp" />
+    <ClCompile Include="src\nodes\ElseNode.cpp" />
     <ClCompile Include="src\nodes\ForNode.cpp" />
     <ClCompile Include="src\nodes\FunctionDefNode.cpp" />
     <ClCompile Include="src\nodes\IfNode.cpp" />
@@ -195,6 +199,7 @@
     <ClCompile Include="src\nodes\UnaryOpNode.cpp" />
     <ClCompile Include="src\nodes\VarAccessNode.cpp" />
     <ClCompile Include="src\nodes\VarAssignNode.cpp" />
+    <ClCompile Include="src\nodes\VarDeclarationNode.cpp" />
     <ClCompile Include="src\nodes\WhileNode.cpp" />
     <ClCompile Include="src\Parser.cpp" />
     <ClCompile Include="src\Position.cpp" />

@@ -8,6 +8,9 @@ namespace umber
 	Position::Position(std::string filename, std::string &filetext)
 		: m_index(0), m_line(0), m_col(0), m_filename(filename), m_filetext(filetext) { }
 
+	Position::Position()
+		: m_index(0), m_line(0), m_col(0), m_filename(""), m_filetext("") { }
+
 	void Position::advance(std::optional<char> current_char)
 	{
 		this->m_index++;

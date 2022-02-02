@@ -10,7 +10,7 @@ namespace umber
 
 		ForNode::ForNode(
 			Token var_name_token,
-			Node start_value_node, Node end_value_node, Node step_value_node,
+			Node start_value_node, Node end_value_node, std::optional<Node> step_value_node,
 			Node body_node, bool should_return_null)
 			: Node(var_name_token.pos_start(), body_node.pos_end()),
 			m_var_name_token(var_name_token),

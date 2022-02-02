@@ -1,14 +1,13 @@
 #pragma once
 
 #include "Position.h"
-#include "Stringable.h"
 
 #include <string>
 
 namespace umber
 {
 
-	class Node : public Stringable
+	class Node
 	{
 	protected:
 		Position m_pos_start;
@@ -17,7 +16,7 @@ namespace umber
 		Node(Position pos_start, Position pos_end);
 
 	public:
-		virtual std::string as_string() const override;
+		std::string as_string() const;
 
 		const Position& pos_start() const;
 		const Position& pos_end() const;

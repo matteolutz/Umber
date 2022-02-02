@@ -11,8 +11,11 @@ namespace umber
 
 		class ReturnNode : public Node
 		{
+		private:
+			std::optional<Node> m_node_to_return;
+
 		public:
-			ReturnNode(Position pos_start, Position pos_end);
+			ReturnNode(std::optional<Node> node_to_return, Position pos_start, Position pos_end);
 		};
 
 	}

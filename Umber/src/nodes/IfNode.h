@@ -3,6 +3,8 @@
 #include "../Node.h"
 #include "../Token.h"
 
+#include "ElseNode.h"
+
 #include <vector>
 
 namespace umber
@@ -13,20 +15,20 @@ namespace umber
 
 		class IfNode : public Node
 		{
-
+		public:
 			struct if_case
 			{
 				Node condition;
 				Node statements;
-				bool unknown; // TODO: change name
+				bool should_return_null;
 			};
 
 		private:
 			std::vector<if_case> m_cases;
-			std::optional<if_case> m_else_case;
+			std::optional<Node> m_else_case;
 
 		public:
-			IfNode(std::vector<if_case> cases, std::optional<if_case> m_else_case = std::nullopt);
+			IfNode(std::vector<if_case> cases, std::optional<Node> m_else_case = std::nullopt);
 
 		};
 

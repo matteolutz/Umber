@@ -11,6 +11,7 @@
 #include "Token.h"
 #include "Lexer.h"
 #include "Error.h"
+#include "Parser.h"
 
 namespace umber
 {

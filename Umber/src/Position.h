@@ -15,11 +15,12 @@ namespace umber
 		unsigned int m_col;
 
 		std::string m_filename;
-		std::string& m_filetext;
+		std::string m_filetext;
 
 	public:
 		Position(unsigned int index, unsigned int line, unsigned int col, std::string filename, std::string &filetext);
 		Position(std::string filename, std::string &filetext);
+		Position();
 
 		const unsigned int& index() const;
 		const unsigned int& line() const;

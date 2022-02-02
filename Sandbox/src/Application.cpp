@@ -33,6 +33,9 @@ int main()
 	/*test();
 	return -1;*/
 
+	umber::Test();
+	return 0;
+
 	auto start = std::chrono::high_resolution_clock::now();
 
 	std::tuple<std::optional<std::vector<umber::Token>>, std::optional<umber::Error>> result = umber::RunText(lexer_test);

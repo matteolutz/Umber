@@ -42,9 +42,6 @@
     <ClInclude Include="src\Node.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\Stringable.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="src\nodes\NumberNode.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -94,6 +91,15 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\Parser.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\errors\InvalidSyntaxError.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\nodes\VarDeclarationNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\nodes\ElseNode.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -174,6 +180,15 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="src\Parser.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\errors\InvalidSyntaxError.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nodes\VarDeclarationNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nodes\ElseNode.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

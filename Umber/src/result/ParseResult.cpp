@@ -6,26 +6,25 @@ namespace umber
 	namespace result
 	{
 
-		ParseResult::ParseResult() {}
-
 		void ParseResult::register_advancement()
 		{
 			this->m_last_registered_advance_count = 1;
 			this->m_advance_count++;
 		}
 
-		std::optional<Node> ParseResult::register_res(ParseResult& res)
+		std::optional<Node> ParseResult::register_res(ParseResult res)
 		{
 			this->m_last_registered_advance_count = res.m_last_registered_advance_count;
 			this->m_advance_count += res.m_advance_count;
-			if (res.has_error())
+			if (res.has_error() || !res.has_node())
 			{
 				this->m_error.emplace(res.m_error.value());
+				return std::nullopt;
 			}
-			return res.m_node.value();
+			return res.m_node;
 		}
 
-		std::optional<Node> ParseResult::try_register_res(ParseResult& res)
+		std::optional<Node> ParseResult::try_register_res(ParseResult res)
 		{
 			if (res.has_error())
 			{
