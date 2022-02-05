@@ -37,6 +37,7 @@ namespace umber
 	result::ParseResult Parser::parse()
 	{
 		auto res = this->statements();
+		
 
 		if (!res.has_error() && this->m_current_token.value().type() != TokenType::Eof)
 		{
@@ -622,16 +623,12 @@ namespace umber
 		while (true)
 		{
 
-			bool break_while = false;
+			bool break_while = true;
 			for (int i = 0; i < ops.size(); i++)
 			{
-				if (
-					(ops[i].first != this->m_current_token.value().type())
-					|| (ops[i].second.has_value() != this->m_current_token.has_value())
-					|| (ops[i].second.has_value() && (ops[i].second.value() != this->m_current_token.value().value()))
-					)
+				if (this->m_current_token.value().matches(ops[i].first, ops[i].second))
 				{
-					break_while = break_while || true;
+					break_while = false;
 					break;
 				}
 			}

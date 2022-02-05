@@ -20,8 +20,6 @@ namespace umber
 			unsigned int m_last_registered_advance_count, m_advance_count, m_to_reverse_count;
 
 		public:
-			~ParseResult();
-
 			void cleanup();
 
 			void register_advancement();

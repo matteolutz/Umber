@@ -5,11 +5,6 @@ namespace umber
 
 	namespace result
 	{
-
-		ParseResult::~ParseResult()
-		{
-		}
-
 		void ParseResult::cleanup()
 		{
 			delete m_error, m_node;

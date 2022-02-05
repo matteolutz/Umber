@@ -147,7 +147,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Context.h" />
     <ClInclude Include="src\errors\InvalidSyntaxError.h" />
+    <ClInclude Include="src\errors\RuntimeError.h" />
     <ClInclude Include="src\nodes\BinOpNode.h" />
     <ClInclude Include="src\nodes\BreakNode.h" />
     <ClInclude Include="src\nodes\CallNode.h" />
@@ -173,11 +175,16 @@
     <ClInclude Include="src\Position.h" />
     <ClInclude Include="src\Lexer.h" />
     <ClInclude Include="src\result\ParseResult.h" />
+    <ClInclude Include="src\result\RuntimeResult.h" />
+    <ClInclude Include="src\SymbolTable.h" />
     <ClInclude Include="src\Umber.h" />
     <ClInclude Include="src\Token.h" />
+    <ClInclude Include="src\Value.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Context.cpp" />
     <ClCompile Include="src\errors\InvalidSyntaxError.cpp" />
+    <ClCompile Include="src\errors\RuntimeError.cpp" />
     <ClCompile Include="src\nodes\BinOpNode.cpp" />
     <ClCompile Include="src\nodes\BreakNode.cpp" />
     <ClCompile Include="src\nodes\CallNode.cpp" />
@@ -188,7 +195,6 @@
     <ClCompile Include="src\nodes\ListNode.cpp" />
     <ClCompile Include="src\nodes\NumberNode.cpp" />
     <ClCompile Include="src\Node.cpp" />
-    <ClCompile Include="src\Constants.cpp" />
     <ClCompile Include="src\errors\ExpectedCharError.cpp" />
     <ClCompile Include="src\errors\IllegalCharacterError.cpp" />
     <ClCompile Include="src\Error.cpp" />
@@ -203,8 +209,11 @@
     <ClCompile Include="src\Position.cpp" />
     <ClCompile Include="src\Lexer.cpp" />
     <ClCompile Include="src\result\ParseResult.cpp" />
+    <ClCompile Include="src\result\RuntimeResult.cpp" />
+    <ClCompile Include="src\SymbolTable.cpp" />
     <ClCompile Include="src\Token.cpp" />
     <ClCompile Include="src\Umber.cpp" />
+    <ClCompile Include="src\Value.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

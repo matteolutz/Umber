@@ -2,6 +2,13 @@
 
 #include <chrono>
 
+
+const char* test = R""""(
+while 1 < 1 and 1 > 1 {
+	print("Hello World!");
+}
+)"""";
+
 namespace umber
 {
 
@@ -32,7 +39,7 @@ namespace umber
 	{
 		auto begin = time_now();
 
-		Lexer l("<cin>", "print(a, b, c, d, e, f, g, h);");
+		Lexer l("<cin>", test);
 		std::pair<std::optional<std::vector<Token>>, Error*> lexer_res = l.make_tokens();
 
 		if (lexer_res.second != nullptr)
