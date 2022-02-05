@@ -19,6 +19,6 @@ namespace umber
 	void Test();
 
 	void RunFile(std::string filepath);
-	std::tuple<std::optional<std::vector<Token>>, std::optional<Error>> RunText(std::string text);
+	std::pair<std::optional<std::vector<Token>>, Error*> RunText(std::string text);
 
 }

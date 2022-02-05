@@ -37,7 +37,7 @@ namespace umber
 		unsigned int m_token_index = 0;
 		std::optional<Token> m_current_token;
 
-		enum BinOpFunction
+		enum class BinOpFunction
 		{
 			Comp,
 			Arith,
@@ -68,7 +68,7 @@ namespace umber
 
 		result::ParseResult function_def();
 
-		result::ParseResult bin_operation(BinOpFunction function_a, std::vector<std::tuple<TokenType, std::optional<std::string>>> ops, std::optional<BinOpFunction> function_b = std::nullopt);
+		result::ParseResult bin_operation(BinOpFunction function_a, std::vector<std::pair<TokenType, std::optional<std::string>>> ops, std::optional<BinOpFunction> function_b = std::nullopt);
 
 		result::ParseResult statement();
 		result::ParseResult statements();

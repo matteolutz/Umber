@@ -8,7 +8,7 @@
 namespace umber
 {
 
-	enum TokenType
+	enum class TokenType
 	{
 		Int,
 		Float,

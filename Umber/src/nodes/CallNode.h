@@ -14,11 +14,12 @@ namespace umber
 		{
 
 		private:
-			Node m_node_to_call;
-			std::vector<Node> m_arg_nodes;
+			Node* m_node_to_call;
+			std::vector<Node*> m_arg_nodes;
 
 		public:
-			CallNode(Node node_to_call, std::vector<Node> arg_nodes);
+			CallNode(Node* node_to_call, std::vector<Node*> arg_nodes);
+			~CallNode();
 
 		};
 

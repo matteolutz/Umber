@@ -12,12 +12,13 @@ namespace umber
 		{
 
 		private:
-			Node m_condition_node;
-			Node m_body_node;
+			Node* m_condition_node;
+			Node* m_body_node;
 			bool m_should_return_null;
 
 		public:
-			WhileNode(Node condition_node, Node body_node, bool should_return_null);
+			WhileNode(Node* condition_node, Node* body_node, bool should_return_null);
+			~WhileNode();
 
 		};
 

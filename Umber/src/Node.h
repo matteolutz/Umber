@@ -16,7 +16,7 @@ namespace umber
 		Node(Position pos_start, Position pos_end);
 
 	public:
-		std::string as_string() const;
+		virtual std::string as_string() const;
 
 		const Position& pos_start() const;
 		const Position& pos_end() const;

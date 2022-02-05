@@ -32,7 +32,7 @@ namespace umber
 		Token make_string();
 		Token make_minus_or_arrow();
 
-		std::tuple<std::optional<Token>, std::optional<Error>> make_not_equals();
+		std::pair<std::optional<Token>, Error*> make_not_equals();
 		Token make_equals();
 		Token make_less_than();
 		Token make_greater_than();
@@ -41,7 +41,7 @@ namespace umber
 		Lexer(std::string filename, std::string filetext);
 
 		void advance();
-		std::tuple<std::optional<std::vector<Token>>, std::optional<Error>> make_tokens();
+		std::pair<std::optional<std::vector<Token>>, Error*> make_tokens();
 
 	};
 }

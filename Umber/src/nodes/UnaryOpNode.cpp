@@ -8,8 +8,13 @@ namespace umber
 
 
 
-		UnaryOpNode::UnaryOpNode(Token op_token, Node node)
-			: Node(op_token.pos_start(), node.pos_end()), m_op_token(op_token), m_node(node) { }
+		UnaryOpNode::UnaryOpNode(Token op_token, Node* node)
+			: Node(op_token.pos_start(), node->pos_end()), m_op_token(op_token), m_node(node) { }
+
+		UnaryOpNode::~UnaryOpNode()
+		{
+			delete m_node;
+		}
 
 	}
 

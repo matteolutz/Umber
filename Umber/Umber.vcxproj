@@ -152,7 +152,6 @@
     <ClInclude Include="src\nodes\BreakNode.h" />
     <ClInclude Include="src\nodes\CallNode.h" />
     <ClInclude Include="src\nodes\ContinueNode.h" />
-    <ClInclude Include="src\nodes\ElseNode.h" />
     <ClInclude Include="src\nodes\ForNode.h" />
     <ClInclude Include="src\nodes\FunctionDefNode.h" />
     <ClInclude Include="src\nodes\IfNode.h" />
@@ -183,7 +182,6 @@
     <ClCompile Include="src\nodes\BreakNode.cpp" />
     <ClCompile Include="src\nodes\CallNode.cpp" />
     <ClCompile Include="src\nodes\ContinueNode.cpp" />
-    <ClCompile Include="src\nodes\ElseNode.cpp" />
     <ClCompile Include="src\nodes\ForNode.cpp" />
     <ClCompile Include="src\nodes\FunctionDefNode.cpp" />
     <ClCompile Include="src\nodes\IfNode.cpp" />

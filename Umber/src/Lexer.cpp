@@ -17,7 +17,7 @@ namespace umber
 		m_current_char = this->m_pos.index() < this->m_filetext.length() ? std::make_optional<char>(this->m_filetext.at(this->m_pos.index())) : std::nullopt;
 	}
 
-	std::tuple<std::optional<std::vector<Token>>, std::optional<Error>> Lexer::make_tokens()
+	std::pair<std::optional<std::vector<Token>>, Error*> Lexer::make_tokens()
 	{
 		std::vector<Token> tokens;
 
@@ -112,14 +112,14 @@ namespace umber
 			}
 			else if (current == '!')
 			{
-				std::tuple<std::optional<Token>, std::optional<Error>> result = this->make_not_equals();
+				std::pair<std::optional<Token>, Error*> result = this->make_not_equals();
 
-				if (std::get<1>(result).has_value())
+				if (result.second != nullptr)
 				{
-					return { std::nullopt, std::get<1>(result).value() };
+					return { std::nullopt, result.second };
 				}
 
-				tokens.emplace_back(std::get<0>(result).value());
+				tokens.emplace_back(result.first.value());
 			}
 			else if (current == '=')
 			{
@@ -147,12 +147,12 @@ namespace umber
 				char err_details_buffer[3];
 				sprintf_s(err_details_buffer, "'%c'", err_char);
 
-				return { std::nullopt, errors::IllegalCharacterError{ pos_start, this->m_pos, err_details_buffer } };
+				return { std::nullopt, new errors::IllegalCharacterError{ pos_start, this->m_pos, err_details_buffer } };
 			}
 		}
 
 		tokens.emplace_back(Token{ TokenType::Eof, this->m_pos });
-		return { tokens, std::nullopt };
+		return { tokens, nullptr };
 	}
 
 #pragma region Maker Functions
@@ -284,7 +284,7 @@ namespace umber
 		return Token{ r_token_type, pos_start, this->m_pos };
 	}
 
-	std::tuple<std::optional<Token>, std::optional<Error>> Lexer::make_not_equals()
+	std::pair<std::optional<Token>, Error*> Lexer::make_not_equals()
 	{
 		Position pos_start = this->m_pos;
 		this->advance();
@@ -292,11 +292,11 @@ namespace umber
 		if (this->m_current_char.has_value() && this->m_current_char.value() == '=')
 		{
 			this->advance();
-			return { Token{ TokenType::Ne, pos_start, this->m_pos }, std::nullopt };
+			return { Token{ TokenType::Ne, pos_start, this->m_pos }, nullptr };
 		}
 
 		this->advance();
-		return std::tuple<std::optional<Token>, std::optional<Error>>{ std::nullopt, errors::ExpectedCharError{ pos_start, this->m_pos, "'=' (after '!')" } };
+		return { std::nullopt, new errors::ExpectedCharError{ pos_start, this->m_pos, "'=' (after '!')" } };
 
 	}
 

@@ -13,10 +13,11 @@ namespace umber
 		{
 		private:
 			Token m_var_name_token;
-			Node m_value_node;
+			Node* m_value_node;
 
 		public:
-			VarAssignNode(Token var_name_token, Node value_node);
+			VarAssignNode(Token var_name_token, Node* value_node);
+			~VarAssignNode();
 
 		};
 

@@ -13,10 +13,11 @@ namespace umber
 		{
 		private:
 			Token m_op_token;
-			Node m_node;
+			Node* m_node;
 
 		public:
-			UnaryOpNode(Token op_token, Node node);
+			UnaryOpNode(Token op_token, Node* node);
+			~UnaryOpNode();
 
 		};
 

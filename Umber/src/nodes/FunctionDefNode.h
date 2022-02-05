@@ -17,11 +17,13 @@ namespace umber
 		private:
 			std::optional<Token> m_var_name_token;
 			std::vector<Token> m_arg_name_tokens;
-			Node m_body_node;
+			Node* m_body_node;
 			bool m_should_return_null;
 
 		public:
-			FunctionDefNode(std::optional<Token> var_name_token, std::vector<Token> arg_name_tokens, Node body_node, bool should_return_null);
+			FunctionDefNode(std::optional<Token> var_name_token, std::vector<Token> arg_name_tokens, Node* body_node, bool should_return_null);
+			~FunctionDefNode();
+
 		};
 
 	}

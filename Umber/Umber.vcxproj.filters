@@ -99,9 +99,6 @@
     <ClInclude Include="src\nodes\VarDeclarationNode.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\nodes\ElseNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Umber.cpp">
@@ -186,9 +183,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="src\nodes\VarDeclarationNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\ElseNode.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

@@ -13,11 +13,12 @@ namespace umber
 		{
 		private:
 			Token m_var_name_token;
-			Node m_value_node;
+			Node* m_value_node;
 			bool m_is_mutable;
 
 		public:
-			VarDeclarationNode(Token var_name_token, Node value_node, bool is_mutable);
+			VarDeclarationNode(Token var_name_token, Node* value_node, bool is_mutable);
+			~VarDeclarationNode();
 
 		};
 
