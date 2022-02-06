@@ -17,10 +17,10 @@ namespace umber
 
 		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> StringValue::added_to(std::shared_ptr<Value> other)
 		{
-			std::unique_ptr<StringValue> other_number = std::make_unique<StringValue>(dynamic_cast<StringValue*>(other.get()));
-			if (other_number != nullptr)
+			std::shared_ptr<StringValue> other_string = std::dynamic_pointer_cast<StringValue>(other);
+			if (other_string != nullptr)
 			{
-				return { std::make_unique<StringValue>(this->m_value + other_number->m_value), nullptr };
+				return { std::make_unique<StringValue>(this->m_value + other_string->m_value), nullptr };
 			}
 			return Value::added_to(other);
 		}

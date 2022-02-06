@@ -23,9 +23,17 @@
 
 #include "values/NumberValue.h"
 #include "values/StringValue.h"
+#include "values/ListValue.h"
+
+#include "Context.h"
+#include "SymbolTable.h"
+
+#include "utils/Utils.h"
 
 #include <memory>
 #include <stdexcept>
+#include <iostream>
+#include <format>
 
 namespace umber
 {

@@ -13,11 +13,11 @@ namespace umber
 		return this->m_symbols.count(key);
 	}
 
-	bool SymbolTable::exists_rec(std::string& key) const
+	std::pair<bool, std::shared_ptr<SymbolTable>> SymbolTable::exists_rec(std::string& key) const
 	{
-		if (this->exists(key)) return true;
+		if (this->exists(key)) return { true, std::make_shared<SymbolTable>(*this) };
 
-		if (this->m_parent == nullptr) return false;
+		if (this->m_parent == nullptr) return { false, nullptr };
 
 		return this->m_parent->exists_rec(key);
 
@@ -37,8 +37,39 @@ namespace umber
 		{
 			return this->m_parent->get(key);
 		}
+		else if (it != this->m_symbols.end())
+		{
+			return it->second;
+		}
 		
-		return it->second;
+		return std::nullopt;
+	}
+
+	bool SymbolTable::assign(std::string& key, std::shared_ptr<Value> value)
+	{
+		std::pair<bool, std::shared_ptr<SymbolTable>> exists = this->exists_rec(key);
+		if (exists.first)
+		{
+			if (!exists.second->get(key).value().is_mutable)
+			{
+				return false;
+			}
+
+			exists.second->m_symbols[key] = { value, false };
+			return true;
+		}
+		
+		return false;
+
+	}
+
+	bool SymbolTable::declare(std::string& key, symbol new_symbol)
+	{
+		std::pair<bool, std::shared_ptr<SymbolTable>> exists = this->exists_rec(key);
+
+		if (exists.first) return false;
+
+		this->m_symbols[key] = new_symbol;
 	}
 
 }

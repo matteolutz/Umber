@@ -18,6 +18,9 @@ namespace umber
 		public:
 			UnaryOpNode(Token op_token, std::shared_ptr<Node> node);
 
+			inline const Token& op_token() const { return this->m_op_token; }
+			inline const std::shared_ptr<Node>& node() const { return this->m_node; }
+
 		};
 
 	}

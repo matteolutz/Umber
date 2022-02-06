@@ -19,6 +19,8 @@ namespace umber
 		public:
 			ListNode(std::vector<std::shared_ptr<Node>> elements, Position pos_start, Position pos_end);
 
+			inline const std::vector<std::shared_ptr<Node>>& elements() const { return this->m_elements; }
+
 		};
 
 	}

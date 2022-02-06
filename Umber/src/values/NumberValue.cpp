@@ -14,9 +14,9 @@ namespace umber
 			: Value(), m_value(value)
 		{ }
 
-		/*std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> NumberValue::added_to(std::shared_ptr<Value> other)
+		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> NumberValue::added_to(std::shared_ptr<Value> other)
 		{
-			std::unique_ptr<NumberValue> other_number = std::make_unique<NumberValue>(dynamic_cast<NumberValue*>(other.get()));
+			std::shared_ptr<NumberValue> other_number = std::dynamic_pointer_cast<NumberValue>(other);
 			if (other_number != nullptr)
 			{
 				return { std::make_unique<NumberValue>(this->m_value + other_number->m_value), nullptr };
@@ -26,7 +26,7 @@ namespace umber
 
 		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> NumberValue::subbed_by(std::shared_ptr<Value> other)
 		{
-			std::unique_ptr<NumberValue> other_number = std::make_unique<NumberValue>(dynamic_cast<NumberValue*>(other.get()));
+			std::shared_ptr<NumberValue> other_number = std::dynamic_pointer_cast<NumberValue>(other);
 			if (other_number != nullptr)
 			{
 				return { std::make_unique<NumberValue>(this->m_value - other_number->m_value), nullptr };
@@ -36,7 +36,7 @@ namespace umber
 
 		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> NumberValue::multed_by(std::shared_ptr<Value> other)
 		{
-			std::unique_ptr<NumberValue> other_number = std::make_unique<NumberValue>(dynamic_cast<NumberValue*>(other.get()));
+			std::shared_ptr<NumberValue> other_number = std::dynamic_pointer_cast<NumberValue>(other);
 			if (other_number != nullptr)
 			{
 				return { std::make_unique<NumberValue>(this->m_value * other_number->m_value), nullptr };
@@ -46,7 +46,7 @@ namespace umber
 
 		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> NumberValue::dived_by(std::shared_ptr<Value> other)
 		{
-			std::unique_ptr<NumberValue> other_number = std::make_unique<NumberValue>(dynamic_cast<NumberValue*>(other.get()));
+			std::shared_ptr<NumberValue> other_number = std::dynamic_pointer_cast<NumberValue>(other);
 			if (other_number != nullptr)
 			{
 				if (other_number->m_value == 0.0f)
@@ -61,13 +61,13 @@ namespace umber
 
 		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> NumberValue::powed_by(std::shared_ptr<Value> other)
 		{
-			std::unique_ptr<NumberValue> other_number = std::make_unique<NumberValue>(dynamic_cast<NumberValue*>(other.get()));
+			std::shared_ptr<NumberValue> other_number = std::dynamic_pointer_cast<NumberValue>(other);
 			if (other_number != nullptr)
 			{
 				return { std::make_unique<NumberValue>((float)pow((double)this->m_value, (double)other_number->m_value)), nullptr };
 			}
 			return Value::powed_by(other);
-		}*/
+		}
 
 	}
 

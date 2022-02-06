@@ -18,6 +18,9 @@ namespace umber
 		public:
 			VarAssignNode(Token var_name_token, std::shared_ptr<Node> value_node);
 
+			inline const Token& var_name_token() const { return this->m_var_name_token; }
+			inline const std::shared_ptr<Node>& value_node() const { return this->m_value_node; }
+
 		};
 
 	}

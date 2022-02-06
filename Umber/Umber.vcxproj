@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
@@ -136,7 +136,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
@@ -182,8 +182,10 @@
     <ClInclude Include="src\SymbolTable.h" />
     <ClInclude Include="src\Umber.h" />
     <ClInclude Include="src\Token.h" />
+    <ClInclude Include="src\utils\Utils.h" />
     <ClInclude Include="src\Value.fwd.h" />
     <ClInclude Include="src\Value.h" />
+    <ClInclude Include="src\values\ListValue.h" />
     <ClInclude Include="src\values\NumberValue.h" />
     <ClInclude Include="src\values\StringValue.h" />
   </ItemGroup>
@@ -220,7 +222,9 @@
     <ClCompile Include="src\SymbolTable.cpp" />
     <ClCompile Include="src\Token.cpp" />
     <ClCompile Include="src\Umber.cpp" />
+    <ClCompile Include="src\utils\Utils.cpp" />
     <ClCompile Include="src\Value.cpp" />
+    <ClCompile Include="src\values\ListValue.cpp" />
     <ClCompile Include="src\values\NumberValue.cpp" />
     <ClCompile Include="src\values\StringValue.cpp" />
   </ItemGroup>

@@ -16,6 +16,9 @@ namespace umber
 
 		public:
 			VarAccessNode(Token var_name_token);
+
+			inline const Token& var_name_token() const { return this->m_var_name_token; }
+
 		};
 
 	}

@@ -19,6 +19,15 @@ namespace umber
 			this->m_loop_should_break = false;
 		}
 
+		std::shared_ptr<Value> RuntimeResult::register_res(RuntimeResult res)
+		{
+			this->m_error = res.m_error;
+			this->m_function_return_value = res.m_function_return_value;
+			this->m_loop_should_continue = res.m_loop_should_continue;
+			this->m_loop_should_break = res.m_loop_should_break;
+			return res.m_value;
+		}
+
 		void RuntimeResult::success(std::shared_ptr<Value> value)
 		{
 			this->reset();

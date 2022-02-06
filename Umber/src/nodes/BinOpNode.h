@@ -17,6 +17,10 @@ namespace umber
 
 		public:
 			BinOpNode(std::shared_ptr<Node> left_node, Token op_token, std::shared_ptr<Node> right_node);
+			
+			inline const std::shared_ptr<Node>& left_node() const { return this->m_left_node; }
+			inline const std::shared_ptr<Node>& right_node() const { return this->m_right_node; }
+			inline const Token& op_token() const { return this->m_op_token; }
 
 		};
 

@@ -19,6 +19,10 @@ namespace umber
 		public:
 			VarDeclarationNode(Token var_name_token, std::shared_ptr<Node> value_node, bool is_mutable);
 
+			inline const Token& var_name_token() const { return this->m_var_name_token; }
+			inline const std::shared_ptr<Node>& value_node() const { return this->m_value_node; }
+			inline const bool& is_mutable() const { return this->m_is_mutable; }
+
 		};
 
 	}

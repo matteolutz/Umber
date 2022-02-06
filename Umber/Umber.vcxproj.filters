@@ -132,6 +132,12 @@
     <ClInclude Include="src\values\StringValue.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="src\values\ListValue.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\Utils.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Umber.cpp">
@@ -237,6 +243,12 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="src\values\StringValue.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\values\ListValue.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\Utils.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

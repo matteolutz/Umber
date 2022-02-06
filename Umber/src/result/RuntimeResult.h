@@ -24,6 +24,8 @@ namespace umber
 		public:
 			RuntimeResult();
 			
+			std::shared_ptr<Value> register_res(RuntimeResult res);
+
 			void success(std::shared_ptr<Value> value);
 			void success_return(std::shared_ptr<Value> value);
 			void success_continue();

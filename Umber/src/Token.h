@@ -76,7 +76,7 @@ namespace umber
 
 		inline const TokenType& type() const { return this->m_type; }
 		inline const std::optional<std::string>& value() const { return this->m_value; }
-		inline const std::string& value_or_zero() const { return this->m_value.value_or("0"); }
+		inline const std::string value_or_zero() const { return this->m_value.value_or("0"); }
 
 		inline const Position& pos_start() const { return this->m_pos_start; }
 		inline const Position& pos_end() const { return this->m_pos_end; }
