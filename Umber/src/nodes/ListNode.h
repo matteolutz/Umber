@@ -14,11 +14,10 @@ namespace umber
 		class ListNode : public Node
 		{
 		private:
-			std::vector<Node*> m_elements;
+			std::vector<std::shared_ptr<Node>> m_elements;
 
 		public:
-			ListNode(std::vector<Node*> elements, Position pos_start, Position pos_end);
-			~ListNode();
+			ListNode(std::vector<std::shared_ptr<Node>> elements, Position pos_start, Position pos_end);
 
 		};
 

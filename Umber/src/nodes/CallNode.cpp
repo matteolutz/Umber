@@ -8,18 +8,9 @@ namespace umber
 
 		
 
-		CallNode::CallNode(Node* node_to_call, std::vector<Node*> arg_nodes)
+		CallNode::CallNode(std::shared_ptr<Node> node_to_call, std::vector<std::shared_ptr<Node>> arg_nodes)
 			: Node(node_to_call->pos_start(), !arg_nodes.empty() ? arg_nodes.back()->pos_end() : node_to_call->pos_end()), m_node_to_call(node_to_call), m_arg_nodes(arg_nodes) { }
 
-		CallNode::~CallNode()
-		{
-			delete m_node_to_call;
-			for (Node* n : m_arg_nodes)
-			{
-				delete n;
-			}
-			m_arg_nodes.clear();
-		}
 
 	}
 

@@ -20,7 +20,7 @@ namespace umber
 	{
 	private:
 		std::string m_filename;
-		std::string m_filetext;
+		std::shared_ptr<std::string> m_filetext;
 
 		Position m_pos;
 		std::optional<char> m_current_char;
@@ -38,7 +38,7 @@ namespace umber
 		Token make_greater_than();
 
 	public:
-		Lexer(std::string filename, std::string filetext);
+		Lexer(std::string filename, std::shared_ptr<std::string> filetext);
 
 		void advance();
 		std::pair<std::optional<std::vector<Token>>, Error*> make_tokens();

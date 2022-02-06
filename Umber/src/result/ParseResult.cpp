@@ -5,10 +5,6 @@ namespace umber
 
 	namespace result
 	{
-		void ParseResult::cleanup()
-		{
-			delete m_error, m_node;
-		}
 
 		void ParseResult::register_advancement()
 		{
@@ -16,7 +12,7 @@ namespace umber
 			this->m_advance_count++;
 		}
 
-		Node* ParseResult::register_res(ParseResult res)
+		std::shared_ptr<Node> ParseResult::register_res(ParseResult res)
 		{
 			this->m_last_registered_advance_count = res.m_last_registered_advance_count;
 			this->m_advance_count += res.m_advance_count;
@@ -34,7 +30,7 @@ namespace umber
 			return res.m_node;
 		}
 
-		Node* ParseResult::try_register_res(ParseResult res)
+		std::shared_ptr<Node> ParseResult::try_register_res(ParseResult res)
 		{
 			if (res.has_error())
 			{
@@ -44,12 +40,12 @@ namespace umber
 			return this->register_res(res);
 		}
 
-		void ParseResult::success(Node* node)
+		void ParseResult::success(std::shared_ptr<Node> node)
 		{
 			this->m_node = node;
 		}
 
-		void ParseResult::failure(Error* error)
+		void ParseResult::failure(std::shared_ptr<Error> error)
 		{
 			if (this->m_error == nullptr || this->m_advance_count == 0)
 			{

@@ -19,13 +19,13 @@ namespace umber
 			this->m_loop_should_break = false;
 		}
 
-		void RuntimeResult::success(Value* value)
+		void RuntimeResult::success(std::shared_ptr<Value> value)
 		{
 			this->reset();
 			this->m_value = value;
 		}
 
-		void RuntimeResult::success_return(Value* value)
+		void RuntimeResult::success_return(std::shared_ptr<Value> value)
 		{
 			this->reset();
 			this->m_function_return_value = value;
@@ -43,7 +43,7 @@ namespace umber
 			this->m_loop_should_break = true;
 		}
 
-		void RuntimeResult::failure(errors::RuntimeError* error)
+		void RuntimeResult::failure(std::shared_ptr<errors::RuntimeError> error)
 		{
 			this->reset();
 			this->m_error = error;

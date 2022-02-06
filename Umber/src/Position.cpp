@@ -2,14 +2,14 @@
 
 namespace umber
 {
-	Position::Position(unsigned int index, unsigned int line, unsigned int col, std::string filename, std::string &filetext)
+	Position::Position(unsigned int index, unsigned int line, unsigned int col, std::string filename, std::shared_ptr<std::string> filetext)
 		: m_index(index), m_line(line), m_col(col), m_filename(filename), m_filetext(filetext) {}
 
-	Position::Position(std::string filename, std::string &filetext)
+	Position::Position(std::string filename, std::shared_ptr<std::string> filetext)
 		: m_index(0), m_line(0), m_col(0), m_filename(filename), m_filetext(filetext) { }
 
 	Position::Position()
-		: m_index(0), m_line(0), m_col(0), m_filename(""), m_filetext("") { }
+		: m_index(0), m_line(0), m_col(0), m_filename(""), m_filetext(std::make_shared<std::string>()) { }
 
 	void Position::advance(std::optional<char> current_char)
 	{
@@ -21,41 +21,6 @@ namespace umber
 			this->m_line++;
 			this->m_col = 0;
 		}
-	}
-
-	Position Position::copy_advance(std::optional<char> current_char)
-	{
-		Position copy = *this;
-		copy.advance(current_char);
-		return copy;
-	}
-
-	const unsigned int& Position::index() const
-	{
-		return m_index;
-	}
-
-
-	const unsigned int& Position::line() const
-	{
-		return m_line;
-	}
-
-
-	const unsigned int& Position::col() const
-	{
-		return m_col;
-	}
-
-	const std::string& Position::filename() const
-	{
-		return this->m_filename;
-	}
-
-
-	const std::string& Position::filetext() const
-	{
-		return this->m_filetext;
 	}
 
 }

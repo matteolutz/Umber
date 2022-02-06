@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Context.fwd.h" />
     <ClInclude Include="src\Context.h" />
     <ClInclude Include="src\errors\InvalidSyntaxError.h" />
     <ClInclude Include="src\errors\RuntimeError.h" />
@@ -176,9 +177,11 @@
     <ClInclude Include="src\Lexer.h" />
     <ClInclude Include="src\result\ParseResult.h" />
     <ClInclude Include="src\result\RuntimeResult.h" />
+    <ClInclude Include="src\SymbolTable.fwd.h" />
     <ClInclude Include="src\SymbolTable.h" />
     <ClInclude Include="src\Umber.h" />
     <ClInclude Include="src\Token.h" />
+    <ClInclude Include="src\Value.fwd.h" />
     <ClInclude Include="src\Value.h" />
   </ItemGroup>
   <ItemGroup>

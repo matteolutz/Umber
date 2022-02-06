@@ -13,29 +13,9 @@ namespace umber
 	{
 	}
 
-	const TokenType& Token::type() const
-	{
-		return this->m_type;
-	}
-
-	const std::optional<std::string>& Token::value() const
-	{
-		return this->m_value;
-	}
-
-	const Position& Token::pos_start() const
-	{
-		return this->m_pos_start;
-	}
-
 	bool Token::has_value() const
 	{
 		return this->m_value.has_value();
-	}
-
-	const Position& Token::pos_end() const
-	{
-		return this->m_pos_end;
 	}
 
 	bool Token::matches(TokenType type, std::optional<std::string> value) const

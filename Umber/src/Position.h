@@ -15,22 +15,21 @@ namespace umber
 		unsigned int m_col;
 
 		std::string m_filename;
-		std::string m_filetext;
+		std::shared_ptr<std::string> m_filetext;
 
 	public:
-		Position(unsigned int index, unsigned int line, unsigned int col, std::string filename, std::string &filetext);
-		Position(std::string filename, std::string &filetext);
+		Position(unsigned int index, unsigned int line, unsigned int col, std::string filename, std::shared_ptr<std::string> filetext);
+		Position(std::string filename, std::shared_ptr<std::string> filetext);
 		Position();
 
-		const unsigned int& index() const;
-		const unsigned int& line() const;
-		const unsigned int& col() const;
+		inline const unsigned int& index() const { return this->m_index; }
+		inline const unsigned int& line() const { return this->m_line; }
+		inline const unsigned int& col() const { return this->m_col; }
 
-		const std::string& filename() const;
-		const std::string& filetext() const;
+		inline const std::string& filename() const { return this->m_filename; }
+		const std::shared_ptr<std::string>& filetext() const { return this->m_filetext; }
 
 		void advance(std::optional<char> current_char = std::nullopt);
-		Position copy_advance(std::optional<char> current_char = std::nullopt);
 	};
 
 }

@@ -55,7 +55,7 @@ namespace umber
 
 		if (!this->m_current_token.value().matches(TokenType::Keyword, "if"))
 		{
-			res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'if'!" });
+			res.failure(std::make_shared<errors::InvalidSyntaxError>( this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'if'!" );
 			return res;
 		}
 

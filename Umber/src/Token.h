@@ -74,11 +74,11 @@ namespace umber
 		Token(TokenType type, std::optional<std::string> value, Position pos_start = Position{}, std::optional<Position> pos_end = std::nullopt);
 		Token(TokenType type, Position pos_start = Position{}, std::optional<Position> pos_end = std::nullopt);
 
-		const TokenType& type() const;
-		const std::optional<std::string>& value() const;
+		inline const TokenType& type() const { return this->m_type; }
+		inline const std::optional<std::string>& value() const { return this->m_value; }
 
-		const Position& pos_start() const;
-		const Position& pos_end() const;
+		inline const Position& pos_start() const { return this->m_pos_start; }
+		inline const Position& pos_end() const { return this->m_pos_end; }
 
 		bool matches(TokenType type, std::optional<std::string> value) const;
 

@@ -30,7 +30,7 @@ namespace umber
 
 	std::pair<std::optional<std::vector<Token>>, Error*> RunText(std::string text)
 	{
-		Lexer l("<cin>", text);
+		Lexer l("<cin>", std::make_shared<std::string>(text));
 
 		return l.make_tokens();
 	}
@@ -39,7 +39,11 @@ namespace umber
 	{
 		auto begin = time_now();
 
-		Lexer l("<cin>", test);
+		auto test_ptr = std::make_shared<std::string>(test);
+
+		test_ptr.get();
+
+		Lexer l("<cin>", test_ptr);
 		std::pair<std::optional<std::vector<Token>>, Error*> lexer_res = l.make_tokens();
 
 		if (lexer_res.second != nullptr)

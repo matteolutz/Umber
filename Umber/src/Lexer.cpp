@@ -3,18 +3,18 @@
 namespace umber
 {
 
-	Lexer::Lexer(std::string filename, std::string filetext)
+	Lexer::Lexer(std::string filename, std::shared_ptr<std::string> filetext)
 		: m_filename(filename), m_filetext(filetext),
 		m_pos({ 0, 0, 0, filename, filetext })
 	{
-		m_current_char = this->m_pos.index() < this->m_filetext.length() ? std::make_optional<char>(this->m_filetext.at(this->m_pos.index())) : std::nullopt;
+		m_current_char = this->m_pos.index() < this->m_filetext->length() ? std::make_optional<char>(this->m_filetext->at(this->m_pos.index())) : std::nullopt;
 	}
 
 
 	void Lexer::advance()
 	{
 		this->m_pos.advance(this->m_current_char.value());
-		m_current_char = this->m_pos.index() < this->m_filetext.length() ? std::make_optional<char>(this->m_filetext.at(this->m_pos.index())) : std::nullopt;
+		m_current_char = this->m_pos.index() < this->m_filetext->length() ? std::make_optional<char>(this->m_filetext->at(this->m_pos.index())) : std::nullopt;
 	}
 
 	std::pair<std::optional<std::vector<Token>>, Error*> Lexer::make_tokens()

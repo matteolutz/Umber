@@ -16,18 +16,17 @@ namespace umber
 		public:
 			struct if_case
 			{
-				Node* condition;
-				Node* statements;
+				std::shared_ptr<Node> condition;
+				std::shared_ptr<Node> statements;
 				bool should_return_null;
 			};
 
 		private:
 			std::vector<if_case> m_cases;
-			Node* m_else_case;
+			std::shared_ptr<Node> m_else_case;
 
 		public:
-			IfNode(std::vector<if_case> cases, Node* m_else_case = nullptr);
-			~IfNode();
+			IfNode(std::vector<if_case> cases, std::shared_ptr<Node> m_else_case = nullptr);
 
 		};
 

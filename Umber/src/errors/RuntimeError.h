@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Error.h"
-#include "../Context.h"
+#include "../Context.fwd.h"
 
 namespace umber
 {
@@ -12,12 +12,12 @@ namespace umber
 		class RuntimeError : public Error
 		{
 		private:
-			Context* m_context;
+			std::shared_ptr<Context> m_context;
 
 		public:
-			RuntimeError(Position pos_start, Position pos_end, std::string details, Context* context);
+			RuntimeError(Position pos_start, Position pos_end, std::string details, std::shared_ptr<Context> context);
 
-			inline const Context* context() const { return this->m_context; }
+			inline const std::shared_ptr<Context>& context() const { return this->m_context; }
 
 		};
 

@@ -30,8 +30,6 @@ namespace umber
 
 	class Parser
 	{
-		typedef result::ParseResult(*parser_function)();
-
 	private:
 		std::vector<Token> m_tokens;
 		unsigned int m_token_index = 0;

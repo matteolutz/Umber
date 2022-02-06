@@ -5,7 +5,7 @@ namespace umber
 
 
 
-	SymbolTable::SymbolTable(SymbolTable* parent)
+	SymbolTable::SymbolTable(std::shared_ptr<SymbolTable> parent)
 		: m_parent(parent) { }
 
 	bool SymbolTable::exists(std::string& key) const

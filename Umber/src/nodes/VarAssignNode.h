@@ -13,11 +13,10 @@ namespace umber
 		{
 		private:
 			Token m_var_name_token;
-			Node* m_value_node;
+			std::shared_ptr<Node> m_value_node;
 
 		public:
-			VarAssignNode(Token var_name_token, Node* value_node);
-			~VarAssignNode();
+			VarAssignNode(Token var_name_token, std::shared_ptr<Node> value_node);
 
 		};
 
