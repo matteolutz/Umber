@@ -37,11 +37,11 @@ namespace umber
 	result::ParseResult Parser::parse()
 	{
 		auto res = this->statements();
-		
+
 
 		if (!res.has_error() && this->m_current_token.value().type() != TokenType::Eof)
 		{
-			res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected statements" });
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected statements"));
 		}
 
 		return res;
@@ -55,18 +55,18 @@ namespace umber
 
 		if (!this->m_current_token.value().matches(TokenType::Keyword, "if"))
 		{
-			res.failure(std::make_shared<errors::InvalidSyntaxError>( this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'if'!" );
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'if'!"));
 			return res;
 		}
 
 		std::vector<nodes::IfNode::if_case> cases;
-		Node* else_case = nullptr;
+		std::shared_ptr<Node> else_case = nullptr;
 
 		res.register_advancement();
 		this->advance();
 
 #pragma region If statement
-		Node* condition = res.register_res(this->expression());
+		std::shared_ptr<Node> condition = res.register_res(this->expression());
 		if (res.has_error())
 		{
 			return res;
@@ -77,7 +77,7 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			Node* statements = res.register_res(this->statements());
+			std::shared_ptr<Node> statements = res.register_res(this->statements());
 			if (res.has_error())
 			{
 				return res;
@@ -85,7 +85,7 @@ namespace umber
 
 			if (this->m_current_token.value().type() != TokenType::Rcurly)
 			{
-				res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '}'!" });
+				res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '}'!"));
 				return res;
 			}
 
@@ -99,14 +99,14 @@ namespace umber
 		{
 			if (!this->m_current_token.value().matches(TokenType::Keyword, "then"))
 			{
-				res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'then'!" });
+				res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'then'!"));
 				return res;
 			}
 
 			res.register_advancement();
 			this->advance();
 
-			Node* expr = res.register_res(this->statement());
+			std::shared_ptr<Node> expr = res.register_res(this->statement());
 			if (res.has_error())
 			{
 				return res;
@@ -124,7 +124,7 @@ namespace umber
 			this->advance();
 
 
-			Node* elif_condition = res.register_res(this->expression());
+			std::shared_ptr<Node> elif_condition = res.register_res(this->expression());
 			if (res.has_error())
 			{
 				return res;
@@ -135,7 +135,7 @@ namespace umber
 				res.register_advancement();
 				this->advance();
 
-				Node* statements = res.register_res(this->statements());
+				std::shared_ptr<Node> statements = res.register_res(this->statements());
 				if (res.has_error())
 				{
 					return res;
@@ -143,7 +143,7 @@ namespace umber
 
 				if (this->m_current_token.value().type() != TokenType::Rcurly)
 				{
-					res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '}'!" });
+					res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '}'!"));
 					return res;
 				}
 
@@ -157,14 +157,14 @@ namespace umber
 			{
 				if (!this->m_current_token.value().matches(TokenType::Keyword, "then"))
 				{
-					res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'then'!" });
+					res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'then'!"));
 					return res;
 				}
 
 				res.register_advancement();
 				this->advance();
 
-				Node* expr = res.register_res(this->statement());
+				std::shared_ptr<Node> expr = res.register_res(this->statement());
 				if (res.has_error())
 				{
 					return res;
@@ -188,7 +188,7 @@ namespace umber
 				res.register_advancement();
 				this->advance();
 
-				Node* statements = res.register_res(this->statements());
+				std::shared_ptr<Node> statements = res.register_res(this->statements());
 				if (res.has_error())
 				{
 					return res;
@@ -196,7 +196,7 @@ namespace umber
 
 				if (this->m_current_token.value().type() != TokenType::Rcurly)
 				{
-					res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '}'!" });
+					res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '}'!"));
 					return res;
 				}
 
@@ -210,14 +210,14 @@ namespace umber
 			{
 				if (!this->m_current_token.value().matches(TokenType::Keyword, "then"))
 				{
-					res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'then'!" });
+					res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'then'!"));
 					return res;
 				}
 
 				res.register_advancement();
 				this->advance();
 
-				Node* expr = res.register_res(this->statement());
+				std::shared_ptr<Node> expr = res.register_res(this->statement());
 				if (res.has_error())
 				{
 					return res;
@@ -228,7 +228,7 @@ namespace umber
 		}
 #pragma endregion
 
-		res.success(new nodes::IfNode{ cases, else_case });
+		res.success(std::make_shared<nodes::IfNode>(cases, else_case));
 		return res;
 	}
 
@@ -238,7 +238,7 @@ namespace umber
 
 		if (!this->m_current_token.value().matches(TokenType::Keyword, "for"))
 		{
-			res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'for'!" });
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'for'!"));
 			return res;
 		}
 
@@ -247,7 +247,7 @@ namespace umber
 
 		if (this->m_current_token.value().type() != TokenType::Identifier)
 		{
-			res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected identifier!" });
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected identifier!"));
 			return res;
 		}
 
@@ -257,14 +257,14 @@ namespace umber
 
 		if (this->m_current_token.value().type() != TokenType::Eq)
 		{
-			res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '='!" });
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '='!"));
 			return res;
 		}
 
 		res.register_advancement();
 		this->advance();
 
-		Node* start_value = res.register_res(this->expression());
+		std::shared_ptr<Node> start_value = res.register_res(this->expression());
 		if (res.has_error())
 		{
 			return res;
@@ -272,20 +272,20 @@ namespace umber
 
 		if (!this->m_current_token.value().matches(TokenType::Keyword, "to"))
 		{
-			res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'to'!" });
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'to'!"));
 			return res;
 		}
 
 		res.register_advancement();
 		this->advance();
 
-		Node* end_value = res.register_res(this->expression());
+		std::shared_ptr<Node> end_value = res.register_res(this->expression());
 		if (res.has_error())
 		{
 			return res;
 		}
 
-		Node* step_value = nullptr;
+		std::shared_ptr<Node> step_value = nullptr;
 		if (this->m_current_token.value().matches(TokenType::Keyword, "step"))
 		{
 			res.register_advancement();
@@ -303,7 +303,7 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			Node* for_node_body = res.register_res(this->statements());
+			std::shared_ptr<Node> for_node_body = res.register_res(this->statements());
 			if (res.has_error())
 			{
 				return res;
@@ -311,33 +311,33 @@ namespace umber
 
 			if (this->m_current_token.value().type() != TokenType::Rcurly)
 			{
-				res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '}'" });
+				res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '}'"));
 				return res;
 			}
 
 			res.register_advancement();
 			this->advance();
 
-			res.success(new nodes::ForNode{ var_name_token, start_value, end_value, step_value, for_node_body, true });
+			res.success(std::make_shared<nodes::ForNode>(var_name_token, start_value, end_value, step_value, for_node_body, true));
 			return res;
 		}
 
 		if (!this->m_current_token.value().matches(TokenType::Keyword, "then"))
 		{
-			res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'then'" });
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'then'"));
 			return res;
 		}
 
 		res.register_advancement();
 		this->advance();
 
-		Node* for_node_body = res.register_res(this->statement());
+		std::shared_ptr<Node> for_node_body = res.register_res(this->statement());
 		if (res.has_error())
 		{
 			return res;
 		}
 
-		res.success(new nodes::ForNode{ var_name_token, start_value, end_value, step_value, for_node_body, false });
+		res.success(std::make_shared<nodes::ForNode>(var_name_token, start_value, end_value, step_value, for_node_body, false));
 		return res;
 	}
 
@@ -347,14 +347,14 @@ namespace umber
 
 		if (!this->m_current_token.value().matches(TokenType::Keyword, "while"))
 		{
-			res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'while'" });
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'while'"));
 			return res;
 		}
 
 		res.register_advancement();
 		this->advance();
 
-		Node* condition = res.register_res(this->expression());
+		std::shared_ptr<Node> condition = res.register_res(this->expression());
 		if (res.has_error())
 		{
 			return res;
@@ -366,7 +366,7 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			Node* while_node_body = res.register_res(this->statements());
+			std::shared_ptr<Node> while_node_body = res.register_res(this->statements());
 			if (res.has_error())
 			{
 				return res;
@@ -374,33 +374,33 @@ namespace umber
 
 			if (this->m_current_token.value().type() != TokenType::Rcurly)
 			{
-				res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '}'" });
+				res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '}'"));
 				return res;
 			}
 
 			res.register_advancement();
 			this->advance();
 
-			res.success(new nodes::WhileNode{ condition, while_node_body, true });
+			res.success(std::make_shared<nodes::WhileNode>(condition, while_node_body, true));
 			return res;
 		}
 
 		if (!this->m_current_token.value().matches(TokenType::Keyword, "then"))
 		{
-			res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'then'" });
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'then'"));
 			return res;
 		}
 
 		res.register_advancement();
 		this->advance();
 
-		Node* while_node_body = res.register_res(this->statement());
+		std::shared_ptr<Node> while_node_body = res.register_res(this->statement());
 		if (res.has_error())
 		{
 			return res;
 		}
 
-		res.success(new nodes::WhileNode{ condition, while_node_body, false });
+		res.success(std::make_shared<nodes::WhileNode>(condition, while_node_body, false));
 		return res;
 	}
 
@@ -410,14 +410,14 @@ namespace umber
 
 		if (this->m_current_token.value().type() != TokenType::Lsquare)
 		{
-			res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '['!" });
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '['!"));
 			return res;
 		}
 
 		res.register_advancement();
 		this->advance();
 
-		std::vector<Node*> element_nodes;
+		std::vector<std::shared_ptr<Node>> element_nodes;
 		Position pos_start = this->m_current_token.value().pos_start();
 
 		if (this->m_current_token.value().type() == TokenType::Rsquare)
@@ -427,10 +427,10 @@ namespace umber
 		}
 		else
 		{
-			Node* new_element_node = res.register_res(this->expression());
+			std::shared_ptr<Node> new_element_node = res.register_res(this->expression());
 			if (res.has_error())
 			{
-				res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected expression!" });
+				res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected expression!"));
 				return res;
 			}
 
@@ -441,10 +441,10 @@ namespace umber
 				res.register_advancement();
 				this->advance();
 
-				Node* new_element_node = res.register_res(this->expression());
+				std::shared_ptr<Node> new_element_node = res.register_res(this->expression());
 				if (res.has_error())
 				{
-					res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected expression!" });
+					res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected expression!"));
 					return res;
 				}
 
@@ -454,7 +454,7 @@ namespace umber
 
 			if (this->m_current_token.value().type() != TokenType::Rsquare)
 			{
-				res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected ',' or ']'!" });
+				res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected ',' or ']'!"));
 				return res;
 			}
 
@@ -463,7 +463,7 @@ namespace umber
 
 		}
 
-		res.success(new nodes::ListNode{ element_nodes, pos_start, this->m_current_token.value().pos_end() });
+		res.success(std::make_shared<nodes::ListNode>(element_nodes, pos_start, this->m_current_token.value().pos_end()));
 		return res;
 	}
 
@@ -473,7 +473,7 @@ namespace umber
 
 		if (!this->m_current_token.value().matches(TokenType::Keyword, "fun"))
 		{
-			res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'fun'!" });
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'fun'!"));
 			return res;
 		}
 
@@ -491,7 +491,7 @@ namespace umber
 
 			if (this->m_current_token.value().type() != TokenType::Lparen)
 			{
-				res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '('!" });
+				res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '('!"));
 				return res;
 			}
 
@@ -500,7 +500,7 @@ namespace umber
 		{
 			if (this->m_current_token.value().type() != TokenType::Lparen)
 			{
-				res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected identifier or '('!" });
+				res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected identifier or '('!"));
 				return res;
 			}
 		}
@@ -522,7 +522,7 @@ namespace umber
 
 				if (this->m_current_token.value().type() != TokenType::Identifier)
 				{
-					res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected identifier!" });
+					res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected identifier!"));
 					return res;
 				}
 
@@ -533,7 +533,7 @@ namespace umber
 
 			if (this->m_current_token.value().type() != TokenType::Rparen)
 			{
-				res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected ')'!" });
+				res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected ')'!"));
 				return res;
 			}
 
@@ -542,7 +542,7 @@ namespace umber
 		{
 			if (this->m_current_token.value().type() != TokenType::Rparen)
 			{
-				res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected identifier or ')'!" });
+				res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected identifier or ')'!"));
 				return res;
 			}
 		}
@@ -555,26 +555,26 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			Node* node_to_return = res.register_res(this->expression());
+			std::shared_ptr<Node> node_to_return = res.register_res(this->expression());
 			if (res.has_error())
 			{
 				return res;
 			}
 
-			res.success(new nodes::FunctionDefNode{ var_name_token, arg_name_tokens, node_to_return, true });
+			res.success(std::make_shared<nodes::FunctionDefNode>(var_name_token, arg_name_tokens, node_to_return, true));
 			return res;
 		}
 
 		if (this->m_current_token.value().type() != TokenType::Lcurly)
 		{
-			res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '{'!" });
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '{'!"));
 			return res;
 		}
 
 		res.register_advancement();
 		this->advance();
 
-		Node* function_body = res.register_res(this->statements());
+		std::shared_ptr<Node> function_body = res.register_res(this->statements());
 		if (res.has_error())
 		{
 			return res;
@@ -582,14 +582,14 @@ namespace umber
 
 		if (this->m_current_token.value().type() != TokenType::Rcurly)
 		{
-			res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '}'!" });
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '}'!"));
 			return res;
 		}
 
 		res.register_advancement();
 		this->advance();
 
-		res.success(new nodes::FunctionDefNode{ var_name_token, arg_name_tokens, function_body, false });
+		res.success(std::make_shared<nodes::FunctionDefNode>(var_name_token, arg_name_tokens, function_body, false));
 		return res;
 	}
 
@@ -613,7 +613,7 @@ namespace umber
 	{
 		auto res = result::ParseResult();
 
-		Node* left = res.register_res(this->eval_bin_op_func(function_a));
+		std::shared_ptr<Node> left = res.register_res(this->eval_bin_op_func(function_a));
 
 		if (res.has_error())
 		{
@@ -640,15 +640,14 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			// Node* right = res.register_res(function_b.has_value() ? this->eval_bin_op_func(function_b.value()) : this->eval_bin_op_func(function_a));
-			Node* right = res.register_res(this->eval_bin_op_func(function_b.value_or(function_a)));
+			std::shared_ptr<Node> right = res.register_res(this->eval_bin_op_func(function_b.value_or(function_a)));
 
 			if (res.has_error())
 			{
 				return res;
 			}
 
-			res.success(new nodes::BinOpNode{ left, op_token, right });
+			res.success(std::make_shared<nodes::BinOpNode>(left, op_token, right));
 			return res;
 		}
 
@@ -661,7 +660,7 @@ namespace umber
 	{
 		auto res = result::ParseResult();
 
-		std::vector<Node*> statements;
+		std::vector<std::shared_ptr<Node>> statements;
 		Position pos_start = this->m_current_token.value().pos_start();
 
 		while (this->m_current_token.value().type() == TokenType::Newline)
@@ -670,7 +669,7 @@ namespace umber
 			this->advance();
 		}
 
-		Node* statement = res.register_res(this->statement());
+		std::shared_ptr<Node> statement = res.register_res(this->statement());
 		if (res.has_error())
 		{
 			return res;
@@ -698,7 +697,7 @@ namespace umber
 				break;
 			}
 
-			Node* statement = res.try_register_res(this->statement());
+			std::shared_ptr<Node> statement = res.try_register_res(this->statement());
 			if (statement == nullptr)
 			{
 				this->reverse(res.to_reverse_count());
@@ -709,7 +708,7 @@ namespace umber
 			statements.emplace_back(statement);
 		}
 
-		res.success(new nodes::ListNode{ statements, pos_start, this->m_current_token.value().pos_start() });
+		res.success(std::make_shared<nodes::ListNode>(statements, pos_start, this->m_current_token.value().pos_start()));
 		return res;
 
 	}
@@ -724,13 +723,13 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			Node* expr = res.try_register_res(this->expression());
+			std::shared_ptr<Node> expr = res.try_register_res(this->expression());
 			if (expr == nullptr)
 			{
 				this->reverse(res.to_reverse_count());
 			}
 
-			res.success(new nodes::ReturnNode{ expr, pos_start, this->m_current_token.value().pos_start() });
+			res.success(std::make_shared<nodes::ReturnNode>(expr, pos_start, this->m_current_token.value().pos_start()));
 			return res;
 		}
 
@@ -739,7 +738,7 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			res.success(new nodes::ContinueNode{ pos_start, this->m_current_token.value().pos_start() });
+			res.success(std::make_shared<nodes::ContinueNode>(pos_start, this->m_current_token.value().pos_start()));
 			return res;
 		}
 
@@ -748,14 +747,14 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			res.success(new nodes::BreakNode{ pos_start, this->m_current_token.value().pos_start() });
+			res.success(std::make_shared<nodes::BreakNode>(pos_start, this->m_current_token.value().pos_start()));
 			return res;
 		}
 
-		Node* expr = res.register_res(this->expression());
+		std::shared_ptr<Node> expr = res.register_res(this->expression());
 		if (res.has_error())
 		{
-			res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'return', 'continue', 'break' or expression!" });
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'return', 'continue', 'break' or expression!"));
 			return res;
 		}
 
@@ -782,7 +781,7 @@ namespace umber
 
 			if (this->m_current_token.value().type() != TokenType::Identifier)
 			{
-				res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'mut' or identifier!" });
+				res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected 'mut' or identifier!"));
 				return res;
 			}
 
@@ -792,32 +791,32 @@ namespace umber
 
 			if (this->m_current_token.value().type() != TokenType::Eq)
 			{
-				res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '='!" });
+				res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '='!"));
 				return res;
 			}
 
 			res.register_advancement();
 			this->advance();
 
-			Node* expr = res.register_res(this->expression());
+			std::shared_ptr<Node> expr = res.register_res(this->expression());
 			if (res.has_error())
 			{
 				return res;
 			}
 
-			res.success(new nodes::VarDeclarationNode{ var_name_token, expr, is_mutable });
+			res.success(std::make_shared<nodes::VarDeclarationNode>(var_name_token, expr, is_mutable));
 			return res;
 
 		}
 
-		Node* node = res.register_res(this->bin_operation(BinOpFunction::Comp, {
+		std::shared_ptr<Node> node = res.register_res(this->bin_operation(BinOpFunction::Comp, {
 			{ TokenType::Keyword, "and"},
 			{ TokenType::Keyword, "or"},
 			}));
 
 		if (res.has_error())
 		{
-			res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected comp expression!" });
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected comp expression!"));
 			return res;
 		}
 
@@ -836,17 +835,17 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			Node* node = res.register_res(this->comp_expression());
+			std::shared_ptr<Node> node = res.register_res(this->comp_expression());
 			if (res.has_error())
 			{
 				return res;
 			}
 
-			res.success(new nodes::UnaryOpNode{ op_token, node });
+			res.success(std::make_shared<nodes::UnaryOpNode>(op_token, node));
 			return res;
 		}
 
-		Node* node = res.register_res(this->bin_operation(BinOpFunction::Arith, {
+		std::shared_ptr<Node> node = res.register_res(this->bin_operation(BinOpFunction::Arith, {
 			{ TokenType::Ee, std::nullopt },
 			{ TokenType::Ne, std::nullopt },
 			{ TokenType::Lt, std::nullopt },
@@ -857,7 +856,7 @@ namespace umber
 
 		if (res.has_error())
 		{
-			res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_start(), "Expected arith expression!" });
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_start(), "Expected arith expression!"));
 			return res;
 		}
 
@@ -891,13 +890,13 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			Node* factor = res.register_res(this->factor());
+			std::shared_ptr<Node> factor = res.register_res(this->factor());
 			if (res.has_error())
 			{
 				return res;
 			}
 
-			res.success(new nodes::UnaryOpNode{ token, factor });
+			res.success(std::make_shared<nodes::UnaryOpNode>(token, factor));
 			return res;
 		}
 
@@ -915,7 +914,7 @@ namespace umber
 	{
 		auto res = result::ParseResult();
 
-		Node* atom = res.register_res(this->atom());
+		std::shared_ptr<Node> atom = res.register_res(this->atom());
 		if (res.has_error())
 		{
 			return res;
@@ -926,7 +925,7 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			std::vector<Node*> arg_nodes;
+			std::vector<std::shared_ptr<Node>> arg_nodes;
 
 			if (this->m_current_token.value().type() == TokenType::Rparen)
 			{
@@ -935,11 +934,11 @@ namespace umber
 			}
 			else
 			{
-				Node* new_arg = res.register_res(this->expression());
+				std::shared_ptr<Node> new_arg = res.register_res(this->expression());
 
 				if (res.has_error())
 				{
-					res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected expression!" });
+					res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected expression!"));
 					return res;
 				}
 
@@ -950,10 +949,10 @@ namespace umber
 					res.register_advancement();
 					this->advance();
 
-					Node* new_arg = res.register_res(this->expression());
+					std::shared_ptr<Node> new_arg = res.register_res(this->expression());
 					if (res.has_error())
 					{
-						res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected expression!" });
+						res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected expression!"));
 						return res;
 					}
 					arg_nodes.emplace_back(new_arg);
@@ -961,7 +960,7 @@ namespace umber
 
 				if (this->m_current_token.value().type() != TokenType::Rparen)
 				{
-					res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected ',' or ')'!" });
+					res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected ',' or ')'!"));
 					return res;
 				}
 
@@ -970,7 +969,7 @@ namespace umber
 
 			}
 
-			res.success(new nodes::CallNode{ atom, arg_nodes });
+			res.success(std::make_shared<nodes::CallNode>(atom, arg_nodes));
 			return res;
 
 		}
@@ -990,7 +989,7 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			res.success(new nodes::NumberNode{ token });
+			res.success(std::make_shared<nodes::NumberNode>( token ));
 			return res;
 		}
 
@@ -999,7 +998,7 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			res.success(new nodes::StringNode{ token });
+			res.success(std::make_shared<nodes::StringNode>( token ));
 			return res;
 		}
 
@@ -1008,7 +1007,7 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			res.success(new nodes::VarAccessNode{ token });
+			res.success(std::make_shared<nodes::VarAccessNode>( token ));
 			return res;
 		}
 
@@ -1017,7 +1016,7 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			Node* expr = res.register_res(this->expression());
+			std::shared_ptr<Node> expr = res.register_res(this->expression());
 
 			if (res.has_error())
 			{
@@ -1034,14 +1033,14 @@ namespace umber
 			}
 			else
 			{
-				res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected ')'!" });
+				res.failure(std::make_shared<errors::InvalidSyntaxError>( this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected ')'!" ));
 				return res;
 			}
 		}
 
 		if (token.type() == TokenType::Lsquare)
 		{
-			Node* list_expr = res.register_res(this->list_expr());
+			std::shared_ptr<Node> list_expr = res.register_res(this->list_expr());
 
 			if (res.has_error())
 			{
@@ -1056,7 +1055,7 @@ namespace umber
 
 		if (token.matches(TokenType::Keyword, "if"))
 		{
-			Node* if_expr = res.register_res(this->if_expr());
+			std::shared_ptr<Node> if_expr = res.register_res(this->if_expr());
 
 			if (res.has_error())
 			{
@@ -1069,7 +1068,7 @@ namespace umber
 
 		if (token.matches(TokenType::Keyword, "for"))
 		{
-			Node* for_expr = res.register_res(this->for_expr());
+			std::shared_ptr<Node> for_expr = res.register_res(this->for_expr());
 
 			if (res.has_error())
 			{
@@ -1082,7 +1081,7 @@ namespace umber
 
 		if (token.matches(TokenType::Keyword, "while"))
 		{
-			Node* while_expr = res.register_res(this->while_expr());
+			std::shared_ptr<Node> while_expr = res.register_res(this->while_expr());
 
 			if (res.has_error())
 			{
@@ -1095,7 +1094,7 @@ namespace umber
 
 		if (token.matches(TokenType::Keyword, "fun"))
 		{
-			Node* func_def = res.register_res(this->function_def());
+			std::shared_ptr<Node> func_def = res.register_res(this->function_def());
 
 			if (res.has_error())
 			{
@@ -1106,7 +1105,7 @@ namespace umber
 			return res;
 		}
 
-		res.failure(new errors::InvalidSyntaxError{ this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected!" });
+		res.failure(std::make_shared<errors::InvalidSyntaxError>( this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected!" ));
 		return res;
 	}
 

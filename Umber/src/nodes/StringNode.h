@@ -15,6 +15,8 @@ namespace umber
 
 		public:
 			StringNode(Token token);
+
+			inline const Token& token() const { return this->m_token; }
 		};
 	}
 

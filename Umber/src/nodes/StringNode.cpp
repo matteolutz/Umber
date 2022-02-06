@@ -7,7 +7,7 @@ namespace umber
 	{
 
 		StringNode::StringNode(Token token)
-			: Node(token.pos_start(), token.pos_end()), m_token(token) { }
+			: Node(token.pos_start(), token.pos_end(), NodeType::String), m_token(token) { }
 
 	}
 

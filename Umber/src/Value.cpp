@@ -9,6 +9,12 @@ namespace umber
 	{
 	}
 
+	Value::Value()
+	{
+	}
+
+	Value::~Value() {}
+
 	std::unique_ptr<errors::RuntimeError> Value::illegal_operation(std::shared_ptr<Value> other) const
 	{
 		return std::make_unique<errors::RuntimeError>(this->m_pos_start, other != nullptr ? other->m_pos_end : this->m_pos_end, "Illegal operation!", this->m_context);

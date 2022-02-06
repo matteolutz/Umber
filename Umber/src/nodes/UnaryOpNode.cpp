@@ -9,7 +9,7 @@ namespace umber
 
 
 		UnaryOpNode::UnaryOpNode(Token op_token, std::shared_ptr<Node> node)
-			: Node(op_token.pos_start(), node->pos_end()), m_op_token(op_token), m_node(node) { }
+			: Node(op_token.pos_start(), node->pos_end(), NodeType::UnaryOp), m_op_token(op_token), m_node(node) { }
 
 	}
 

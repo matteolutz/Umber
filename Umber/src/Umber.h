@@ -12,6 +12,8 @@
 #include "Lexer.h"
 #include "Error.h"
 #include "Parser.h"
+#include "SymbolTable.h"
+#include "Interpreter.h"
 
 namespace umber
 {
@@ -19,6 +21,6 @@ namespace umber
 	void Test();
 
 	void RunFile(std::string filepath);
-	std::pair<std::optional<std::vector<Token>>, Error*> RunText(std::string text);
+	std::pair<std::optional<std::vector<Token>>, std::unique_ptr<Error>> RunText(std::string text);
 
 }

@@ -17,7 +17,7 @@ namespace umber
 		m_current_char = this->m_pos.index() < this->m_filetext->length() ? std::make_optional<char>(this->m_filetext->at(this->m_pos.index())) : std::nullopt;
 	}
 
-	std::pair<std::optional<std::vector<Token>>, Error*> Lexer::make_tokens()
+	std::pair<std::optional<std::vector<Token>>, std::unique_ptr<Error>> Lexer::make_tokens()
 	{
 		std::vector<Token> tokens;
 
@@ -112,11 +112,11 @@ namespace umber
 			}
 			else if (current == '!')
 			{
-				std::pair<std::optional<Token>, Error*> result = this->make_not_equals();
+				std::pair<std::optional<Token>, std::unique_ptr<Error>> result = this->make_not_equals();
 
 				if (result.second != nullptr)
 				{
-					return { std::nullopt, result.second };
+					return { std::nullopt, std::move(result.second) };
 				}
 
 				tokens.emplace_back(result.first.value());
@@ -147,7 +147,7 @@ namespace umber
 				char err_details_buffer[3];
 				sprintf_s(err_details_buffer, "'%c'", err_char);
 
-				return { std::nullopt, new errors::IllegalCharacterError{ pos_start, this->m_pos, err_details_buffer } };
+				return { std::nullopt, std::make_unique<errors::IllegalCharacterError>(pos_start, this->m_pos, err_details_buffer) };
 			}
 		}
 
@@ -284,7 +284,7 @@ namespace umber
 		return Token{ r_token_type, pos_start, this->m_pos };
 	}
 
-	std::pair<std::optional<Token>, Error*> Lexer::make_not_equals()
+	std::pair<std::optional<Token>, std::unique_ptr<Error>> Lexer::make_not_equals()
 	{
 		Position pos_start = this->m_pos;
 		this->advance();
@@ -296,7 +296,7 @@ namespace umber
 		}
 
 		this->advance();
-		return { std::nullopt, new errors::ExpectedCharError{ pos_start, this->m_pos, "'=' (after '!')" } };
+		return { std::nullopt, std::make_unique<errors::ExpectedCharError>(pos_start, this->m_pos, "'=' (after '!')") };
 
 	}
 

@@ -27,6 +27,7 @@ namespace umber
 			{
 				return nullptr;
 			}
+
 			return res.m_node;
 		}
 

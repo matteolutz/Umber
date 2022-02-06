@@ -14,17 +14,17 @@ namespace umber
 
 	class Value
 	{
-	private:
+	protected:
 		Position m_pos_start, m_pos_end;
 		std::shared_ptr<Context> m_context;
 
-	protected:
 		Value(Position pos_start, Position pos_end, std::shared_ptr<Context> context);
+		Value();
+
+		std::unique_ptr<errors::RuntimeError> illegal_operation(std::shared_ptr<Value> other = nullptr) const;
 
 	public:
 		virtual ~Value() = 0;
-
-		std::unique_ptr<errors::RuntimeError> illegal_operation(std::shared_ptr<Value> other = nullptr) const;
 
 		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> added_to(std::shared_ptr<Value> other) { return {nullptr, this->illegal_operation(other)}; }
 		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> subbed_by(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation(other) }; }
@@ -53,8 +53,8 @@ namespace umber
 
 		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> subscribe(std::shared_ptr<Value> index) { return { nullptr, this->illegal_operation(index) }; }
 
-		inline const Position& pos_start() const { return this->m_pos_start; }
-		inline const Position& pos_end() const { return this->m_pos_end; }
+		inline Position& pos_start() { return this->m_pos_start; }
+		inline Position& pos_end() { return this->m_pos_end; }
 
 		inline std::shared_ptr<Context>& context() { return this->m_context; }
 

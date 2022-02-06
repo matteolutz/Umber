@@ -15,7 +15,8 @@ namespace umber
 				: (
 					!arg_name_tokens.empty() ? arg_name_tokens[0].pos_start() : body_node->pos_start()
 					),
-				body_node->pos_end()
+				body_node->pos_end(),
+				NodeType::FunctionDef
 			), m_var_name_token(var_name_token), m_arg_name_tokens(arg_name_tokens), m_body_node(body_node), m_should_return_null(should_return_null) { }
 
 	}

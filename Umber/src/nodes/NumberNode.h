@@ -18,6 +18,8 @@ namespace umber
 
 		public:
 			NumberNode(Token token);
+
+			inline const Token& token() const { return this->m_token; }
 		};
 
 	}
