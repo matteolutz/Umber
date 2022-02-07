@@ -69,6 +69,11 @@ namespace umber
 			return Value::powed_by(other);
 		}
 
+		std::unique_ptr<Value> NumberValue::copy()
+		{
+			return std::make_unique<NumberValue>(*this);
+		}
+
 	}
 
 }

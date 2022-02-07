@@ -19,6 +19,10 @@ namespace umber
 		public:
 			WhileNode(std::shared_ptr<Node> condition_node, std::shared_ptr<Node> body_node, bool should_return_null);
 
+			inline const std::shared_ptr<Node>& condition_node() const { return this->m_condition_node; }
+			inline const std::shared_ptr<Node>& body_node() const { return this->m_body_node; }
+			inline const bool& should_return_null() const { return this->m_should_return_null; }
+
 		};
 
 	}

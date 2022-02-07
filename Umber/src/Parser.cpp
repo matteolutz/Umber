@@ -60,7 +60,8 @@ namespace umber
 		}
 
 		std::vector<nodes::IfNode::if_case> cases;
-		std::shared_ptr<Node> else_case = nullptr;
+		//std::shared_ptr<Node> else_case = nullptr;
+		std::optional<nodes::IfNode::if_else_case> else_case = std::nullopt;
 
 		res.register_advancement();
 		this->advance();
@@ -188,7 +189,7 @@ namespace umber
 				res.register_advancement();
 				this->advance();
 
-				std::shared_ptr<Node> statements = res.register_res(this->statements());
+				else_case = { res.register_res(this->statements()), true };
 				if (res.has_error())
 				{
 					return res;
@@ -199,8 +200,6 @@ namespace umber
 					res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '}'!"));
 					return res;
 				}
-
-				else_case = statements;
 
 				res.register_advancement();
 				this->advance();
@@ -217,13 +216,11 @@ namespace umber
 				res.register_advancement();
 				this->advance();
 
-				std::shared_ptr<Node> expr = res.register_res(this->statement());
+				else_case = { res.register_res(this->statement()), false };
 				if (res.has_error())
 				{
 					return res;
 				}
-
-				else_case = expr;
 			}
 		}
 #pragma endregion

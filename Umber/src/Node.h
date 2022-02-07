@@ -43,10 +43,10 @@ namespace umber
 
 		virtual std::string as_string() const;
 
-		const Position& pos_start() const;
-		const Position& pos_end() const;
+		inline const Position& pos_start() const { return this->m_pos_start; }
+		inline const Position& pos_end() const { return this->m_pos_end; }
 
-		const NodeType& node_type() const;
+		inline const NodeType& node_type() const { return this->m_node_type; }
 	};
 
 }

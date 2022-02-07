@@ -37,6 +37,9 @@ namespace umber
 
 			inline const std::shared_ptr<Value>& value() const { return this->m_value; }
 			inline const std::shared_ptr<errors::RuntimeError>& error() const { return this->m_error; }
+
+			inline const bool has_value() const { return this->m_value != nullptr; }
+			inline const bool has_error() const { return this->m_error != nullptr; }
 			
 			inline const std::shared_ptr<Value>& function_return_value() const { return this->m_function_return_value; }
 

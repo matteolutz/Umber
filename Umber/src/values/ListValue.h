@@ -22,6 +22,10 @@ namespace umber
 
 			inline const std::vector<std::shared_ptr<Value>>& elements() const { return this->m_elements; }
 
+			std::unique_ptr<Value> copy() override;
+			
+			std::string as_string() const override;
+
 		};
 
 	}

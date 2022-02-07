@@ -21,12 +21,21 @@ namespace umber
 				bool should_return_null;
 			};
 
+			struct if_else_case
+			{
+				std::shared_ptr<Node> statements;
+				bool should_return_null;
+			};
+
 		private:
 			std::vector<if_case> m_cases;
-			std::shared_ptr<Node> m_else_case;
+			std::optional<if_else_case> m_else_case;
 
 		public:
-			IfNode(std::vector<if_case> cases, std::shared_ptr<Node> m_else_case = nullptr);
+			IfNode(std::vector<if_case> cases, std::optional<if_else_case> else_case = std::nullopt);
+
+			inline const std::vector<if_case>& cases() const { return this->m_cases; }
+			inline const std::optional<if_else_case>& else_case() const { return this->m_else_case; }
 
 		};
 

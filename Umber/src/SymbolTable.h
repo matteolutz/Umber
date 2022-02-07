@@ -35,6 +35,7 @@ namespace umber
 		
 		bool assign(std::string& key, std::shared_ptr<Value> value);
 		bool declare(std::string& key, symbol new_symbol);
+		void set(std::string& key, symbol new_symbol);
 
 	};
 

@@ -17,6 +17,8 @@ namespace umber
 		public:
 			ReturnNode(std::shared_ptr<Node> node_to_return, Position pos_start, Position pos_end);
 
+			inline const std::shared_ptr<Node>& node_to_return() const { return this->m_node_to_return; }
+
 		};
 
 	}

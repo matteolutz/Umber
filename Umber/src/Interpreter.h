@@ -33,7 +33,6 @@
 #include <memory>
 #include <stdexcept>
 #include <iostream>
-#include <format>
 
 namespace umber
 {

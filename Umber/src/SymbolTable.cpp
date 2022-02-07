@@ -69,6 +69,11 @@ namespace umber
 
 		if (exists.first) return false;
 
+		this->set(key, new_symbol);
+	}
+
+	void SymbolTable::set(std::string& key, symbol new_symbol)
+	{
 		this->m_symbols[key] = new_symbol;
 	}
 

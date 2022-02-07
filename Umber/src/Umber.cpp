@@ -4,12 +4,7 @@
 
 
 const char* test = R""""(
-while 1 == 1 {
-	print("Hello World");
-	break;
-};
-
-print("Done, exiting...");
+1 + 1
 )"""";
 
 namespace umber
@@ -42,11 +37,11 @@ namespace umber
 	{
 		auto begin = time_now();
 
-		auto test_ptr = std::make_shared<std::string>(test);
+		// auto test_ptr = std::make_shared<std::string>(test);
 
-		test_ptr.get();
+		// test_ptr.get();
 
-		Lexer l("<cin>", test_ptr);
+		Lexer l("<cin>", std::make_shared<std::string>("1 or 1"));
 		std::pair<std::optional<std::vector<Token>>, std::unique_ptr<Error>> lexer_res = l.make_tokens();
 
 		if (lexer_res.second != nullptr)
@@ -86,7 +81,16 @@ namespace umber
 		//std::shared_ptr<Context> main_context = std::make_shared<Context>("<main>", nullptr, main_symbol_table);
 
 		//Interpreter::visit(res.node(), main_context);
-		Interpreter::visit(res.node(), nullptr);
+		result::RuntimeResult inrepreter_res = Interpreter::visit(res.node(), nullptr);
+
+		printf("Interpreter visiting done!\n");
+		if (inrepreter_res.has_error())
+		{
+			printf("Interpreter error: %s\n", inrepreter_res.error()->as_string().c_str());
+			return;
+		}
+
+		printf("Interpreter done: %s\n", inrepreter_res.value()->as_string().c_str());
 	}
 
 }

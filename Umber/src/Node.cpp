@@ -13,14 +13,4 @@ namespace umber
 		return "NotYetImplemented";
 	}
 
-	const Position& Node::pos_start() const
-	{
-		return this->m_pos_start;
-	}
-
-	const Position& Node::pos_end() const
-	{
-		return this->m_pos_end;
-	}
-
 }

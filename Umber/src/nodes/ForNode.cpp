@@ -14,8 +14,8 @@ namespace umber
 			std::shared_ptr<Node> body_node, bool should_return_null)
 			: Node(var_name_token.pos_start(), body_node->pos_end(), NodeType::For),
 			m_var_name_token(var_name_token),
-			m_start_value_node(start_value_node), m_end_value_node(end_value_node), m_step_value_node(step_value_node),
-			m_body_node(body_node), m_should_return_null(should_return_null)
+			m_start_value_node(std::move(start_value_node)), m_end_value_node(std::move(end_value_node)), m_step_value_node(std::move(step_value_node)),
+			m_body_node(std::move(body_node)), m_should_return_null(should_return_null)
 		{
 		}
 

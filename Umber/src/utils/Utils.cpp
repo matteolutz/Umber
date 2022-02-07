@@ -6,15 +6,41 @@ namespace umber
 	namespace utils
 	{
 
-		template<typename ...Args>
-		std::string string_format(const std::string& format, Args ...args)
+		std::string std_string_format(const char* fmt, ...)
 		{
-			int size_s = std::snprintf(nullptr, 0, format.c_str(), args ...) + 1;
-			if (size_s <= 0) { throw std::runtime_error("Error during formatting."); }
-			auto size = static_cast<size_t>(size_s);
-			auto buf = std::make_unique<char[]>(size);
-			std::snprintf(buf.get(), size, format.c_str(), args ...);
-			return std::string(buf.get(), buf.get() + size - 1);
+			char buf[256];
+
+			va_list args;
+			va_start(args, fmt);
+			const auto r = std::vsnprintf(buf, sizeof buf, fmt, args);
+			va_end(args);
+
+			if (r < 0)
+				// conversion failed
+				return {};
+
+			const size_t len = r;
+			if (len < sizeof buf)
+				// we fit in the buffer
+				return { buf, len };
+
+#if __cplusplus >= 201703L
+			// C++17: Create a string and write to its underlying array
+			std::string s(len, '\0');
+			va_start(args, fmt);
+			std::vsnprintf(s.data(), len + 1, fmt, args);
+			va_end(args);
+
+			return s;
+#else
+			// C++11 or C++14: We need to allocate scratch memory
+			auto vbuf = std::unique_ptr<char[]>(new char[len + 1]);
+			va_start(args, fmt);
+			std::vsnprintf(vbuf.get(), len + 1, fmt, args);
+			va_end(args);
+
+			return { vbuf.get(), len };
+#endif
 		}
 
 	}

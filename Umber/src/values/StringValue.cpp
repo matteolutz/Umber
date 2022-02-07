@@ -25,6 +25,11 @@ namespace umber
 			return Value::added_to(other);
 		}
 
+		std::unique_ptr<Value> StringValue::copy()
+		{
+			return std::make_unique<StringValue>(*this);
+		}
+
 	}
 
 }

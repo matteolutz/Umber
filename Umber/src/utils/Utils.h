@@ -1,5 +1,8 @@
 #pragma once
 
+#include <stdio.h>
+#include <cstdarg>
+
 #include <string>
 #include <memory>
 #include <stdexcept>
@@ -10,8 +13,7 @@ namespace umber
 	namespace utils
 	{
 
-		template<typename ...Args>
-		std::string string_format(const std::string& format, Args ...args);
+		std::string std_string_format(const char* fmt, ...);
 
 	}
 
