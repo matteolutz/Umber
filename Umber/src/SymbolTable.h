@@ -27,7 +27,7 @@ namespace umber
 		SymbolTable(std::shared_ptr<SymbolTable> parent = nullptr);
 
 		bool exists(std::string& key) const;
-		std::pair<bool, std::shared_ptr<SymbolTable>> exists_rec(std::string& key) const;
+		bool exists_rec(std::string& key) const;
 
 		bool is_mutable(std::string& key) const;
 

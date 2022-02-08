@@ -24,6 +24,7 @@
 #include "values/NumberValue.h"
 #include "values/StringValue.h"
 #include "values/ListValue.h"
+#include "values/FunctionValue.h"
 
 #include "Context.h"
 #include "SymbolTable.h"

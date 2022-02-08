@@ -21,6 +21,7 @@
 #include "nodes/WhileNode.h"
 #include "nodes/ListNode.h"
 #include "nodes/FunctionDefNode.h"
+#include "nodes/VarAssignNode.h"
 
 #include <vector>
 #include <optional>
@@ -48,8 +49,8 @@ namespace umber
 	public:
 		Parser(std::vector<Token> tokens);
 
-		Token& advance();
-		Token& reverse(unsigned int amount = 1);
+		Token advance();
+		Token reverse(unsigned int amount = 1);
 
 		void update_current_token();
 

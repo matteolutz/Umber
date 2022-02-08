@@ -12,14 +12,14 @@ namespace umber
 		}
 	}
 
-	Token& Parser::advance()
+	Token Parser::advance()
 	{
 		this->m_token_index++;
 		this->update_current_token();
 		return this->m_current_token.value();
 	}
 
-	Token& Parser::reverse(unsigned int amount)
+	Token Parser::reverse(unsigned int amount)
 	{
 		this->m_token_index -= amount;
 		this->update_current_token();
@@ -806,6 +806,29 @@ namespace umber
 
 		}
 
+		/*if (this->m_current_token.value().type() == TokenType::Identifier)
+		{
+			Token var_name_token = this->m_current_token.value();
+
+			this->advance();
+			res.register_advancement();
+
+			if (this->m_current_token.value().type() == TokenType::Eq)
+			{
+				res.register_advancement();
+				this->advance();
+
+				std::shared_ptr<Node> expr = res.register_res(this->expression());
+				if (res.has_error())
+				{
+					return res;
+				}
+
+				res.success(std::make_shared<nodes::VarAssignNode>(var_name_token, expr));
+				return res;
+			}
+		}*/
+
 		std::shared_ptr<Node> node = res.register_res(this->bin_operation(BinOpFunction::Comp, {
 			{ TokenType::Keyword, "and"},
 			{ TokenType::Keyword, "or"},
@@ -880,7 +903,7 @@ namespace umber
 	result::ParseResult Parser::factor()
 	{
 		auto res = result::ParseResult();
-		Token& token = this->m_current_token.value();
+		Token token = this->m_current_token.value();
 
 		if (token.type() == TokenType::Plus || token.type() == TokenType::Minus)
 		{
@@ -979,14 +1002,14 @@ namespace umber
 	result::ParseResult Parser::atom()
 	{
 		auto res = result::ParseResult();
-		Token& token = this->m_current_token.value();
+		Token token = this->m_current_token.value();
 
 		if (token.type() == TokenType::Int || token.type() == TokenType::Float)
 		{
 			res.register_advancement();
 			this->advance();
 
-			res.success(std::make_shared<nodes::NumberNode>( token ));
+			res.success(std::make_shared<nodes::NumberNode>(token));
 			return res;
 		}
 
@@ -995,7 +1018,7 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			res.success(std::make_shared<nodes::StringNode>( token ));
+			res.success(std::make_shared<nodes::StringNode>(token));
 			return res;
 		}
 
@@ -1004,7 +1027,23 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			res.success(std::make_shared<nodes::VarAccessNode>( token ));
+
+			if (this->m_current_token.value().type() == TokenType::Eq)
+			{
+				res.register_advancement();
+				this->advance();
+
+				std::shared_ptr<Node> expr = res.register_res(this->expression());
+				if (res.has_error())
+				{
+					return res;
+				}
+
+				res.success(std::make_shared<nodes::VarAssignNode>(token, expr));
+				return res;
+			}
+
+			res.success(std::make_shared<nodes::VarAccessNode>(token));
 			return res;
 		}
 
@@ -1030,7 +1069,7 @@ namespace umber
 			}
 			else
 			{
-				res.failure(std::make_shared<errors::InvalidSyntaxError>( this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected ')'!" ));
+				res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected ')'!"));
 				return res;
 			}
 		}
@@ -1102,7 +1141,7 @@ namespace umber
 			return res;
 		}
 
-		res.failure(std::make_shared<errors::InvalidSyntaxError>( this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected!" ));
+		res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected!"));
 		return res;
 	}
 

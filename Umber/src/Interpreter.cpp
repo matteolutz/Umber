@@ -114,7 +114,7 @@ namespace umber
 		bool assigned = context->symbol_table()->assign(var_name, new_value);
 		if (!assigned)
 		{
-			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), "Variable already exists or is immutable!", context));
+			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), "Variable was either not declared in this scope or is immutable!", context));
 			return res;
 		}
 
@@ -145,7 +145,7 @@ namespace umber
 		bool assigned = context->symbol_table()->declare(var_name, { new_value, is_mutable });
 		if (!assigned)
 		{
-			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), "Variable already exists!", context));
+			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), "Variable was already declared in this scope!", context));
 			return res;
 		}
 
@@ -424,13 +424,17 @@ namespace umber
 			}
 		};
 
-		if (context->symbol_table()->exists_rec(var_name).first)
+		if (context->symbol_table()->exists_rec(var_name))
 		{
-			if (!context->symbol_table()->is_mutable(var_name))
+			if (!context->symbol_table()->assign(var_name, std::make_shared<values::NumberValue>(enumerator)))
 			{
-				res.failure(std::make_shared<errors::RuntimeError>(node->token().pos_start(), node->token().pos_end(), utils::std_string_format("Variable '%s' already exists and is immutable!", var_name.c_str()), context));
+				res.failure(std::make_shared<errors::RuntimeError>(node->token().pos_start(), node->token().pos_end(), utils::std_string_format("Variable '%s' already was already declared as immutable!", var_name.c_str()), context));
 				return res;
 			}
+		}
+		else
+		{
+			context->symbol_table()->declare(var_name, { std::make_shared<values::NumberValue>(enumerator), false });
 		}
 
 		while (condition())
@@ -480,17 +484,63 @@ namespace umber
 			arg_names.emplace_back(an.value().value());
 		}
 
-		// TODO: function def
-		res.success(std::make_shared<values::NumberValue>(0.0f));
+		std::shared_ptr<values::FunctionValue> value = std::make_shared<values::FunctionValue>(func_name.value_or("<anonymous>"), node->body_node(), arg_names, node->should_auto_return(), node->pos_start(), node->pos_end(), context);
+
+		if (node->var_name_token().has_value() && node->var_name_token().value().value().has_value())
+		{
+			std::string new_symbol_name = node->var_name_token().value().value().value();
+			bool delcared = context->symbol_table()->declare(new_symbol_name, {value, false});
+
+			if (!delcared)
+			{
+				res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), "A variable with that name was already declared in this scope!", context));
+				return res;
+			}
+		}
+
+		res.success(value);
 		return res;
 	}
 
 	result::RuntimeResult Interpreter::visit_call_node(std::shared_ptr<nodes::CallNode> node, std::shared_ptr<Context> context)
 	{
 		auto res = result::RuntimeResult();
+		std::vector<std::shared_ptr<Value>> args;
 
-		// TODO: call node
-		res.success(std::make_shared<values::NumberValue>(0.0f));
+		std::shared_ptr<values::FunctionValue> value_to_call = std::dynamic_pointer_cast<values::FunctionValue>(res.register_res(Interpreter::visit(node->node_to_call(), context)));
+		if (value_to_call == nullptr)
+		{
+			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), utils::std_string_format("The value isn't callable!").c_str(), context));
+			return res;
+		}
+		else if (res.should_return())
+		{
+			return res;
+		}
+
+		value_to_call->pos_start() = node->pos_start();
+		value_to_call->pos_end() = node->pos_end();
+
+		for (const std::shared_ptr<Node>& arg_node : node->arg_nodes())
+		{
+			args.emplace_back(res.register_res(Interpreter::visit(arg_node, context)));
+			if (res.should_return())
+			{
+				return res;
+			}
+		}
+
+		std::shared_ptr<Value> return_value = res.register_res(value_to_call->execute(args));
+		if (res.should_return())
+		{
+			return res;
+		}
+
+		return_value->pos_start() = node->pos_start();
+		return_value->pos_end() = node->pos_end();
+		return_value->context() = context;
+
+		res.success(return_value);
 		return res;
 	}
 

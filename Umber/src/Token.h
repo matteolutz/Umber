@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Position.h"
+#include "utils/Utils.h"
 
 #include <optional>
 #include <string>
@@ -89,6 +90,9 @@ namespace umber
 		{
 			return this->matches(other.m_type, other.m_value);
 		}
+
+		virtual std::string as_string() const;
+
 	};
 
 }

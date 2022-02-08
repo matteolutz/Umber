@@ -4,7 +4,7 @@
 
 
 const char* test = R""""(
-1 + 1
+jl1jlkj
 )"""";
 
 namespace umber
@@ -41,12 +41,12 @@ namespace umber
 
 		// test_ptr.get();
 
-		Lexer l("<cin>", std::make_shared<std::string>("1 or 1"));
+		Lexer l("<cin>", std::make_shared<std::string>(test));
 		std::pair<std::optional<std::vector<Token>>, std::unique_ptr<Error>> lexer_res = l.make_tokens();
 
 		if (lexer_res.second != nullptr)
 		{
-			printf("Error");
+			printf("%s\n", lexer_res.second->as_string().c_str());
 			return;
 		}
 
@@ -55,42 +55,43 @@ namespace umber
 		//printf("num tokens: %d\n", tokens.size());
 		for (const Token& t : tokens)
 		{
-			printf("[%d: %s]\n", t.type(), t.value().value_or("NULL").c_str());
+			printf("%s\n", t.as_string().c_str());
 		}
 
 		Parser p(tokens);
-		result::ParseResult res = p.parse();
+		result::ParseResult parse_res = p.parse();
 
 		//printf("Parsing done\n");
 
-		if (res.has_error())
+		if (parse_res.has_error())
 		{
-			printf("Error: %s, from (%d, %d) to (%d, %d):\n", typeid(res.error()).name(), res.error()->pos_start().line(), res.error()->pos_start().col(), res.error()->pos_end().line(), res.error()->pos_end().col());
-			printf("\t%s\n", res.error()->as_string().c_str());
+			/*printf("Error: %s, from (%d, %d) to (%d, %d):\n", typeid(res.error()).name(), res.error()->pos_start().line(), res.error()->pos_start().col(), res.error()->pos_end().line(), res.error()->pos_end().col());
+			printf("\t%s\n", res.error()->as_string().c_str());*/
+			printf("%s\n", parse_res.error()->as_string().c_str());
 			return;
 		}
-
-		auto end = time_now();
-
-		printf("Took: %3.4fms\n", duration(end - begin) / 1000000.0);
 			
-		printf("Parent node: %s\n", res.node()->as_string().c_str());
+		printf("Parent node: %s\n", parse_res.node()->as_string().c_str());
 
 	
-		//std::shared_ptr<SymbolTable> main_symbol_table = std::make_shared<SymbolTable>();
-		//std::shared_ptr<Context> main_context = std::make_shared<Context>("<main>", nullptr, main_symbol_table);
+		std::shared_ptr<SymbolTable> main_symbol_table = std::make_shared<SymbolTable>();
+		std::shared_ptr<Context> main_context = std::make_shared<Context>("<main>", nullptr, main_symbol_table);
 
-		//Interpreter::visit(res.node(), main_context);
-		result::RuntimeResult inrepreter_res = Interpreter::visit(res.node(), nullptr);
+		result::RuntimeResult inrepreter_res = Interpreter::visit(parse_res.node(), main_context);
+		//result::RuntimeResult inrepreter_res = Interpreter::visit(parse_res.node(), nullptr);
 
 		printf("Interpreter visiting done!\n");
 		if (inrepreter_res.has_error())
 		{
-			printf("Interpreter error: %s\n", inrepreter_res.error()->as_string().c_str());
+			printf("Interpreter error:\n\n%s\n", inrepreter_res.error()->as_string().c_str());
 			return;
 		}
 
 		printf("Interpreter done: %s\n", inrepreter_res.value()->as_string().c_str());
+
+		auto end = time_now();
+
+		printf("Took: %3.4fms\n", duration(end - begin) / 1000000.0);
 	}
 
 }

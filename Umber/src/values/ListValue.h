@@ -20,9 +20,11 @@ namespace umber
 			ListValue(std::vector<std::shared_ptr<Value>> elements, Position pos_start, Position pos_end, std::shared_ptr<Context> context);
 			ListValue(std::vector<std::shared_ptr<Value>> elements);
 
+			std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> added_to(std::shared_ptr<Value> other) override;
+
 			inline const std::vector<std::shared_ptr<Value>>& elements() const { return this->m_elements; }
 
-			std::unique_ptr<Value> copy() override;
+			inline std::unique_ptr<Value> copy() const override { return std::make_unique<ListValue>(*this); }
 			
 			std::string as_string() const override;
 

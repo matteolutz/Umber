@@ -138,6 +138,15 @@
     <ClInclude Include="src\utils\Utils.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="src\values\BaseFunctionValue.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\values\FunctionValue.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\values\BuiltInFunction.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Umber.cpp">
@@ -249,6 +258,12 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="src\utils\Utils.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\values\BaseFunctionValue.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\values\FunctionValue.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

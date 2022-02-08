@@ -23,7 +23,7 @@ namespace umber
 
 			std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> added_to(std::shared_ptr<Value> other) override;
 
-			std::unique_ptr<Value> copy() override;
+			std::unique_ptr<Value> copy() const override;
 
 			inline std::string as_string() const override { return utils::std_string_format("\"%s\"", m_value.c_str()); }
 

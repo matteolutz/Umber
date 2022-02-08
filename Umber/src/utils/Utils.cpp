@@ -43,6 +43,46 @@ namespace umber
 #endif
 		}
 
+		std::vector<std::string> std_string_split(char delimiter, std::string& from)
+		{
+			std::istringstream stream(from);
+
+			std::vector<std::string> lines;
+			std::string current_line;
+
+			while (std::getline(stream, current_line))
+			{
+				lines.emplace_back(current_line);
+			}
+
+			return lines;
+		}
+
+		std::string umber_error_description(std::string& filetext, Position pos_start, Position pos_end)
+		{
+			std::string buf;
+			std::vector<std::string> lines = std_string_split('\n', filetext);
+
+			for (int i = pos_start.line(); i <= pos_end.line(); i++)
+			{
+
+				if (i >= lines.size()) break;
+
+				int col_start = i == pos_start.line() ? pos_start.col() : 0;
+				int col_end = i == pos_end.line() ? lines[i].length() : pos_end.col();
+
+				buf.append(std_string_format("%d.\t%s\n", i + 1, lines[i].c_str()));
+
+				buf.append(std_string_format("%d.\t", i + 1));
+				for (int i = 0; i < col_start; i++) buf.push_back(' ');
+				for (int i = col_start; i < col_end; i++) buf.push_back('~');
+
+				buf.append("\n\n");
+			}
+
+			return buf;
+		}
+
 	}
 
 }

@@ -18,15 +18,15 @@ namespace umber
 			std::optional<Token> m_var_name_token;
 			std::vector<Token> m_arg_name_tokens;
 			std::shared_ptr<Node> m_body_node;
-			bool m_should_return_null;
+			bool m_should_auto_return;
 
 		public:
-			FunctionDefNode(std::optional<Token> var_name_token, std::vector<Token> arg_name_tokens, std::shared_ptr<Node> body_node, bool should_return_null);
+			FunctionDefNode(std::optional<Token> var_name_token, std::vector<Token> arg_name_tokens, std::shared_ptr<Node> body_node, bool should_auto_return);
 
 			inline const std::optional<Token>& var_name_token() const { return this->m_var_name_token; }
 			inline const std::vector<Token>& arg_name_tokens() const { return this->m_arg_name_tokens; }
 			inline const std::shared_ptr<Node>& body_node() const { return this->m_body_node; }
-			inline const bool& should_return_null() const { return this->m_should_return_null; }
+			inline const bool& should_auto_return() const { return this->m_should_auto_return; }
 
 		};
 

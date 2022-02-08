@@ -20,6 +20,9 @@ namespace umber
 		public:
 			CallNode(std::shared_ptr<Node> node_to_call, std::vector<std::shared_ptr<Node>> arg_nodes);
 
+			inline const std::shared_ptr<Node>& node_to_call() const { return this->m_node_to_call; }
+			inline const std::vector<std::shared_ptr<Node>>& arg_nodes() const { return this->m_arg_nodes; }
+
 		};
 
 	}

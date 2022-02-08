@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Position.h"
+#include "utils/Utils.h"
 
 #include <string>
 
@@ -9,10 +10,8 @@ namespace umber
 	class Error
 	{
 	protected:
-		Position m_pos_start;
-		Position m_pos_end;
-		std::string m_error_name;
-		std::string m_details;
+		Position m_pos_start, m_pos_end;
+		std::string m_error_name, m_details;
 
 	protected:
 		Error(Position pos_start, Position pos_end, std::string error_name, std::string details);
@@ -20,7 +19,7 @@ namespace umber
 	public:
 		virtual ~Error() = 0;
 
-		std::string as_string() const;
+		virtual std::string as_string() const;
 
 		inline const std::string& name() const { return this->m_error_name; }
 

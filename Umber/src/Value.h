@@ -58,7 +58,7 @@ namespace umber
 
 		inline std::shared_ptr<Context>& context() { return this->m_context; }
 
-		virtual std::unique_ptr<Value> copy() = 0;
+		virtual std::unique_ptr<Value> copy() const = 0;
 		
 		inline virtual std::string as_string() const { return "NotYetImplemented!"; }
 

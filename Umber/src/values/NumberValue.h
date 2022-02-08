@@ -27,7 +27,9 @@ namespace umber
 			std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> dived_by(std::shared_ptr<Value> other) override;
 			std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> powed_by(std::shared_ptr<Value> other) override;
 
-			std::unique_ptr<Value> copy() override;
+			std::unique_ptr<Value> copy() const override;
+
+			inline bool is_true() override { return this->m_value != NumberValue::FALSE_VALUE; }
 
 			inline std::string as_string() const override { return utils::std_string_format("%3.4f", this->m_value); }
 

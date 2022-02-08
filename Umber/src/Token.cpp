@@ -23,4 +23,9 @@ namespace umber
 		return this->m_type == type && this->m_value == value;
 	}
 
+	std::string Token::as_string() const
+	{
+		return utils::std_string_format("[%d: %s]", this->m_type, this->m_value.value_or("NULL").c_str());
+	}
+
 }

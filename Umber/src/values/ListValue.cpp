@@ -15,9 +15,12 @@ namespace umber
 		{
 		}
 
-		std::unique_ptr<Value> ListValue::copy()
+		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> ListValue::added_to(std::shared_ptr<Value> other)
 		{
-			return std::make_unique<ListValue>(*this);
+			std::unique_ptr<ListValue> new_list = std::make_unique<ListValue>(*this);
+			new_list->m_elements.emplace_back(other);
+
+			return { std::move(new_list), nullptr };
 		}
 
 		std::string ListValue::as_string() const
@@ -25,7 +28,7 @@ namespace umber
 			std::string buffer = "[";
 			for (const std::shared_ptr<Value>& v : this->m_elements)
 			{
-				buffer.append(v->as_string());
+				buffer.append(utils::std_string_format("%s, ", v->as_string().c_str()));
 			}
 			buffer.push_back(']');
 			return buffer;
