@@ -266,5 +266,8 @@
     <ClCompile Include="src\values\FunctionValue.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\values\BuiltInFunction.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

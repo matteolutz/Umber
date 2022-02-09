@@ -4,7 +4,14 @@
 
 
 const char* test = R""""(
-jl1jlkj
+fun gen_primes_to(limit) {
+	let mut count = 0;
+	let mut primes = [];
+
+	return primes;
+};
+
+gen_primes_to(10);
 )"""";
 
 namespace umber
@@ -74,10 +81,37 @@ namespace umber
 		printf("Parent node: %s\n", parse_res.node()->as_string().c_str());
 
 	
-		std::shared_ptr<SymbolTable> main_symbol_table = std::make_shared<SymbolTable>();
-		std::shared_ptr<Context> main_context = std::make_shared<Context>("<main>", nullptr, main_symbol_table);
+		std::shared_ptr<SymbolTable> global_symbol_table = std::make_shared<SymbolTable>();
 
-		result::RuntimeResult inrepreter_res = Interpreter::visit(parse_res.node(), main_context);
+		std::string arg_names[] = {"value"};
+		std::string print_name = "print";
+		std::shared_ptr<values::BuiltInFunction> print_test_function =
+			std::make_shared<values::BuiltInFunction>(
+				"print",
+				std::vector<std::string>(std::begin(arg_names), std::end(arg_names)),
+				[](std::vector<std::shared_ptr<Value>> args, std::shared_ptr<Context> exec_ctx, values::BuiltInFunction* self) -> result::RuntimeResult {
+					auto res = result::RuntimeResult();
+
+					std::string value_name = "value";
+					std::optional<SymbolTable::symbol> s = exec_ctx->symbol_table()->get(value_name);
+
+					if (!s.has_value())
+					{
+						res.failure(std::make_shared<errors::RuntimeError>(self->pos_start(), self->pos_end(), "error", exec_ctx));
+						return res;
+					}
+
+					printf("%s\n", s.value().m_value->as_string().c_str());
+					res.success(s.value().m_value);
+
+					return res;
+				});
+
+		global_symbol_table->declare(print_name, { print_test_function, false });
+
+		std::shared_ptr<Context> global_context = std::make_shared<Context>("<main>", nullptr, global_symbol_table);
+
+		result::RuntimeResult inrepreter_res = Interpreter::visit(parse_res.node(), global_context);
 		//result::RuntimeResult inrepreter_res = Interpreter::visit(parse_res.node(), nullptr);
 
 		printf("Interpreter visiting done!\n");

@@ -28,7 +28,7 @@ namespace umber
 			FunctionValue(std::string name, std::shared_ptr<Node> body_node, std::vector<std::string> arg_names, bool should_auto_return, Position pos_start, Position pos_end, std::shared_ptr<Context> context);
 			FunctionValue(std::string name, std::shared_ptr<Node> body_node, std::vector<std::string> arg_names, bool should_auto_return);
 
-			result::RuntimeResult execute(std::vector<std::shared_ptr<Value>> args);
+			result::RuntimeResult execute(std::vector<std::shared_ptr<Value>> args) override;
 
 			inline std::unique_ptr<Value> copy() const override { return std::make_unique<FunctionValue>(*this); }
 

@@ -225,6 +225,7 @@ namespace umber
 		}
 #pragma endregion
 
+		printf("making if expr, else case: %s\n", else_case.has_value() ? "true" : "false");
 		res.success(std::make_shared<nodes::IfNode>(cases, else_case));
 		return res;
 	}

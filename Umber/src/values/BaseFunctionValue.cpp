@@ -24,7 +24,9 @@ namespace umber
 
 		std::unique_ptr<Context> BaseFunctionValue::generate_new_context() const
 		{
-			return std::make_unique<Context>(this->m_name, this->m_context, std::make_shared<SymbolTable>(this->m_context->symbol_table()));
+			return this->m_context != nullptr
+				? std::make_unique<Context>(this->m_name, this->m_context, std::make_shared<SymbolTable>(this->m_context->symbol_table()))
+				: std::make_unique<Context>(this->m_name, std::make_shared<SymbolTable>());
 		}
 
 		result::RuntimeResult BaseFunctionValue::check_args(std::vector<std::string>& arg_names, std::vector<std::shared_ptr<Value>>& args)

@@ -75,6 +75,7 @@ namespace umber
 
 				buf.append(std_string_format("%d.\t", i + 1));
 				for (int i = 0; i < col_start; i++) buf.push_back(' ');
+
 				for (int i = col_start; i < col_end; i++) buf.push_back('~');
 
 				buf.append("\n\n");

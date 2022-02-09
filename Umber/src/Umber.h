@@ -15,6 +15,8 @@
 #include "SymbolTable.h"
 #include "Interpreter.h"
 
+#include "values/BuiltInFunction.h"
+
 namespace umber
 {
 

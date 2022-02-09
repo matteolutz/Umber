@@ -31,6 +31,8 @@ namespace umber
 
 			result::RuntimeResult check_and_populate_args(std::vector<std::string>& arg_names, std::vector<std::shared_ptr<Value>>& args, std::shared_ptr<Context> exec_ctx);
 
+			virtual result::RuntimeResult execute(std::vector<std::shared_ptr<Value>> args) = 0;
+
 			inline const std::string& name() const { return this->m_name; }
 		};
 

@@ -507,7 +507,7 @@ namespace umber
 		auto res = result::RuntimeResult();
 		std::vector<std::shared_ptr<Value>> args;
 
-		std::shared_ptr<values::FunctionValue> value_to_call = std::dynamic_pointer_cast<values::FunctionValue>(res.register_res(Interpreter::visit(node->node_to_call(), context)));
+		std::shared_ptr<values::BaseFunctionValue> value_to_call = std::dynamic_pointer_cast<values::BaseFunctionValue>(res.register_res(Interpreter::visit(node->node_to_call(), context)));
 		if (value_to_call == nullptr)
 		{
 			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), utils::std_string_format("The value isn't callable!").c_str(), context));

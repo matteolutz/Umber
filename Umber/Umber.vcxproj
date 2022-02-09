@@ -228,6 +228,7 @@
     <ClCompile Include="src\utils\Utils.cpp" />
     <ClCompile Include="src\Value.cpp" />
     <ClCompile Include="src\values\BaseFunctionValue.cpp" />
+    <ClCompile Include="src\values\BuiltInFunction.cpp" />
     <ClCompile Include="src\values\FunctionValue.cpp" />
     <ClCompile Include="src\values\ListValue.cpp" />
     <ClCompile Include="src\values\NumberValue.cpp" />
