@@ -24,9 +24,7 @@ namespace umber
 				return res;
 			}
 
-			res.register_res(m_executor(args, exec_ctx, this));
-
-			res.success(std::make_shared<values::NumberValue>(values::NumberValue::NULL_VALUE));
+			res.success(res.register_res(m_executor(args, exec_ctx, this)));
 			return res;
 		}
 

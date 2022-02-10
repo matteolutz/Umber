@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Value.h"
+#include "NumberValue.h"
 #include "../Position.h"
 #include "../utils/Utils.h"
 
@@ -25,7 +26,7 @@ namespace umber
 
 			std::unique_ptr<Value> copy() const override;
 
-			inline std::string as_string() const override { return utils::std_string_format("\"%s\"", m_value.c_str()); }
+			inline std::string as_string() const override { return this->m_value; }
 
 		};
 

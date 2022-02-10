@@ -225,8 +225,7 @@ namespace umber
 		}
 #pragma endregion
 
-		printf("making if expr, else case: %s\n", else_case.has_value() ? "true" : "false");
-		res.success(std::make_shared<nodes::IfNode>(cases, else_case));
+		res.success(std::make_shared<nodes::IfNode>(cases, std::move(else_case)));
 		return res;
 	}
 
@@ -807,29 +806,6 @@ namespace umber
 
 		}
 
-		/*if (this->m_current_token.value().type() == TokenType::Identifier)
-		{
-			Token var_name_token = this->m_current_token.value();
-
-			this->advance();
-			res.register_advancement();
-
-			if (this->m_current_token.value().type() == TokenType::Eq)
-			{
-				res.register_advancement();
-				this->advance();
-
-				std::shared_ptr<Node> expr = res.register_res(this->expression());
-				if (res.has_error())
-				{
-					return res;
-				}
-
-				res.success(std::make_shared<nodes::VarAssignNode>(var_name_token, expr));
-				return res;
-			}
-		}*/
-
 		std::shared_ptr<Node> node = res.register_res(this->bin_operation(BinOpFunction::Comp, {
 			{ TokenType::Keyword, "and"},
 			{ TokenType::Keyword, "or"},
@@ -1028,7 +1004,6 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-
 			if (this->m_current_token.value().type() == TokenType::Eq)
 			{
 				res.register_advancement();
@@ -1044,7 +1019,29 @@ namespace umber
 				return res;
 			}
 
-			res.success(std::make_shared<nodes::VarAccessNode>(token));
+			std::shared_ptr<nodes::VarAccessNode> access_node = std::make_shared<nodes::VarAccessNode>(token);
+
+			if (this->m_current_token.value().type() == TokenType::Accessor)
+			{
+				res.register_advancement();
+				this->advance();
+
+				if (this->m_current_token.value().type() != TokenType::Identifier && this->m_current_token.value().type() != TokenType::Int)
+				{
+					res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected identifier or int after '.'!"));
+					return res;
+				}
+
+				Token accessor_token = this->m_current_token.value();
+
+				res.register_advancement();
+				this->advance();
+
+				res.success(std::make_shared<nodes::AccessorNode>(access_node, accessor_token));
+				return res;
+			}
+
+			res.success(access_node);
 			return res;
 		}
 

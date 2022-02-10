@@ -22,6 +22,7 @@
 #include "nodes/ListNode.h"
 #include "nodes/FunctionDefNode.h"
 #include "nodes/VarAssignNode.h"
+#include "nodes/AccessorNode.h"
 
 #include <vector>
 #include <optional>

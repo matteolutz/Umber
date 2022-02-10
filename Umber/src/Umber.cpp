@@ -3,15 +3,42 @@
 #include <chrono>
 
 
-const char* test = R""""(
-fun gen_primes_to(limit) {
+const char* primes_test = R""""(
+fun gen_primes_to (limit) {
 	let mut count = 0;
 	let mut primes = [];
+
+
+	while count < limit {
+		let mut is_prime = 1;
+
+		for x = 2 to count {
+			if math_mod(count, x) == 0 {
+				is_prime = 0;
+				break;
+			};
+		};
+
+		if is_prime == 1 {
+			primes = primes + count;
+		};
+
+		count = count + 1;
+	};
 
 	return primes;
 };
 
-gen_primes_to(10);
+print("starting...");
+print(gen_primes_to(100));
+)"""";
+
+const char* test = R""""(
+let test = [1, 2, 3];
+
+print(test.3);
+
+print("hi");
 )"""";
 
 namespace umber
@@ -59,36 +86,23 @@ namespace umber
 
 		std::vector<Token> tokens = lexer_res.first.value();
 
-		//printf("num tokens: %d\n", tokens.size());
-		for (const Token& t : tokens)
-		{
-			printf("%s\n", t.as_string().c_str());
-		}
-
 		Parser p(tokens);
 		result::ParseResult parse_res = p.parse();
 
-		//printf("Parsing done\n");
-
 		if (parse_res.has_error())
 		{
-			/*printf("Error: %s, from (%d, %d) to (%d, %d):\n", typeid(res.error()).name(), res.error()->pos_start().line(), res.error()->pos_start().col(), res.error()->pos_end().line(), res.error()->pos_end().col());
-			printf("\t%s\n", res.error()->as_string().c_str());*/
 			printf("%s\n", parse_res.error()->as_string().c_str());
 			return;
 		}
-			
-		printf("Parent node: %s\n", parse_res.node()->as_string().c_str());
-
 	
 		std::shared_ptr<SymbolTable> global_symbol_table = std::make_shared<SymbolTable>();
 
-		std::string arg_names[] = {"value"};
+		std::string print_arg_names[] = {"value"};
 		std::string print_name = "print";
 		std::shared_ptr<values::BuiltInFunction> print_test_function =
 			std::make_shared<values::BuiltInFunction>(
-				"print",
-				std::vector<std::string>(std::begin(arg_names), std::end(arg_names)),
+				print_name,
+				std::vector<std::string>(std::begin(print_arg_names), std::end(print_arg_names)),
 				[](std::vector<std::shared_ptr<Value>> args, std::shared_ptr<Context> exec_ctx, values::BuiltInFunction* self) -> result::RuntimeResult {
 					auto res = result::RuntimeResult();
 
@@ -107,21 +121,53 @@ namespace umber
 					return res;
 				});
 
+		std::string math_mod_arg_names[] = { "value", "mod" };
+		std::string math_mod_name = "math_mod";
+		std::shared_ptr<values::BuiltInFunction> math_mod_test_function =
+			std::make_shared<values::BuiltInFunction>(
+				math_mod_name,
+				std::vector<std::string>(std::begin(math_mod_arg_names), std::end(math_mod_arg_names)),
+				[](std::vector<std::shared_ptr<Value>> args, std::shared_ptr<Context> exec_ctx, values::BuiltInFunction* self) -> result::RuntimeResult
+				{
+					auto res = result::RuntimeResult();
+
+					std::string value_name = "value";
+					std::string mod_name = "mod";
+
+					std::optional<SymbolTable::symbol> value = exec_ctx->symbol_table()->get(value_name);
+					std::optional<SymbolTable::symbol> mod = exec_ctx->symbol_table()->get(mod_name);
+
+					if (!value.has_value() || !mod.has_value())
+					{
+						res.failure(std::make_shared<errors::RuntimeError>(self->pos_start(), self->pos_end(), "error", exec_ctx));
+						return res;
+					}
+
+					std::shared_ptr<values::NumberValue> number = std::dynamic_pointer_cast<values::NumberValue>(value.value().m_value);
+					std::shared_ptr<values::NumberValue> mod_number = std::dynamic_pointer_cast<values::NumberValue>(mod.value().m_value);
+
+					if (number == nullptr || mod_number == nullptr)
+					{
+						res.failure(std::make_shared<errors::RuntimeError>(self->pos_start(), self->pos_end(), "'value' must be a number!", exec_ctx));
+						return res;
+					}
+
+					res.success(std::make_shared<values::NumberValue>(std::fmod(number->value(), mod_number->value())));
+					return res;
+				});
+
 		global_symbol_table->declare(print_name, { print_test_function, false });
+		global_symbol_table->declare(math_mod_name, { math_mod_test_function, false });
 
 		std::shared_ptr<Context> global_context = std::make_shared<Context>("<main>", nullptr, global_symbol_table);
 
 		result::RuntimeResult inrepreter_res = Interpreter::visit(parse_res.node(), global_context);
-		//result::RuntimeResult inrepreter_res = Interpreter::visit(parse_res.node(), nullptr);
 
-		printf("Interpreter visiting done!\n");
 		if (inrepreter_res.has_error())
 		{
 			printf("Interpreter error:\n\n%s\n", inrepreter_res.error()->as_string().c_str());
 			return;
 		}
-
-		printf("Interpreter done: %s\n", inrepreter_res.value()->as_string().c_str());
 
 		auto end = time_now();
 

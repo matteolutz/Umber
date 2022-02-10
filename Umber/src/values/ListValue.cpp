@@ -23,6 +23,22 @@ namespace umber
 			return { std::move(new_list), nullptr };
 		}
 
+		std::pair<std::shared_ptr<Value>, std::unique_ptr<errors::RuntimeError>> ListValue::access(std::string accessor)
+		{
+			/*if (std::find(accessor.begin(), accessor.end(), [](const char& c) { return std::isdigit(c); }) == accessor.end())
+			{
+				return { nullptr, Value::illegal_operation() };
+			}*/
+
+			int index = std::stoi(accessor);
+			if (index < 0 || index >= this->m_elements.size())
+			{
+				return { nullptr, Value::illegal_operation() };
+			}
+
+			return { this->m_elements[index], nullptr };
+		}
+
 		std::string ListValue::as_string() const
 		{
 			std::string buffer = "[";

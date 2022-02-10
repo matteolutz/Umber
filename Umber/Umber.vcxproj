@@ -152,6 +152,7 @@
     <ClInclude Include="src\errors\InvalidSyntaxError.h" />
     <ClInclude Include="src\errors\RuntimeError.h" />
     <ClInclude Include="src\Interpreter.h" />
+    <ClInclude Include="src\nodes\AccessorNode.h" />
     <ClInclude Include="src\nodes\BinOpNode.h" />
     <ClInclude Include="src\nodes\BreakNode.h" />
     <ClInclude Include="src\nodes\CallNode.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="src\errors\InvalidSyntaxError.cpp" />
     <ClCompile Include="src\errors\RuntimeError.cpp" />
     <ClCompile Include="src\Interpreter.cpp" />
+    <ClCompile Include="src\nodes\AccessorNode.cpp" />
     <ClCompile Include="src\nodes\BinOpNode.cpp" />
     <ClCompile Include="src\nodes\BreakNode.cpp" />
     <ClCompile Include="src\nodes\CallNode.cpp" />

@@ -51,7 +51,7 @@ namespace umber
 
 		virtual inline bool is_true() { return false; }
 
-		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> subscribe(std::shared_ptr<Value> index) { return { nullptr, this->illegal_operation(index) }; }
+		virtual inline std::pair<std::shared_ptr<Value>, std::unique_ptr<errors::RuntimeError>> access(std::string accessor) { return { nullptr, this->illegal_operation() }; }
 
 		inline Position& pos_start() { return this->m_pos_start; }
 		inline Position& pos_end() { return this->m_pos_end; }

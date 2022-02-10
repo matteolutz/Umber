@@ -69,6 +69,56 @@ namespace umber
 			return Value::powed_by(other);
 		}
 
+		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> NumberValue::comparison_eq(std::shared_ptr<Value> other)
+		{
+			std::shared_ptr<NumberValue> other_number = std::dynamic_pointer_cast<NumberValue>(other);
+			if (other_number != nullptr)
+			{
+				return { std::make_unique<NumberValue>(this->m_value == other_number->m_value ? TRUE_VALUE : FALSE_VALUE), nullptr };
+			}
+			return Value::comparison_eq(other);
+		}
+
+		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> NumberValue::comparison_gt(std::shared_ptr<Value> other)
+		{
+			std::shared_ptr<NumberValue> other_number = std::dynamic_pointer_cast<NumberValue>(other);
+			if (other_number != nullptr)
+			{
+				return { std::make_unique<NumberValue>(this->m_value > other_number->m_value ? TRUE_VALUE : FALSE_VALUE), nullptr };
+			}
+			return Value::comparison_gt(other);
+		}
+
+		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> NumberValue::comparison_lt(std::shared_ptr<Value> other)
+		{
+			std::shared_ptr<NumberValue> other_number = std::dynamic_pointer_cast<NumberValue>(other);
+			if (other_number != nullptr)
+			{
+				return { std::make_unique<NumberValue>(this->m_value < other_number->m_value ? TRUE_VALUE : FALSE_VALUE), nullptr };
+			}
+			return Value::comparison_lt(other);
+		}
+
+		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> NumberValue::comparison_gte(std::shared_ptr<Value> other)
+		{
+			std::shared_ptr<NumberValue> other_number = std::dynamic_pointer_cast<NumberValue>(other);
+			if (other_number != nullptr)
+			{
+				return { std::make_unique<NumberValue>(this->m_value >= other_number->m_value ? TRUE_VALUE : FALSE_VALUE), nullptr };
+			}
+			return Value::comparison_gte(other);
+		}
+
+		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> NumberValue::comparison_lte(std::shared_ptr<Value> other)
+		{
+			std::shared_ptr<NumberValue> other_number = std::dynamic_pointer_cast<NumberValue>(other);
+			if (other_number != nullptr)
+			{
+				return { std::make_unique<NumberValue>(this->m_value <= other_number->m_value ? TRUE_VALUE : FALSE_VALUE), nullptr };
+			}
+			return Value::comparison_lte(other);
+		}
+
 		std::unique_ptr<Value> NumberValue::copy() const
 		{
 			return std::make_unique<NumberValue>(*this);

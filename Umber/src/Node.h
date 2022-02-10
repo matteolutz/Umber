@@ -24,6 +24,7 @@ namespace umber
 		VarAccess,
 		VarAssign,
 		VarDeclaration,
+		Accessor,
 		While
 	};
 

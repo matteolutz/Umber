@@ -147,6 +147,9 @@
     <ClInclude Include="src\values\BuiltInFunction.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="src\nodes\AccessorNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Umber.cpp">
@@ -267,6 +270,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="src\values\BuiltInFunction.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nodes\AccessorNode.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

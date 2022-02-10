@@ -69,7 +69,7 @@ namespace umber
 				if (i >= lines.size()) break;
 
 				int col_start = i == pos_start.line() ? pos_start.col() : 0;
-				int col_end = i == pos_end.line() ? lines[i].length() : pos_end.col();
+				int col_end = i == pos_end.line() ? pos_end.col() : lines[i].length();
 
 				buf.append(std_string_format("%d.\t%s\n", i + 1, lines[i].c_str()));
 

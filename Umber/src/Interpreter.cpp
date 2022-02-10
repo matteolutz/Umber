@@ -29,8 +29,10 @@ namespace umber
 		case NodeType::Continue: return Interpreter::visit_continue_node(std::static_pointer_cast<nodes::ContinueNode>(node), context);
 		case NodeType::Break: return Interpreter::visit_break_node(std::static_pointer_cast<nodes::BreakNode>(node), context);
 
+		case NodeType::Accessor: return Interpreter::visit_accessor_node(std::static_pointer_cast<nodes::AccessorNode>(node), context);
+
 		default:
-			throw std::invalid_argument(utils::std_string_format("Not visit method defined for: %s!", node->node_type()).c_str());
+			throw std::invalid_argument(utils::std_string_format("Not visit method defined for: %d!", node->node_type()).c_str());
 			break;
 		}
 	}
@@ -83,12 +85,12 @@ namespace umber
 		std::optional<SymbolTable::symbol> value = context->symbol_table()->get(var_name);
 		if (!value.has_value())
 		{
-			
+
 			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), utils::std_string_format("'%s' is not declared in this scope!", var_name.c_str()), context));
 			return res;
 		}
-		
-		
+
+
 		res.success(value.value().m_value);
 		return res;
 	}
@@ -152,7 +154,7 @@ namespace umber
 		res.success(new_value);
 		return res;
 	}
-	
+
 	result::RuntimeResult Interpreter::visit_bin_op_node(std::shared_ptr<nodes::BinOpNode> node, std::shared_ptr<Context> context)
 	{
 		auto res = result::RuntimeResult();
@@ -235,11 +237,11 @@ namespace umber
 
 		result.first->pos_start() = node->pos_start();
 		result.first->pos_end() = node->pos_end();
-		
+
 		res.success(result.first->copy());
 		return res;
 	}
-	
+
 	result::RuntimeResult Interpreter::visit_unary_op_node(std::shared_ptr<nodes::UnaryOpNode> node, std::shared_ptr<Context> context)
 	{
 		auto res = result::RuntimeResult();
@@ -292,36 +294,39 @@ namespace umber
 
 			if (condition_value->is_true())
 			{
+
+				std::shared_ptr<Value> body_value = res.register_res(Interpreter::visit(ic.statements, context));
+				if (res.should_return())
+				{
+					return res;
+				}
+
 				if (ic.should_return_null)
 				{
 					res.success(std::make_shared<values::NumberValue>(values::NumberValue::NULL_VALUE));
 					return res;
 				}
-
-				std::shared_ptr<Value> body_value = res.register_res(Interpreter::visit(ic.statements, context));
-				if (!res.should_return())
-				{
-					res.success(body_value);
-				}
-
+				
+				res.success(body_value);
 				return res;
 			}
 		}
 
 		if (node->else_case().has_value())
 		{
+			std::shared_ptr<Value> body_value = res.register_res(Interpreter::visit(node->else_case().value().statements, context));
+			if (res.should_return())
+			{
+				return res;
+			}
+
 			if (node->else_case().value().should_return_null)
 			{
 				res.success(std::make_shared<values::NumberValue>(values::NumberValue::NULL_VALUE));
 				return res;
 			}
 
-			std::shared_ptr<Value> body_value = res.register_res(Interpreter::visit(node->else_case().value().statements, context));
-			if (!res.should_return())
-			{
-				res.success(body_value);
-			}
-
+			res.success(body_value);
 			return res;
 		}
 
@@ -335,9 +340,13 @@ namespace umber
 
 		std::vector<std::shared_ptr<Value>> elements;
 
+		std::shared_ptr<Context> exec_ctx = std::make_shared<Context>("while", context, std::make_shared<SymbolTable>(context->symbol_table()));
+
 		while (true)
 		{
-			std::shared_ptr<Value> condition = res.register_res(Interpreter::visit(node->condition_node(), context));
+			exec_ctx->symbol_table()->clear();
+
+			std::shared_ptr<Value> condition = res.register_res(Interpreter::visit(node->condition_node(), exec_ctx));
 			if (res.should_return())
 			{
 				return res;
@@ -348,7 +357,7 @@ namespace umber
 				break;
 			}
 
-			std::shared_ptr<Value> body_value = res.register_res(Interpreter::visit(node->body_node(), context));
+			std::shared_ptr<Value> body_value = res.register_res(Interpreter::visit(node->body_node(), exec_ctx));
 
 			if (res.should_return())
 			{
@@ -396,33 +405,23 @@ namespace umber
 			return res;
 		}
 
-		std::shared_ptr<values::NumberValue> step_value;
+		float f_step_value;
 		if (node->step_value_node() != nullptr)
 		{
-			step_value = std::dynamic_pointer_cast<values::NumberValue>(res.register_res(Interpreter::visit(node->step_value_node(), context)));
+			std::shared_ptr<values::NumberValue> step_value = std::dynamic_pointer_cast<values::NumberValue>(res.register_res(Interpreter::visit(node->step_value_node(), context)));
 			if (res.should_return() || step_value == nullptr)
 			{
 				return res;
 			}
+
+			f_step_value = step_value->value();
 		}
 		else
 		{
-			step_value = std::make_shared<values::NumberValue>(1.0f);
+			f_step_value = 1.0f;
 		}
 
-		float enumerator = step_value->value();
-		
-		auto condition = [start_value, end_value, enumerator]() -> bool
-		{
-			if (start_value->value() >= 0)
-			{
-				return enumerator < end_value->value();
-			}
-			else
-			{
-				return enumerator > end_value->value();
-			}
-		};
+		float enumerator = start_value->value();
 
 		if (context->symbol_table()->exists_rec(var_name))
 		{
@@ -437,10 +436,13 @@ namespace umber
 			context->symbol_table()->declare(var_name, { std::make_shared<values::NumberValue>(enumerator), false });
 		}
 
-		while (condition())
+		while (
+			f_step_value >= 0.0f
+			? enumerator < end_value->value()
+			: enumerator > end_value->value()
+			)
 		{
 			context->symbol_table()->set(var_name, { std::make_shared<values::NumberValue>(enumerator), false });
-			enumerator += (float)step_value->value();
 
 			std::shared_ptr<Value> body_value = res.register_res(Interpreter::visit(node->body_node(), context));
 
@@ -454,6 +456,7 @@ namespace umber
 
 			elements.emplace_back(body_value);
 
+			enumerator += f_step_value;
 		}
 
 		if (node->should_return_null())
@@ -489,7 +492,7 @@ namespace umber
 		if (node->var_name_token().has_value() && node->var_name_token().value().value().has_value())
 		{
 			std::string new_symbol_name = node->var_name_token().value().value().value();
-			bool delcared = context->symbol_table()->declare(new_symbol_name, {value, false});
+			bool delcared = context->symbol_table()->declare(new_symbol_name, { value, false });
 
 			if (!delcared)
 			{
@@ -580,6 +583,37 @@ namespace umber
 		return res;
 	}
 
+	result::RuntimeResult Interpreter::visit_accessor_node(std::shared_ptr<nodes::AccessorNode> node, std::shared_ptr<Context> context)
+	{
+		auto res = result::RuntimeResult();
+
+		std::string accessor_name = node->accessor_token().value().value_or("");
+		if (accessor_name == "")
+		{
+			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), "Accessor name expected!", context));
+			return res;
+		}
+
+		std::shared_ptr<Value> value_to_be_accessed = res.register_res(Interpreter::visit(node->node(), context));
+		if (res.should_return())
+		{
+			return res;
+		}
+
+		std::pair<std::shared_ptr<Value>, std::shared_ptr<errors::RuntimeError>> accessor_result = value_to_be_accessed->access(accessor_name);
+		if (accessor_result.second != nullptr)
+		{
+			res.failure(accessor_result.second);
+			return res;
+		}
+
+		accessor_result.first->pos_start() = node->pos_start();
+		accessor_result.first->pos_end() = node->pos_end();
+		accessor_result.first->context() = context;
+
+		res.success(accessor_result.first->copy());
+		return res;
+	}
 
 #pragma endregion
 

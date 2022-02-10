@@ -26,6 +26,8 @@ namespace umber
 
 			inline std::unique_ptr<Value> copy() const override { return std::make_unique<ListValue>(*this); }
 			
+			std::pair<std::shared_ptr<Value>, std::unique_ptr<errors::RuntimeError>> access(std::string accessor) override;
+
 			std::string as_string() const override;
 
 		};

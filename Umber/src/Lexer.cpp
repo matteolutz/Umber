@@ -138,6 +138,11 @@ namespace umber
 				tokens.emplace_back(Token{ TokenType::Comma, this->m_pos });
 				this->advance();
 			}
+			else if (current == '.')
+			{
+				tokens.emplace_back(Token{ TokenType::Accessor, this->m_pos });
+				this->advance();
+			}
 			else
 			{
 				Position pos_start = this->m_pos;

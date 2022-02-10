@@ -20,6 +20,7 @@
 #include "nodes/WhileNode.h"
 #include "nodes/ListNode.h"
 #include "nodes/FunctionDefNode.h"
+#include "nodes/AccessorNode.h"
 
 #include "values/NumberValue.h"
 #include "values/StringValue.h"
@@ -34,6 +35,7 @@
 #include <memory>
 #include <stdexcept>
 #include <iostream>
+#include <functional>
 
 namespace umber
 {
@@ -65,6 +67,8 @@ namespace umber
 		static result::RuntimeResult visit_return_node(std::shared_ptr<nodes::ReturnNode> node, std::shared_ptr<Context> context);
 		static result::RuntimeResult visit_continue_node(std::shared_ptr<nodes::ContinueNode> node, std::shared_ptr<Context> context);
 		static result::RuntimeResult visit_break_node(std::shared_ptr<nodes::BreakNode> node, std::shared_ptr<Context> context);
+
+		static result::RuntimeResult visit_accessor_node(std::shared_ptr<nodes::AccessorNode> node, std::shared_ptr<Context> context);
 
 	};
 

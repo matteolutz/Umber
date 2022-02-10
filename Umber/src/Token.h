@@ -37,6 +37,7 @@ namespace umber
 		Gte,
 		Comma,
 		Arrow,
+		Accessor,
 		Newline,
 		Eof
 	};
@@ -59,7 +60,7 @@ namespace umber
 		"then",
 		"return",
 		"continue",
-		"break"
+		"break",
 	};
 
 	class Token

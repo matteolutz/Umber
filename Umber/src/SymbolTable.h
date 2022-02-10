@@ -37,6 +37,10 @@ namespace umber
 		bool declare(std::string& key, symbol new_symbol);
 		void set(std::string& key, symbol new_symbol);
 
+		inline void clear() { this->m_symbols.clear(); }
+
+		inline const std::shared_ptr<SymbolTable>& parent() const { return this->m_parent; }
+
 	};
 
 }
