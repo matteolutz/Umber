@@ -31,6 +31,7 @@ namespace umber
 		Token make_identifier();
 		Token make_string();
 		Token make_minus_or_arrow();
+		Token make_colon_or_accessor();
 
 		std::pair<std::optional<Token>, std::unique_ptr<Error>> make_not_equals();
 		Token make_equals();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Value.h"
+#include "NumberValue.h"
 #include "../Position.h"
 
 #include <vector>

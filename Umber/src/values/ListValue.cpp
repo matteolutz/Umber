@@ -30,13 +30,15 @@ namespace umber
 				return { nullptr, Value::illegal_operation() };
 			}*/
 
+			if (accessor == "l") return { std::make_shared<values::NumberValue>(this->m_elements.size()), nullptr };
+
 			int index = std::stoi(accessor);
 			if (index < 0 || index >= this->m_elements.size())
 			{
-				return { nullptr, Value::illegal_operation() };
+				return Value::access(accessor);
 			}
 
-			return { this->m_elements[index], nullptr };
+			return { this->m_elements[index]->copy(), nullptr};
 		}
 
 		std::string ListValue::as_string() const

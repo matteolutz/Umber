@@ -157,6 +157,7 @@
     <ClInclude Include="src\nodes\BreakNode.h" />
     <ClInclude Include="src\nodes\CallNode.h" />
     <ClInclude Include="src\nodes\ContinueNode.h" />
+    <ClInclude Include="src\nodes\DictNode.h" />
     <ClInclude Include="src\nodes\ForNode.h" />
     <ClInclude Include="src\nodes\FunctionDefNode.h" />
     <ClInclude Include="src\nodes\IfNode.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="src\Value.h" />
     <ClInclude Include="src\values\BaseFunctionValue.h" />
     <ClInclude Include="src\values\BuiltInFunction.h" />
+    <ClInclude Include="src\values\DictValue.h" />
     <ClInclude Include="src\values\FunctionValue.h" />
     <ClInclude Include="src\values\ListValue.h" />
     <ClInclude Include="src\values\NumberValue.h" />
@@ -203,6 +205,7 @@
     <ClCompile Include="src\nodes\BreakNode.cpp" />
     <ClCompile Include="src\nodes\CallNode.cpp" />
     <ClCompile Include="src\nodes\ContinueNode.cpp" />
+    <ClCompile Include="src\nodes\DictNode.cpp" />
     <ClCompile Include="src\nodes\ForNode.cpp" />
     <ClCompile Include="src\nodes\FunctionDefNode.cpp" />
     <ClCompile Include="src\nodes\IfNode.cpp" />
@@ -231,6 +234,7 @@
     <ClCompile Include="src\Value.cpp" />
     <ClCompile Include="src\values\BaseFunctionValue.cpp" />
     <ClCompile Include="src\values\BuiltInFunction.cpp" />
+    <ClCompile Include="src\values\DictValue.cpp" />
     <ClCompile Include="src\values\FunctionValue.cpp" />
     <ClCompile Include="src\values\ListValue.cpp" />
     <ClCompile Include="src\values\NumberValue.cpp" />

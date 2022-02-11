@@ -23,8 +23,10 @@
 #include "nodes/FunctionDefNode.h"
 #include "nodes/VarAssignNode.h"
 #include "nodes/AccessorNode.h"
+#include "nodes/DictNode.h"
 
 #include <vector>
+#include <map>
 #include <optional>
 
 namespace umber
@@ -64,7 +66,7 @@ namespace umber
 		result::ParseResult while_expr();
 
 		result::ParseResult list_expr();
-		// TODO: dict expr
+		result::ParseResult dict_expr();
 
 		result::ParseResult function_def();
 

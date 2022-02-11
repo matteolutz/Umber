@@ -9,7 +9,9 @@ namespace umber
 		{
 		case NodeType::Number: return Interpreter::visit_number_node(std::static_pointer_cast<nodes::NumberNode>(node), context);
 		case NodeType::String: return Interpreter::visit_string_node(std::static_pointer_cast<nodes::StringNode>(node), context);
+
 		case NodeType::List: return Interpreter::visit_list_node(std::static_pointer_cast<nodes::ListNode>(node), context);
+		case NodeType::Dict: return Interpreter::visit_dict_node(std::static_pointer_cast<nodes::DictNode>(node), context);
 
 		case NodeType::VarAccess: return Interpreter::visit_var_access_node(std::static_pointer_cast<nodes::VarAccessNode>(node), context);
 		case NodeType::VarAssign: return Interpreter::visit_var_assign_node(std::static_pointer_cast<nodes::VarAssignNode>(node), context);
@@ -68,6 +70,24 @@ namespace umber
 		}
 
 		res.success(std::make_shared<values::ListValue>(elements, node->pos_start(), node->pos_end(), context));
+		return res;
+	}
+
+	result::RuntimeResult Interpreter::visit_dict_node(std::shared_ptr<nodes::DictNode> node, std::shared_ptr<Context> context)
+	{
+		auto res = result::RuntimeResult();
+		std::map<std::string, std::shared_ptr<Value>> elements;
+
+		for (const auto& [name, node] : node->elements())
+		{
+			elements[name] = res.register_res(Interpreter::visit(node, context));
+			if (res.should_return())
+			{
+				return res;
+			}
+		}
+
+		res.success(std::make_shared<values::DictValue>(elements, node->pos_start(), node->pos_end(), context));
 		return res;
 	}
 
@@ -193,6 +213,9 @@ namespace umber
 			if (node->op_token().type() == TokenType::Pow)
 			{
 				return left->powed_by(right);
+			} if (node->op_token().type() == TokenType::Modulo)
+			{
+				return left->moduloed_by(right);
 			}
 			if (node->op_token().type() == TokenType::Ee)
 			{

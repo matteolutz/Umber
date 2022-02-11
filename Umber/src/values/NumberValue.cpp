@@ -69,6 +69,16 @@ namespace umber
 			return Value::powed_by(other);
 		}
 
+		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> NumberValue::moduloed_by(std::shared_ptr<Value> other)
+		{
+			std::shared_ptr<NumberValue> other_number = std::dynamic_pointer_cast<NumberValue>(other);
+			if (other_number != nullptr)
+			{
+				return { std::make_unique<NumberValue>(std::fmod(this->m_value, other_number->m_value)), nullptr };
+			}
+			return Value::moduloed_by(other);
+		}
+
 		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> NumberValue::comparison_eq(std::shared_ptr<Value> other)
 		{
 			std::shared_ptr<NumberValue> other_number = std::dynamic_pointer_cast<NumberValue>(other);

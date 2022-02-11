@@ -26,6 +26,7 @@ namespace umber
 			std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> multed_by(std::shared_ptr<Value> other) override;
 			std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> dived_by(std::shared_ptr<Value> other) override;
 			std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> powed_by(std::shared_ptr<Value> other) override;
+			std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> moduloed_by(std::shared_ptr<Value> other) override;
 			
 			std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> comparison_eq(std::shared_ptr<Value> other) override;
 			std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> comparison_gt(std::shared_ptr<Value> other) override;

@@ -17,6 +17,7 @@ namespace umber
 		FunctionDef,
 		If,
 		List,
+		Dict,
 		Number,
 		Return,
 		String,

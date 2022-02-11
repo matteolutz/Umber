@@ -21,11 +21,13 @@
 #include "nodes/ListNode.h"
 #include "nodes/FunctionDefNode.h"
 #include "nodes/AccessorNode.h"
+#include "nodes/DictNode.h"
 
 #include "values/NumberValue.h"
 #include "values/StringValue.h"
 #include "values/ListValue.h"
 #include "values/FunctionValue.h"
+#include "values/DictValue.h"
 
 #include "Context.h"
 #include "SymbolTable.h"
@@ -48,7 +50,9 @@ namespace umber
 	private:
 		static result::RuntimeResult visit_number_node(std::shared_ptr<nodes::NumberNode> node, std::shared_ptr<Context> context);
 		static result::RuntimeResult visit_string_node(std::shared_ptr<nodes::StringNode> node, std::shared_ptr<Context> context);
+
 		static result::RuntimeResult visit_list_node(std::shared_ptr<nodes::ListNode> node, std::shared_ptr<Context> context);
+		static result::RuntimeResult visit_dict_node(std::shared_ptr<nodes::DictNode> node, std::shared_ptr<Context> context);
 
 		static result::RuntimeResult visit_var_access_node(std::shared_ptr<nodes::VarAccessNode> node, std::shared_ptr<Context> context);
 		static result::RuntimeResult visit_var_assign_node(std::shared_ptr<nodes::VarAssignNode> node, std::shared_ptr<Context> context);

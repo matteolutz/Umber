@@ -21,6 +21,7 @@ namespace umber
 		Mult,
 		Div,
 		Pow,
+		Modulo,
 		Eq,
 		Colon,
 		Lparen,
@@ -39,7 +40,7 @@ namespace umber
 		Arrow,
 		Accessor,
 		Newline,
-		Eof
+		Eof,
 	};
 
 	static const std::string KEYWORDS[17] = 

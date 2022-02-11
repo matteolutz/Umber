@@ -75,10 +75,14 @@ namespace umber
 				tokens.emplace_back(Token{ TokenType::Pow, this->m_pos });
 				this->advance();
 			}
+			else if (current == '%')
+			{
+				tokens.emplace_back(Token{ TokenType::Modulo, this->m_pos });
+				this->advance();
+			}
 			else if (current == ':')
 			{
-				tokens.emplace_back(Token{ TokenType::Colon, this->m_pos });
-				this->advance();
+				tokens.emplace_back(this->make_colon_or_accessor());
 			}
 			else if (current == '(')
 			{
@@ -136,11 +140,6 @@ namespace umber
 			else if (current == ',')
 			{
 				tokens.emplace_back(Token{ TokenType::Comma, this->m_pos });
-				this->advance();
-			}
-			else if (current == '.')
-			{
-				tokens.emplace_back(Token{ TokenType::Accessor, this->m_pos });
 				this->advance();
 			}
 			else
@@ -206,7 +205,7 @@ namespace umber
 			this->advance();
 		}
 
-		return Token{ dot_count == 0 ? TokenType::Int : TokenType::Float, num_string, pos_start, this->m_pos };
+		return { dot_count == 0 ? TokenType::Int : TokenType::Float, num_string, pos_start, this->m_pos };
 
 	}
 
@@ -228,7 +227,7 @@ namespace umber
 		}
 
 		TokenType id_token_type = std::find(std::begin(KEYWORDS), std::end(KEYWORDS), id_string) != std::end(KEYWORDS) ? TokenType::Keyword : TokenType::Identifier;
-		return Token{ id_token_type, id_string, pos_start, this->m_pos };
+		return { id_token_type, id_string, pos_start, this->m_pos };
 
 	}
 
@@ -271,7 +270,7 @@ namespace umber
 		}
 
 		this->advance();
-		return Token{ TokenType::String, new_string, pos_start, this->m_pos };
+		return { TokenType::String, new_string, pos_start, this->m_pos };
 	}
 
 	Token Lexer::make_minus_or_arrow()
@@ -286,7 +285,23 @@ namespace umber
 			r_token_type = TokenType::Arrow;
 		}
 
-		return Token{ r_token_type, pos_start, this->m_pos };
+		return { r_token_type, pos_start, this->m_pos };
+	}
+
+	Token Lexer::make_colon_or_accessor()
+	{
+		TokenType r_token_type = TokenType::Colon;
+		Position pos_start = this->m_pos;
+
+		this->advance();
+
+		if (this->m_current_char.has_value() && this->m_current_char == ':')
+		{
+			this->advance();
+			r_token_type = TokenType::Accessor;
+		}
+
+		return { r_token_type, pos_start, this->m_pos };
 	}
 
 	std::pair<std::optional<Token>, std::unique_ptr<Error>> Lexer::make_not_equals()
@@ -318,7 +333,7 @@ namespace umber
 			r_token_type = TokenType::Ee;
 		}
 
-		return Token{ r_token_type, pos_start, this->m_pos };
+		return { r_token_type, pos_start, this->m_pos };
 	}
 
 	Token Lexer::make_less_than()
@@ -334,7 +349,7 @@ namespace umber
 			r_token_type = TokenType::Lte;
 		}
 
-		return Token{ r_token_type, pos_start, this->m_pos };
+		return { r_token_type, pos_start, this->m_pos };
 	}
 
 	Token Lexer::make_greater_than()
@@ -350,7 +365,7 @@ namespace umber
 			r_token_type = TokenType::Gte;
 		}
 
-		return Token{ r_token_type, pos_start, this->m_pos };
+		return { r_token_type, pos_start, this->m_pos };
 	}
 
 #pragma endregion
