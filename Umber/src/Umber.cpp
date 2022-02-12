@@ -4,33 +4,6 @@
 
 const char* test = R""""(
 
-fun gen_primes_to (limit) {
-	let mut count = 0;
-	let mut primes = [];
-
-	while count < limit {
-		let mut is_prime = true;
-
-		for x = 2 to count step 2 {
-			if count % x == 0 {
-				is_prime = false;
-				break;
-			};
-		};
-
-		if is_prime {
-			primes = primes + count;
-		};
-
-		count = count + 1;
-	};
-
-	return primes
-
-};
-
-print(gen_primes_to(100));
-
 
 )"""";
 
