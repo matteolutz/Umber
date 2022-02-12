@@ -14,6 +14,7 @@ namespace umber
 		Call,
 		Continue,
 		For,
+		While,
 		FunctionDef,
 		If,
 		List,
@@ -27,7 +28,7 @@ namespace umber
 		VarDeclaration,
 		Accessor,
 		AccessorSet,
-		While
+		Import,
 	};
 
 	class Node

@@ -8,7 +8,7 @@ namespace umber
 
 		std::string std_string_format(const char* fmt, ...)
 		{
-			char buf[256];
+			char buf[512];
 
 			va_list args;
 			va_start(args, fmt);
@@ -67,7 +67,7 @@ namespace umber
 			{
 
 				if (i >= lines.size()) break;
-
+				
 				int col_start = i == pos_start.line() ? pos_start.col() : 0;
 				int col_end = i == pos_end.line() ? pos_end.col() : lines[i].length();
 

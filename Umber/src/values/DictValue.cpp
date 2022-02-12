@@ -38,12 +38,12 @@ namespace umber
 
 		std::string DictValue::as_string() const
 		{
-			std::string buffer = "{ ";
+			std::string buffer = "{";
 			for (const auto& [k, v] : this->m_elements)
 			{
 				buffer.append(utils::std_string_format("%s: %s, ", k.c_str(), v->as_string().c_str()));
 			}
-			buffer.push_back(' }');
+			buffer.push_back('}');
 			return buffer;
 		}
 

@@ -162,6 +162,7 @@
     <ClInclude Include="src\nodes\ForNode.h" />
     <ClInclude Include="src\nodes\FunctionDefNode.h" />
     <ClInclude Include="src\nodes\IfNode.h" />
+    <ClInclude Include="src\nodes\ImportNode.h" />
     <ClInclude Include="src\nodes\ListNode.h" />
     <ClInclude Include="src\nodes\NumberNode.h" />
     <ClInclude Include="src\Node.h" />
@@ -211,6 +212,7 @@
     <ClCompile Include="src\nodes\ForNode.cpp" />
     <ClCompile Include="src\nodes\FunctionDefNode.cpp" />
     <ClCompile Include="src\nodes\IfNode.cpp" />
+    <ClCompile Include="src\nodes\ImportNode.cpp" />
     <ClCompile Include="src\nodes\ListNode.cpp" />
     <ClCompile Include="src\nodes\NumberNode.cpp" />
     <ClCompile Include="src\Node.cpp" />
@@ -241,6 +243,9 @@
     <ClCompile Include="src\values\ListValue.cpp" />
     <ClCompile Include="src\values\NumberValue.cpp" />
     <ClCompile Include="src\values\StringValue.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\test\primes.ub" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

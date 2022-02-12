@@ -2,38 +2,34 @@
 
 #include <chrono>
 
+const char* test = R""""(
 
-const char* primes_test = R""""(
 fun gen_primes_to (limit) {
 	let mut count = 0;
 	let mut primes = [];
 
-
 	while count < limit {
-		let mut is_prime = 1;
+		let mut is_prime = true;
 
-		for x = 2 to count {
-			if math_mod(count, x) == 0 {
-				is_prime = 0;
+		for x = 2 to count step 2 {
+			if count % x == 0 {
+				is_prime = false;
 				break;
 			};
 		};
 
-		if is_prime == 1 {
+		if is_prime {
 			primes = primes + count;
 		};
 
 		count = count + 1;
 	};
 
-	return primes;
+	return primes
+
 };
 
-print("starting...");
 print(gen_primes_to(100));
-)"""";
-
-const char* test = R""""(
 
 
 )"""";
@@ -66,6 +62,8 @@ namespace umber
 
 	void Test()
 	{
+
+
 		auto begin = time_now();
 
 		// auto test_ptr = std::make_shared<std::string>(test);
@@ -156,7 +154,12 @@ namespace umber
 		global_symbol_table->declare(print_name, { print_test_function, false });
 		global_symbol_table->declare(math_mod_name, { math_mod_test_function, false });
 
+		global_symbol_table->declare("true", {std::make_shared<values::NumberValue>(values::NumberValue::TRUE_VALUE), false});
+		global_symbol_table->declare("false", { std::make_shared<values::NumberValue>(values::NumberValue::FALSE_VALUE), false });
+
 		std::shared_ptr<Context> global_context = std::make_shared<Context>("<main>", nullptr, global_symbol_table);
+
+		auto interpretation_begin = time_now();
 
 		result::RuntimeResult inrepreter_res = Interpreter::visit(parse_res.node(), global_context);
 
@@ -169,6 +172,7 @@ namespace umber
 		auto end = time_now();
 
 		printf("Took: %3.4fms\n", duration(end - begin) / 1000000.0);
+		printf("Interpretation took: %3.4fms\n", duration(end - interpretation_begin) / 1000000.0);
 	}
 
 }

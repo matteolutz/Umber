@@ -17,7 +17,7 @@ namespace umber
 					),
 				body_node->pos_end(),
 				NodeType::FunctionDef
-			), m_var_name_token(var_name_token), m_arg_name_tokens(arg_name_tokens), m_body_node(std::move(body_node)), m_should_auto_return(should_auto_return) { }
+			), m_var_name_token(var_name_token), m_arg_name_tokens(arg_name_tokens), m_body_node(body_node), m_should_auto_return(should_auto_return) { }
 
 	}
 

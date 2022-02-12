@@ -24,6 +24,10 @@ namespace umber
 
 			std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> added_to(std::shared_ptr<Value> other) override;
 
+			std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> comparison_eq(std::shared_ptr<Value> other) override;
+
+			inline bool is_true() override { return this->m_value != ""; }
+
 			std::unique_ptr<Value> copy() const override;
 
 			inline std::string as_string() const override { return this->m_value; }

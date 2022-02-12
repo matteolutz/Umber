@@ -149,10 +149,7 @@ namespace umber
 				char err_char = current;
 				this->advance();
 
-				char err_details_buffer[3];
-				sprintf_s(err_details_buffer, "'%c'", err_char);
-
-				return { std::nullopt, std::make_unique<errors::IllegalCharacterError>(pos_start, this->m_pos, err_details_buffer) };
+				return { std::nullopt, std::make_unique<errors::IllegalCharacterError>(pos_start, this->m_pos, utils::std_string_format("'%c'", err_char).c_str())};
 			}
 		}
 
@@ -244,7 +241,7 @@ namespace umber
 		{
 			if (escape_character)
 			{
-				std::map<char, char>::const_iterator escaped_character_pos = constants::ESCAPED_CHARACTERS.find(this->m_current_char.value());
+				auto escaped_character_pos = constants::ESCAPED_CHARACTERS.find(this->m_current_char.value());
 				char replace_char = this->m_current_char.value();
 
 				if (escaped_character_pos != constants::ESCAPED_CHARACTERS.end())
@@ -253,6 +250,8 @@ namespace umber
 				}
 
 				new_string.push_back(replace_char);
+
+				escape_character = false;
 			}
 			else
 			{
@@ -267,7 +266,6 @@ namespace umber
 			}
 
 			this->advance();
-			escape_character = false;
 		}
 
 		this->advance();

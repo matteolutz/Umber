@@ -26,16 +26,16 @@ namespace umber
 	public:
 		SymbolTable(std::shared_ptr<SymbolTable> parent = nullptr);
 
-		bool exists(std::string& key) const;
-		bool exists_rec(std::string& key) const;
+		bool exists(std::string key) const;
+		bool exists_rec(std::string key) const;
 
-		bool is_mutable(std::string& key) const;
+		bool is_mutable(std::string key) const;
 
-		std::optional<SymbolTable::symbol> get(std::string& key) const;
+		std::optional<SymbolTable::symbol> get(std::string key) const;
 		
-		bool assign(std::string& key, std::shared_ptr<Value> value);
-		bool declare(std::string& key, symbol new_symbol);
-		void set(std::string& key, symbol new_symbol);
+		bool assign(std::string key, std::shared_ptr<Value> value);
+		bool declare(std::string key, symbol new_symbol);
+		void set(std::string key, symbol new_symbol);
 
 		inline void clear() { this->m_symbols.clear(); }
 

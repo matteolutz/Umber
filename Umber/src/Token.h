@@ -48,7 +48,7 @@ namespace umber
 		Eof,
 	};
 
-	static const std::string KEYWORDS[14] = 
+	static const std::string KEYWORDS[15] = 
 	{
 		"let",
 		"mut",
@@ -64,6 +64,7 @@ namespace umber
 		"return",
 		"continue",
 		"break",
+		"import"
 	};
 
 	class Token

@@ -23,6 +23,7 @@
 #include "nodes/AccessorNode.h"
 #include "nodes/AccessorSetNode.h"
 #include "nodes/DictNode.h"
+#include "nodes/ImportNode.h"
 
 #include "values/NumberValue.h"
 #include "values/StringValue.h"
@@ -75,6 +76,8 @@ namespace umber
 
 		static result::RuntimeResult visit_accessor_node(std::shared_ptr<nodes::AccessorNode> node, std::shared_ptr<Context> context);
 		static result::RuntimeResult visit_accessor_set_node(std::shared_ptr<nodes::AccessorSetNode> node, std::shared_ptr<Context> context);
+
+		static result::RuntimeResult visit_import_node(std::shared_ptr<nodes::ImportNode> node, std::shared_ptr<Context> context);
 
 	};
 

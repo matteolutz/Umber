@@ -41,7 +41,7 @@ namespace umber
 
 		if (!res.has_error() && this->m_current_token.value().type() != TokenType::Eof)
 		{
-			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected statements"));
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected statements!"));
 		}
 
 		return res;
@@ -816,7 +816,7 @@ namespace umber
 				this->reverse(res.to_reverse_count());
 			}
 
-			res.success(std::make_shared<nodes::ReturnNode>(expr, pos_start, this->m_current_token.value().pos_start()));
+			res.success(std::make_shared<nodes::ReturnNode>(expr, pos_start, this->m_current_token.value().pos_end()));
 			return res;
 		}
 
@@ -825,7 +825,7 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			res.success(std::make_shared<nodes::ContinueNode>(pos_start, this->m_current_token.value().pos_start()));
+			res.success(std::make_shared<nodes::ContinueNode>(pos_start, this->m_current_token.value().pos_end()));
 			return res;
 		}
 
@@ -834,7 +834,26 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-			res.success(std::make_shared<nodes::BreakNode>(pos_start, this->m_current_token.value().pos_start()));
+			res.success(std::make_shared<nodes::BreakNode>(pos_start, this->m_current_token.value().pos_end()));
+			return res;
+		}
+
+		if (this->m_current_token.value().matches(TokenType::Keyword, "import"))
+		{
+			res.register_advancement();
+			this->advance();
+
+			if (this->m_current_token.value().type() != TokenType::String)
+			{
+				res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected string!"));
+				return res;
+			}
+			Token to_import_name = this->m_current_token.value();
+
+			res.register_advancement();
+			this->advance();
+
+			res.success(std::make_shared<nodes::ImportNode>(to_import_name, pos_start, this->m_current_token.value().pos_end()));
 			return res;
 		}
 

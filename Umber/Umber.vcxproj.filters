@@ -159,6 +159,9 @@
     <ClInclude Include="src\nodes\AccessorSetNode.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="src\nodes\ImportNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Umber.cpp">
@@ -293,5 +296,11 @@
     <ClCompile Include="src\nodes\AccessorSetNode.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\nodes\ImportNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\test\primes.ub" />
   </ItemGroup>
 </Project>

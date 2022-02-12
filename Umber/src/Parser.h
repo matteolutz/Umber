@@ -25,6 +25,7 @@
 #include "nodes/AccessorNode.h"
 #include "nodes/AccessorSetNode.h"
 #include "nodes/DictNode.h"
+#include "nodes/ImportNode.h"
 
 #include <vector>
 #include <map>

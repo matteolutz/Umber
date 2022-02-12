@@ -34,6 +34,8 @@ namespace umber
 		case NodeType::Accessor: return Interpreter::visit_accessor_node(std::static_pointer_cast<nodes::AccessorNode>(node), context);
 		case NodeType::AccessorSet: return Interpreter::visit_accessor_set_node(std::static_pointer_cast<nodes::AccessorSetNode>(node), context);
 
+		case NodeType::Import: return Interpreter::visit_import_node(std::static_pointer_cast<nodes::ImportNode>(node), context);
+
 		default:
 			throw std::invalid_argument(utils::std_string_format("Not visit method defined for: %d!", node->node_type()).c_str());
 			break;
@@ -134,7 +136,7 @@ namespace umber
 			return res;
 		}
 
-		bool assigned = context->symbol_table()->assign(var_name, new_value);
+		bool assigned = context->symbol_table()->assign(var_name, new_value->copy());
 		if (!assigned)
 		{
 			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), "Variable was either not declared in this scope or is immutable!", context));
@@ -165,7 +167,7 @@ namespace umber
 			return res;
 		}
 
-		bool assigned = context->symbol_table()->declare(var_name, { new_value, is_mutable });
+		bool assigned = context->symbol_table()->declare(var_name, { new_value->copy(), is_mutable});
 		if (!assigned)
 		{
 			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), "Variable was already declared in this scope!", context));
@@ -332,8 +334,9 @@ namespace umber
 
 			if (condition_value->is_true())
 			{
+				std::shared_ptr<Context> exec_ctx = std::make_shared<Context>("<if>", context, std::make_shared<SymbolTable>(context->symbol_table()));
 
-				std::shared_ptr<Value> body_value = res.register_res(Interpreter::visit(ic.statements, context));
+				std::shared_ptr<Value> body_value = res.register_res(Interpreter::visit(ic.statements, exec_ctx));
 				if (res.should_return())
 				{
 					return res;
@@ -352,7 +355,9 @@ namespace umber
 
 		if (node->else_case().has_value())
 		{
-			std::shared_ptr<Value> body_value = res.register_res(Interpreter::visit(node->else_case().value().statements, context));
+			std::shared_ptr<Context> exec_ctx = std::make_shared<Context>("<if-else>", context, std::make_shared<SymbolTable>(context->symbol_table()));
+
+			std::shared_ptr<Value> body_value = res.register_res(Interpreter::visit(node->else_case().value().statements, exec_ctx));
 			if (res.should_return())
 			{
 				return res;
@@ -378,7 +383,7 @@ namespace umber
 
 		std::vector<std::shared_ptr<Value>> elements;
 
-		std::shared_ptr<Context> exec_ctx = std::make_shared<Context>("while", context, std::make_shared<SymbolTable>(context->symbol_table()));
+		std::shared_ptr<Context> exec_ctx = std::make_shared<Context>("<while>", context, std::make_shared<SymbolTable>(context->symbol_table()));
 
 		while (true)
 		{
@@ -460,18 +465,19 @@ namespace umber
 		}
 
 		float enumerator = start_value->value();
+		std::shared_ptr<Context> exec_ctx = std::make_shared<Context>("<for>", context, std::make_shared<SymbolTable>(context->symbol_table()));
 
-		if (context->symbol_table()->exists_rec(var_name))
+		if (exec_ctx->symbol_table()->exists_rec(var_name))
 		{
-			if (!context->symbol_table()->assign(var_name, std::make_shared<values::NumberValue>(enumerator)))
+			if (!exec_ctx->symbol_table()->assign(var_name, std::make_shared<values::NumberValue>(enumerator)))
 			{
-				res.failure(std::make_shared<errors::RuntimeError>(node->token().pos_start(), node->token().pos_end(), utils::std_string_format("Variable '%s' already was already declared as immutable!", var_name.c_str()), context));
+				res.failure(std::make_shared<errors::RuntimeError>(node->token().pos_start(), node->token().pos_end(), utils::std_string_format("Variable '%s' already was already declared as immutable!", var_name.c_str()), exec_ctx));
 				return res;
 			}
 		}
 		else
 		{
-			context->symbol_table()->declare(var_name, { std::make_shared<values::NumberValue>(enumerator), false });
+			exec_ctx->symbol_table()->declare(var_name, { std::make_shared<values::NumberValue>(enumerator), false });
 		}
 
 		while (
@@ -480,9 +486,9 @@ namespace umber
 			: enumerator > end_value->value()
 			)
 		{
-			context->symbol_table()->set(var_name, { std::make_shared<values::NumberValue>(enumerator), false });
+			exec_ctx->symbol_table()->set(var_name, { std::make_shared<values::NumberValue>(enumerator), false });
 
-			std::shared_ptr<Value> body_value = res.register_res(Interpreter::visit(node->body_node(), context));
+			std::shared_ptr<Value> body_value = res.register_res(Interpreter::visit(node->body_node(), exec_ctx));
 
 			if (res.should_return())
 			{
@@ -690,6 +696,15 @@ namespace umber
 		ret_value->context() = context;
 
 		res.success(ret_value);
+		return res;
+	}
+
+	result::RuntimeResult Interpreter::visit_import_node(std::shared_ptr<nodes::ImportNode> node, std::shared_ptr<Context> context)
+	{
+		auto res = result::RuntimeResult();
+
+		// TOOD import 
+
 		return res;
 	}
 
