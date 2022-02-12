@@ -36,6 +36,11 @@ namespace umber
 		Gt,
 		Lte,
 		Gte,
+		And,
+		BitAnd,
+		Or,
+		BitOr,
+		Not,
 		Comma,
 		Arrow,
 		Accessor,
@@ -43,13 +48,10 @@ namespace umber
 		Eof,
 	};
 
-	static const std::string KEYWORDS[17] = 
+	static const std::string KEYWORDS[14] = 
 	{
 		"let",
 		"mut",
-		"and",
-		"or",
-		"not",
 		"if",
 		"elif",
 		"else",

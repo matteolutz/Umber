@@ -21,6 +21,7 @@
 #include "nodes/ListNode.h"
 #include "nodes/FunctionDefNode.h"
 #include "nodes/AccessorNode.h"
+#include "nodes/AccessorSetNode.h"
 #include "nodes/DictNode.h"
 
 #include "values/NumberValue.h"
@@ -73,6 +74,7 @@ namespace umber
 		static result::RuntimeResult visit_break_node(std::shared_ptr<nodes::BreakNode> node, std::shared_ptr<Context> context);
 
 		static result::RuntimeResult visit_accessor_node(std::shared_ptr<nodes::AccessorNode> node, std::shared_ptr<Context> context);
+		static result::RuntimeResult visit_accessor_set_node(std::shared_ptr<nodes::AccessorSetNode> node, std::shared_ptr<Context> context);
 
 	};
 

@@ -5,6 +5,10 @@ namespace umber
 
 	namespace result
 	{
+		ParseResult::ParseResult()
+			: m_error(nullptr), m_node(nullptr), m_last_registered_advance_count(0), m_advance_count(0), m_to_reverse_count(0)
+		{
+		}
 
 		void ParseResult::register_advancement()
 		{

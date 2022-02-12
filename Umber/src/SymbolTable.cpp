@@ -47,19 +47,6 @@ namespace umber
 
 	bool SymbolTable::assign(std::string& key, std::shared_ptr<Value> value)
 	{
-		/*std::pair<bool, std::shared_ptr<SymbolTable>> exists = this->exists_rec(key);
-		if (exists.first)
-		{
-			if (!exists.second->get(key).value().is_mutable)
-			{
-				return false;
-			}
-
-			exists.second->m_symbols[key] = { value, false };
-			return true;
-		}
-		
-		return false;*/
 
 		if (!this->exists(key))
 		{

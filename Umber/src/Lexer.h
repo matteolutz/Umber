@@ -33,10 +33,12 @@ namespace umber
 		Token make_minus_or_arrow();
 		Token make_colon_or_accessor();
 
-		std::pair<std::optional<Token>, std::unique_ptr<Error>> make_not_equals();
+		Token make_not_equals();
 		Token make_equals();
 		Token make_less_than();
 		Token make_greater_than();
+		Token make_and();
+		Token make_or();
 
 	public:
 		Lexer(std::string filename, std::shared_ptr<std::string> filetext);

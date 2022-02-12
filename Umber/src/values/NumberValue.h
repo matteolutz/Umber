@@ -34,6 +34,9 @@ namespace umber
 			std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> comparison_gte(std::shared_ptr<Value> other) override;
 			std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> comparison_lte(std::shared_ptr<Value> other) override;
 
+			inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> anded_by(std::shared_ptr<Value> other) override { return { std::make_unique<NumberValue>(this->is_true() && other->is_true() ? TRUE_VALUE : FALSE_VALUE), nullptr }; }
+			inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> ored_by(std::shared_ptr<Value> other) override { return { std::make_unique<NumberValue>(this->is_true() || other->is_true() ? TRUE_VALUE : FALSE_VALUE), nullptr }; }
+			inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> notted() override { return { std::make_unique<NumberValue>(!this->is_true() ? TRUE_VALUE : FALSE_VALUE), nullptr}; }
 
 			std::unique_ptr<Value> copy() const override;
 

@@ -35,13 +35,7 @@ print(gen_primes_to(100));
 
 const char* test = R""""(
 
-let test = {
-	a: 1,
-	b: 2,
-	list: [1, 2, 3, { greet: fun (name) -> ("Hello " + name) + ", how are you?" }]
-};
-
-print(test::list::3::greet("Matteo"));
+1+1+1;
 
 )"""";
 

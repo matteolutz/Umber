@@ -485,7 +485,7 @@ namespace umber
 			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected identifier!"));
 			return res;
 		}
-		
+
 		Token element_name_token = this->m_current_token.value();
 
 		res.register_advancement();
@@ -541,7 +541,7 @@ namespace umber
 
 			elements[element_name_token.value().value()] = element_value_node;
 		}
-		
+
 		if (this->m_current_token.value().type() != TokenType::Rcurly)
 		{
 			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '}'!"));
@@ -695,9 +695,11 @@ namespace umber
 			return this->factor();
 		case BinOpFunction::Call:
 			return this->call();
+		default:
+			throw std::invalid_argument("Unknown BinOpFunction!");
 		};
 	}
-	result::ParseResult Parser::bin_operation(BinOpFunction function_a, std::vector<std::pair<TokenType, std::optional<std::string>>> ops, std::optional<BinOpFunction> function_b)
+	result::ParseResult Parser::bin_operation(BinOpFunction function_a, std::vector<TokenType> ops, std::optional<BinOpFunction> function_b)
 	{
 		auto res = result::ParseResult();
 
@@ -713,7 +715,7 @@ namespace umber
 			bool break_while = true;
 			for (int i = 0; i < ops.size(); i++)
 			{
-				if (this->m_current_token.value().matches(ops[i].first, ops[i].second))
+				if (this->m_current_token.value().type() == ops[i])
 				{
 					break_while = false;
 					break;
@@ -734,13 +736,11 @@ namespace umber
 				return res;
 			}
 
-			res.success(std::make_shared<nodes::BinOpNode>(left, op_token, right));
-			return res;
+			left = std::make_shared<nodes::BinOpNode>(left, op_token, right);
 		}
 
 		res.success(left);
 		return res;
-
 	}
 
 	result::ParseResult Parser::statements()
@@ -897,8 +897,8 @@ namespace umber
 		}
 
 		std::shared_ptr<Node> node = res.register_res(this->bin_operation(BinOpFunction::Comp, {
-			{ TokenType::Keyword, "and"},
-			{ TokenType::Keyword, "or"},
+			TokenType::And,
+			TokenType::Or,
 			}));
 
 		if (res.has_error())
@@ -915,7 +915,7 @@ namespace umber
 	{
 		auto res = result::ParseResult();
 
-		if (this->m_current_token.value().matches(TokenType::Keyword, "not"))
+		if (this->m_current_token.value().type() == TokenType::Not)
 		{
 			Token op_token = this->m_current_token.value();
 
@@ -933,12 +933,12 @@ namespace umber
 		}
 
 		std::shared_ptr<Node> node = res.register_res(this->bin_operation(BinOpFunction::Arith, {
-			{ TokenType::Ee, std::nullopt },
-			{ TokenType::Ne, std::nullopt },
-			{ TokenType::Lt, std::nullopt },
-			{ TokenType::Gt, std::nullopt },
-			{ TokenType::Lte, std::nullopt },
-			{ TokenType::Gte, std::nullopt }
+			TokenType::Ee,
+			TokenType::Ne,
+			TokenType::Lt,
+			TokenType::Gt,
+			TokenType::Lte,
+			TokenType::Gte,
 			}));
 
 		if (res.has_error())
@@ -954,17 +954,17 @@ namespace umber
 	result::ParseResult Parser::arith_expression()
 	{
 		return this->bin_operation(BinOpFunction::Term, {
-			{ TokenType::Plus, std::nullopt },
-			{ TokenType::Minus, std::nullopt }
+			TokenType::Plus,
+			TokenType::Minus,
 			});
 	}
 
 	result::ParseResult Parser::term()
 	{
 		return this->bin_operation(BinOpFunction::Factor, {
-			{ TokenType::Mult, std::nullopt },
-			{ TokenType::Div, std::nullopt },
-			{ TokenType::Modulo, std::nullopt }
+			TokenType::Mult,
+			TokenType::Div,
+			TokenType::Modulo,
 			});
 	}
 
@@ -994,7 +994,7 @@ namespace umber
 	result::ParseResult Parser::power()
 	{
 		return this->bin_operation(BinOpFunction::Call, {
-			{ TokenType::Pow, std::nullopt }
+			TokenType::Pow
 			}, BinOpFunction::Factor);
 	}
 
@@ -1010,6 +1010,7 @@ namespace umber
 
 		while (this->m_current_token.value().type() == TokenType::Accessor)
 		{
+
 			res.register_advancement();
 			this->advance();
 
@@ -1023,6 +1024,21 @@ namespace umber
 
 			res.register_advancement();
 			this->advance();
+
+			if (this->m_current_token.value().type() == TokenType::Eq)
+			{
+				res.register_advancement();
+				this->advance();
+
+				std::shared_ptr<Node> set_node = res.register_res(this->expression());
+				if (res.has_error())
+				{
+					return res;
+				}
+
+				atom = std::make_shared<nodes::AccessorSetNode>(atom, accessor_token, set_node);
+				break;
+			}
 
 			atom = std::make_shared<nodes::AccessorNode>(atom, accessor_token);
 		}
@@ -1083,7 +1099,6 @@ namespace umber
 
 		res.success(atom);
 		return res;
-
 	}
 
 	result::ParseResult Parser::atom()

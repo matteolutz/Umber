@@ -116,14 +116,7 @@ namespace umber
 			}
 			else if (current == '!')
 			{
-				std::pair<std::optional<Token>, std::unique_ptr<Error>> result = this->make_not_equals();
-
-				if (result.second != nullptr)
-				{
-					return { std::nullopt, std::move(result.second) };
-				}
-
-				tokens.emplace_back(result.first.value());
+				tokens.emplace_back(this->make_not_equals());
 			}
 			else if (current == '=')
 			{
@@ -136,6 +129,14 @@ namespace umber
 			else if (current == '>')
 			{
 				tokens.emplace_back(this->make_greater_than());
+			}
+			else if (current == '&')
+			{
+				tokens.emplace_back(this->make_and());
+			}
+			else if (current == '|')
+			{
+				tokens.emplace_back(this->make_or());
 			}
 			else if (current == ',')
 			{
@@ -304,19 +305,20 @@ namespace umber
 		return { r_token_type, pos_start, this->m_pos };
 	}
 
-	std::pair<std::optional<Token>, std::unique_ptr<Error>> Lexer::make_not_equals()
+	Token Lexer::make_not_equals()
 	{
+		TokenType r_token_type = TokenType::Not;
 		Position pos_start = this->m_pos;
+
 		this->advance();
 
 		if (this->m_current_char.has_value() && this->m_current_char.value() == '=')
 		{
 			this->advance();
-			return { Token{ TokenType::Ne, pos_start, this->m_pos }, nullptr };
+			r_token_type = TokenType::Ne;
 		}
 
-		this->advance();
-		return { std::nullopt, std::make_unique<errors::ExpectedCharError>(pos_start, this->m_pos, "'=' (after '!')") };
+		return { r_token_type, pos_start, this->m_pos };
 
 	}
 
@@ -363,6 +365,38 @@ namespace umber
 		{
 			this->advance();
 			r_token_type = TokenType::Gte;
+		}
+
+		return { r_token_type, pos_start, this->m_pos };
+	}
+
+	Token Lexer::make_and()
+	{
+		TokenType r_token_type = TokenType::BitAnd;
+		Position pos_start = this->m_pos;
+
+		this->advance();
+
+		if (this->m_current_char.has_value() && this->m_current_char.value() == '&')
+		{
+			this->advance();
+			r_token_type = TokenType::And;
+		}
+
+		return { r_token_type, pos_start, this->m_pos };
+	}
+
+	Token Lexer::make_or()
+	{
+		TokenType r_token_type = TokenType::BitOr;
+		Position pos_start = this->m_pos;
+
+		this->advance();
+
+		if (this->m_current_char.has_value() && this->m_current_char.value() == '|')
+		{
+			this->advance();
+			r_token_type = TokenType::Or;
 		}
 
 		return { r_token_type, pos_start, this->m_pos };

@@ -156,6 +156,9 @@
     <ClInclude Include="src\values\DictValue.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="src\nodes\AccessorSetNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Umber.cpp">
@@ -285,6 +288,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="src\values\DictValue.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nodes\AccessorSetNode.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

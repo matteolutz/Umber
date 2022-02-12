@@ -6,6 +6,8 @@
 #include "errors/RuntimeError.h"
 #include "result/RuntimeResult.h"
 
+#include "Token.h"
+
 #include <optional>
 #include <vector>
 
@@ -26,7 +28,7 @@ namespace umber
 	public:
 		virtual ~Value() = 0;
 
-		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> added_to(std::shared_ptr<Value> other) { return {nullptr, this->illegal_operation(other)}; }
+		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> added_to(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation(other) }; }
 		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> subbed_by(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation(other) }; }
 		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> multed_by(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation(other) }; }
 		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> dived_by(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation(other) }; }
@@ -40,19 +42,21 @@ namespace umber
 		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> comparison_lte(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation(other) }; }
 		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> comparison_gte(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation(other) }; }
 
-		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> anded_by(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation(other) }; }
-		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> ored_by(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation(other) }; }
+		virtual inline bool is_true() { return false; }
+
+		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> anded_by(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation() }; }
+		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> ored_by(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation() }; }
 		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> notted() { return { nullptr, this->illegal_operation() }; }
 
-		virtual inline result::RuntimeResult execute(std::vector<std::shared_ptr<Value>> args) {
+		virtual inline result::RuntimeResult execute(std::vector<std::shared_ptr<Value>> args)
+		{
 			auto res = result::RuntimeResult();
 			res.failure(this->illegal_operation());
 			return res;
 		}
 
-		virtual inline bool is_true() { return false; }
-
-		virtual inline std::pair<std::shared_ptr<Value>, std::unique_ptr<errors::RuntimeError>> access(std::string accessor) { return { nullptr, this->illegal_operation() }; }
+		virtual inline std::pair<std::shared_ptr<Value>, std::unique_ptr<errors::RuntimeError>> access(Token accessor) { return { nullptr, this->illegal_operation() }; }
+		virtual inline std::pair<std::shared_ptr<Value>, std::unique_ptr<errors::RuntimeError>> set(Token accessor, std::shared_ptr<Value> value) { return { nullptr, this->illegal_operation() }; }
 
 		inline Position& pos_start() { return this->m_pos_start; }
 		inline Position& pos_end() { return this->m_pos_end; }
@@ -60,7 +64,7 @@ namespace umber
 		inline std::shared_ptr<Context>& context() { return this->m_context; }
 
 		virtual std::unique_ptr<Value> copy() const = 0;
-		
+
 		inline virtual std::string as_string() const { return "NotYetImplemented!"; }
 
 	};

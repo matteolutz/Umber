@@ -23,22 +23,38 @@ namespace umber
 			return { std::move(new_list), nullptr };
 		}
 
-		std::pair<std::shared_ptr<Value>, std::unique_ptr<errors::RuntimeError>> ListValue::access(std::string accessor)
+		std::pair<std::shared_ptr<Value>, std::unique_ptr<errors::RuntimeError>> ListValue::access(Token accessor)
 		{
-			/*if (std::find(accessor.begin(), accessor.end(), [](const char& c) { return std::isdigit(c); }) == accessor.end())
+			if (accessor.type() != TokenType::Int)
+			{
+				return { nullptr, std::make_unique<errors::RuntimeError>(this->m_pos_start, this->m_pos_end, "List accessor needs to be an int!", this->m_context) };
+			}
+
+			int index = std::stoi(accessor.value_or_zero());
+			if (index < 0 || index >= this->m_elements.size())
+			{
+				return { nullptr, std::make_unique<errors::RuntimeError>(this->m_pos_start, this->m_pos_end, utils::std_string_format("Index %d is out of range!", index).c_str(), this->m_context)};
+			}
+
+			return { this->m_elements[index], nullptr};
+		}
+
+		std::pair<std::shared_ptr<Value>, std::unique_ptr<errors::RuntimeError>> ListValue::set(Token accessor, std::shared_ptr<Value> value)
+		{
+			if (accessor.type() != TokenType::Int)
 			{
 				return { nullptr, Value::illegal_operation() };
-			}*/
-
-			if (accessor == "l") return { std::make_shared<values::NumberValue>(this->m_elements.size()), nullptr };
-
-			int index = std::stoi(accessor);
+			}
+			
+			int index = std::stoi(accessor.value_or_zero());
 			if (index < 0 || index >= this->m_elements.size())
 			{
 				return Value::access(accessor);
 			}
 
-			return { this->m_elements[index]->copy(), nullptr};
+			this->m_elements[index] = value;
+
+			return { this->m_elements[index], nullptr };
 		}
 
 		std::string ListValue::as_string() const

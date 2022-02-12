@@ -23,11 +23,13 @@
 #include "nodes/FunctionDefNode.h"
 #include "nodes/VarAssignNode.h"
 #include "nodes/AccessorNode.h"
+#include "nodes/AccessorSetNode.h"
 #include "nodes/DictNode.h"
 
 #include <vector>
 #include <map>
 #include <optional>
+#include <stdexcept>
 
 namespace umber
 {
@@ -70,7 +72,7 @@ namespace umber
 
 		result::ParseResult function_def();
 
-		result::ParseResult bin_operation(BinOpFunction function_a, std::vector<std::pair<TokenType, std::optional<std::string>>> ops, std::optional<BinOpFunction> function_b = std::nullopt);
+		result::ParseResult bin_operation(BinOpFunction function_a, std::vector<TokenType> ops, std::optional<BinOpFunction> function_b = std::nullopt);
 
 		result::ParseResult statement();
 		result::ParseResult statements();

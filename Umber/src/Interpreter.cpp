@@ -32,6 +32,7 @@ namespace umber
 		case NodeType::Break: return Interpreter::visit_break_node(std::static_pointer_cast<nodes::BreakNode>(node), context);
 
 		case NodeType::Accessor: return Interpreter::visit_accessor_node(std::static_pointer_cast<nodes::AccessorNode>(node), context);
+		case NodeType::AccessorSet: return Interpreter::visit_accessor_set_node(std::static_pointer_cast<nodes::AccessorSetNode>(node), context);
 
 		default:
 			throw std::invalid_argument(utils::std_string_format("Not visit method defined for: %d!", node->node_type()).c_str());
@@ -241,11 +242,11 @@ namespace umber
 			{
 				return left->comparison_lte(right);
 			}
-			if (node->op_token().matches(TokenType::Keyword, "and"))
+			if (node->op_token().type() == TokenType::And)
 			{
 				return left->anded_by(right);
 			}
-			if (node->op_token().matches(TokenType::Keyword, "or"))
+			if (node->op_token().type() == TokenType::Or)
 			{
 				return left->ored_by(right);
 			}
@@ -282,7 +283,7 @@ namespace umber
 			{
 				return number->multed_by(std::make_shared<values::NumberValue>(-1.0f));
 			}
-			if (node->op_token().matches(TokenType::Keyword, "not"))
+			if (node->op_token().type() == TokenType::Not)
 			{
 				return number->notted();
 			}
@@ -610,8 +611,7 @@ namespace umber
 	{
 		auto res = result::RuntimeResult();
 
-		std::string accessor_name = node->accessor_token().value().value_or("");
-		if (accessor_name == "")
+		if (node->accessor_token().value().value_or("") == "")
 		{
 			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), "Accessor name expected!", context));
 			return res;
@@ -623,18 +623,59 @@ namespace umber
 			return res;
 		}
 
-		std::pair<std::shared_ptr<Value>, std::shared_ptr<errors::RuntimeError>> accessor_result = value_to_be_accessed->access(accessor_name);
+		std::pair<std::shared_ptr<Value>, std::shared_ptr<errors::RuntimeError>> accessor_result = value_to_be_accessed->access(node->accessor_token());
 		if (accessor_result.second != nullptr)
 		{
 			res.failure(accessor_result.second);
 			return res;
 		}
 
-		accessor_result.first->pos_start() = node->pos_start();
-		accessor_result.first->pos_end() = node->pos_end();
-		accessor_result.first->context() = context;
+		std::shared_ptr<Value> ret_value = accessor_result.first;
 
-		res.success(accessor_result.first->copy());
+		ret_value->pos_start() = node->pos_start();
+		ret_value->pos_end() = node->pos_end();
+		ret_value->context() = context;
+
+		res.success(ret_value);
+		return res;
+	}
+
+	result::RuntimeResult Interpreter::visit_accessor_set_node(std::shared_ptr<nodes::AccessorSetNode> node, std::shared_ptr<Context> context)
+	{
+		auto res = result::RuntimeResult();
+
+		if (node->accessor_token().value().value_or("") == "")
+		{
+			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), "Accessor name expected!", context));
+			return res;
+		}
+
+		std::shared_ptr<Value> value_to_be_accessed = res.register_res(Interpreter::visit(node->accessed_node(), context));
+		if (res.should_return())
+		{
+			return res;
+		}
+
+		std::shared_ptr<Value> value_to_be_set = res.register_res(Interpreter::visit(node->set_node(), context));
+		if (res.should_return())
+		{
+			return res;
+		}
+
+		std::pair<std::shared_ptr<Value>, std::shared_ptr<errors::RuntimeError>> accessor_set_result = value_to_be_accessed->set(node->accessor_token(), value_to_be_set);
+		if (accessor_set_result.second != nullptr)
+		{
+			res.failure(accessor_set_result.second);
+			return res;
+		}
+
+		std::shared_ptr<Value> ret_value = accessor_set_result.first;
+
+		ret_value->pos_start() = node->pos_start();
+		ret_value->pos_end() = node->pos_end();
+		ret_value->context() = context;
+
+		res.success(ret_value);
 		return res;
 	}
 
