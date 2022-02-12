@@ -44,9 +44,12 @@ namespace umber
 
 		virtual inline bool is_true() { return false; }
 
-		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> anded_by(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation() }; }
-		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> ored_by(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation() }; }
+		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> anded_by(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation(other) }; }
+		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> ored_by(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation(other) }; }
 		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> notted() { return { nullptr, this->illegal_operation() }; }
+
+		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> bit_anded_by(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation(other) }; }
+		virtual inline std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> bit_ored_by(std::shared_ptr<Value> other) { return { nullptr, this->illegal_operation(other) }; }
 
 		virtual inline result::RuntimeResult execute(std::vector<std::shared_ptr<Value>> args)
 		{

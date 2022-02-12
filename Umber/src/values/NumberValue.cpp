@@ -129,9 +129,24 @@ namespace umber
 			return Value::comparison_lte(other);
 		}
 
-		std::unique_ptr<Value> NumberValue::copy() const
+		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> NumberValue::bit_anded_by(std::shared_ptr<Value> other)
 		{
-			return std::make_unique<NumberValue>(*this);
+			std::shared_ptr<NumberValue> other_number = std::dynamic_pointer_cast<NumberValue>(other);
+			if (other_number == nullptr || std::fmod(this->m_value, 1) != 0 || std::fmod(other_number->m_value, 1) != 0)
+			{
+				return Value::bit_anded_by(other);
+			}
+			return { std::make_unique<NumberValue>((float)((int)this->m_value & (int)other_number->m_value)), nullptr };
+		}
+
+		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> NumberValue::bit_ored_by(std::shared_ptr<Value> other)
+		{
+			std::shared_ptr<NumberValue> other_number = std::dynamic_pointer_cast<NumberValue>(other);
+			if (other_number == nullptr || std::fmod(this->m_value, 1) != 0 || std::fmod(other_number->m_value, 1) != 0)
+			{
+				return Value::bit_anded_by(other);
+			}
+			return { std::make_unique<NumberValue>((float)((int)this->m_value | (int)other_number->m_value)), nullptr };
 		}
 
 	}

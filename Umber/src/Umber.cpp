@@ -35,7 +35,6 @@ print(gen_primes_to(100));
 
 const char* test = R""""(
 
-1+1+1;
 
 )"""";
 

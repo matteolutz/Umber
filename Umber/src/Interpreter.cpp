@@ -250,6 +250,14 @@ namespace umber
 			{
 				return left->ored_by(right);
 			}
+			if (node->op_token().type() == TokenType::BitAnd)
+			{
+				return left->bit_anded_by(right);
+			}
+			if (node->op_token().type() == TokenType::BitOr)
+			{
+				return left->bit_ored_by(right);
+			}
 			return { nullptr, std::make_unique<errors::RuntimeError>(node->pos_start(), node->pos_end(), "Unknown operation!", context) };
 		}();
 
@@ -283,6 +291,10 @@ namespace umber
 			{
 				return number->multed_by(std::make_shared<values::NumberValue>(-1.0f));
 			}
+			if (node->op_token().type() == TokenType::Plus)
+			{
+				return { number->copy(), nullptr };
+			}
 			if (node->op_token().type() == TokenType::Not)
 			{
 				return number->notted();
@@ -296,11 +308,13 @@ namespace umber
 			res.failure(result.second);
 			return res;
 		}
+		
+		std::shared_ptr<Value> ret_value = result.first->copy();
 
-		result.first->pos_start() = node->pos_start();
-		result.first->pos_end() = node->pos_end();
+		ret_value->pos_start() = node->pos_start();
+		ret_value->pos_end() = node->pos_end();
 
-		res.success(result.first->copy());
+		res.success(ret_value);
 		return res;
 	}
 

@@ -956,6 +956,8 @@ namespace umber
 		return this->bin_operation(BinOpFunction::Term, {
 			TokenType::Plus,
 			TokenType::Minus,
+			TokenType::BitAnd,
+			TokenType::BitOr
 			});
 	}
 
