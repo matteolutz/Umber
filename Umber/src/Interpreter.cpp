@@ -65,7 +65,7 @@ namespace umber
 
 		for (const std::shared_ptr<Node>& n : node->elements())
 		{
-			elements.emplace_back(res.register_res(Interpreter::visit(n, context)));
+			elements.push_back(res.register_res(Interpreter::visit(n, context)));
 			if (res.should_return())
 			{
 				return res;
@@ -410,7 +410,7 @@ namespace umber
 				return res;
 			}
 
-			elements.emplace_back(body_value);
+			elements.push_back(body_value);
 		}
 
 		if (node->should_return_null())
@@ -486,6 +486,8 @@ namespace umber
 			: enumerator > end_value->value()
 			)
 		{
+
+			exec_ctx->symbol_table()->clear();
 			exec_ctx->symbol_table()->set(var_name, { std::make_shared<values::NumberValue>(enumerator), false });
 
 			std::shared_ptr<Value> body_value = res.register_res(Interpreter::visit(node->body_node(), exec_ctx));
@@ -498,7 +500,7 @@ namespace umber
 				return res;
 			}
 
-			elements.emplace_back(body_value);
+			elements.push_back(body_value);
 
 			enumerator += f_step_value;
 		}
@@ -528,7 +530,7 @@ namespace umber
 				return res;
 			}
 
-			arg_names.emplace_back(an.value().value());
+			arg_names.push_back(an.value().value());
 		}
 
 		std::shared_ptr<values::FunctionValue> value = std::make_shared<values::FunctionValue>(func_name.value_or("<anonymous>"), node->body_node(), arg_names, node->should_auto_return(), node->pos_start(), node->pos_end(), context);
@@ -570,7 +572,7 @@ namespace umber
 
 		for (const std::shared_ptr<Node>& arg_node : node->arg_nodes())
 		{
-			args.emplace_back(res.register_res(Interpreter::visit(arg_node, context)));
+			args.push_back(res.register_res(Interpreter::visit(arg_node, context)));
 			if (res.should_return())
 			{
 				return res;
@@ -631,9 +633,9 @@ namespace umber
 	{
 		auto res = result::RuntimeResult();
 
-		if (node->accessor_token().value().value_or("") == "")
+		std::shared_ptr<Value> accessor_value = res.register_res(Interpreter::visit(node->accessor_node(), context));
+		if (res.should_return())
 		{
-			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), "Accessor name expected!", context));
 			return res;
 		}
 
@@ -643,7 +645,7 @@ namespace umber
 			return res;
 		}
 
-		std::pair<std::shared_ptr<Value>, std::shared_ptr<errors::RuntimeError>> accessor_result = value_to_be_accessed->access(node->accessor_token());
+		std::pair<std::shared_ptr<Value>, std::shared_ptr<errors::RuntimeError>> accessor_result = value_to_be_accessed->access(accessor_value);
 		if (accessor_result.second != nullptr)
 		{
 			res.failure(accessor_result.second);
@@ -664,9 +666,9 @@ namespace umber
 	{
 		auto res = result::RuntimeResult();
 
-		if (node->accessor_token().value().value_or("") == "")
+		std::shared_ptr<Value> accessor_value = res.register_res(Interpreter::visit(node->accessor_node(), context));
+		if (res.should_return())
 		{
-			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), "Accessor name expected!", context));
 			return res;
 		}
 
@@ -682,7 +684,7 @@ namespace umber
 			return res;
 		}
 
-		std::pair<std::shared_ptr<Value>, std::shared_ptr<errors::RuntimeError>> accessor_set_result = value_to_be_accessed->set(node->accessor_token(), value_to_be_set);
+		std::pair<std::shared_ptr<Value>, std::shared_ptr<errors::RuntimeError>> accessor_set_result = value_to_be_accessed->set(accessor_value, value_to_be_set);
 		if (accessor_set_result.second != nullptr)
 		{
 			res.failure(accessor_set_result.second);

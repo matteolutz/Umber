@@ -6,12 +6,12 @@ namespace umber
 	namespace values
 	{
 		NumberValue::NumberValue(float value, Position pos_start, Position pos_end, std::shared_ptr<Context> context)
-			: Value(pos_start, pos_end, context), m_value(value)
+			: Value(ValueType::Number, pos_start, pos_end, context), m_value(value)
 		{
 		}
 
 		NumberValue::NumberValue(float value)
-			: Value(), m_value(value)
+			: Value(ValueType::Number), m_value(value)
 		{ }
 
 		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> NumberValue::added_to(std::shared_ptr<Value> other)

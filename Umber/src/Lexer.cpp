@@ -36,111 +36,118 @@ namespace umber
 			}
 			else if (current == ';')
 			{
-				tokens.emplace_back(Token{ TokenType::Newline, this->m_pos });
+				tokens.emplace_back(TokenType::Newline, this->m_pos);
 				this->advance();
 			}
 			else if (isdigit(current))
 			{
-				tokens.emplace_back(this->make_number());
+				tokens.push_back(this->make_number());
 			}
 			else if (isalpha(current))
 			{
-				tokens.emplace_back(this->make_identifier());
+				tokens.push_back(this->make_identifier());
 			}
-			else if (current == '\"')
+			else if (current == '"')
 			{
-				tokens.emplace_back(this->make_string());
+				tokens.push_back(this->make_string());
 			}
 			else if (current == '+')
 			{
-				tokens.emplace_back(Token{ TokenType::Plus, this->m_pos });
+				tokens.emplace_back(TokenType::Plus, this->m_pos);
 				this->advance();
 			}
 			else if (current == '-')
 			{
-				tokens.emplace_back(this->make_minus_or_arrow());
+				tokens.push_back(this->make_minus_or_arrow());
 			}
 			else if (current == '*')
 			{
-				tokens.emplace_back(Token{ TokenType::Mult, this->m_pos });
+				tokens.emplace_back(TokenType::Mult, this->m_pos);
 				this->advance();
 			}
 			else if (current == '/')
 			{
-				tokens.emplace_back(Token{ TokenType::Div, this->m_pos });
+				tokens.emplace_back(TokenType::Div, this->m_pos);
 				this->advance();
 			}
 			else if (current == '^')
 			{
-				tokens.emplace_back(Token{ TokenType::Pow, this->m_pos });
+				tokens.emplace_back(TokenType::Pow, this->m_pos);
 				this->advance();
 			}
 			else if (current == '%')
 			{
-				tokens.emplace_back(Token{ TokenType::Modulo, this->m_pos });
+				tokens.emplace_back(TokenType::Modulo, this->m_pos);
 				this->advance();
 			}
 			else if (current == ':')
 			{
-				tokens.emplace_back(this->make_colon_or_accessor());
+				// tokens.push_back(this->make_colon_or_accessor());
+				tokens.emplace_back(TokenType::Colon, this->m_pos);
+				this->advance();
 			}
 			else if (current == '(')
 			{
-				tokens.emplace_back(Token{ TokenType::Lparen, this->m_pos });
+				tokens.emplace_back(TokenType::Lparen, this->m_pos);
 				this->advance();
 			}
 			else if (current == ')')
 			{
-				tokens.emplace_back(Token{ TokenType::Rparen, this->m_pos });
+				tokens.emplace_back(TokenType::Rparen, this->m_pos);
 				this->advance();
 			}
 			else if (current == '[')
 			{
-				tokens.emplace_back(Token{ TokenType::Lsquare, this->m_pos });
+				tokens.emplace_back(TokenType::Lsquare, this->m_pos);
 				this->advance();
 			}
 			else if (current == ']')
 			{
-				tokens.emplace_back(Token{ TokenType::Rsquare, this->m_pos });
+				tokens.emplace_back(TokenType::Rsquare, this->m_pos);
 				this->advance();
 			}
 			else if (current == '{')
 			{
-				tokens.emplace_back(Token{ TokenType::Lcurly, this->m_pos });
+				tokens.emplace_back(TokenType::Lcurly, this->m_pos);
 				this->advance();
 			}
 			else if (current == '}')
 			{
-				tokens.emplace_back(Token{ TokenType::Rcurly, this->m_pos });
+				tokens.emplace_back(TokenType::Rcurly, this->m_pos);
 				this->advance();
 			}
 			else if (current == '!')
 			{
-				tokens.emplace_back(this->make_not_equals());
+				tokens.push_back(this->make_not_equals());
 			}
 			else if (current == '=')
 			{
-				tokens.emplace_back(this->make_equals());
+				tokens.push_back(this->make_equals());
 			}
 			else if (current == '<')
 			{
-				tokens.emplace_back(this->make_less_than());
+				tokens.push_back(this->make_less_than());
 			}
 			else if (current == '>')
 			{
-				tokens.emplace_back(this->make_greater_than());
+				tokens.push_back(this->make_greater_than());
 			}
 			else if (current == '&')
 			{
-				tokens.emplace_back(this->make_and());
+				tokens.push_back(this->make_and());
 			}
 			else if (current == '|')
 			{
-				tokens.emplace_back(this->make_or());
+				tokens.push_back(this->make_or());
 			}
 			else if (current == ',')
 			{
-				tokens.emplace_back(Token{ TokenType::Comma, this->m_pos });
+				tokens.emplace_back(TokenType::Comma, this->m_pos);
+				this->advance();
+			}
+			else if (current == '.')
+			{
+				tokens.emplace_back(TokenType::Accessor, this->m_pos);
 				this->advance();
 			}
 			else
@@ -149,11 +156,11 @@ namespace umber
 				char err_char = current;
 				this->advance();
 
-				return { std::nullopt, std::make_unique<errors::IllegalCharacterError>(pos_start, this->m_pos, utils::std_string_format("'%c'", err_char).c_str())};
+				return { std::nullopt, std::make_unique<errors::IllegalCharacterError>(pos_start, this->m_pos, utils::std_string_format("'%c'", err_char).c_str()) };
 			}
 		}
 
-		tokens.emplace_back(Token{ TokenType::Eof, this->m_pos });
+		tokens.emplace_back(TokenType::Eof, this->m_pos);
 		return { tokens, nullptr };
 	}
 

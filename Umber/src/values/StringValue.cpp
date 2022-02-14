@@ -6,12 +6,12 @@ namespace umber
 	namespace values
 	{
 		StringValue::StringValue(std::string value, Position pos_start, Position pos_end, std::shared_ptr<Context> context)
-			: Value(pos_start, pos_end, context), m_value(value)
+			: Value(ValueType::Dict, pos_start, pos_end, context), m_value(value)
 		{
 		}
 
 		StringValue::StringValue(std::string value)
-			: Value(), m_value(value)
+			: Value(ValueType::Dict), m_value(value)
 		{
 		}
 

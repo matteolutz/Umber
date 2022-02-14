@@ -6,17 +6,17 @@ namespace umber
 	namespace values
 	{
 		BaseFunctionValue::BaseFunctionValue(Position pos_start, Position pos_end, std::shared_ptr<Context> context)
-			: Value(pos_start, pos_end, context), m_name("<anonymous>")
+			: Value(ValueType::Function, pos_start, pos_end, context), m_name("<anonymous>")
 		{
 		}
 
 		BaseFunctionValue::BaseFunctionValue(std::string name, Position pos_start, Position pos_end, std::shared_ptr<Context> context)
-			: Value(pos_start, pos_end, context), m_name(name)
+			: Value(ValueType::Function, pos_start, pos_end, context), m_name(name)
 		{
 		}
 
 		BaseFunctionValue::BaseFunctionValue(std::string name)
-			: m_name(name)
+			: Value(ValueType::Function), m_name(name)
 		{
 		}
 

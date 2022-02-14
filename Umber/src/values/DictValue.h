@@ -2,6 +2,7 @@
 
 #include "../Value.h"
 #include "NumberValue.h"
+#include "StringValue.h"
 #include "../Position.h"
 #include "../Token.h"
 
@@ -26,8 +27,8 @@ namespace umber
 
 			inline std::unique_ptr<Value> copy() const override { return std::make_unique<DictValue>(*this); }
 
-			std::pair<std::shared_ptr<Value>, std::unique_ptr<errors::RuntimeError>> access(Token accessor) override;
-			std::pair<std::shared_ptr<Value>, std::unique_ptr<errors::RuntimeError>> set(Token accessor, std::shared_ptr<Value> value) override;
+			std::pair<std::shared_ptr<Value>, std::unique_ptr<errors::RuntimeError>> access(std::shared_ptr<Value> accessor) override;
+			std::pair<std::shared_ptr<Value>, std::unique_ptr<errors::RuntimeError>> set(std::shared_ptr<Value> accessor, std::shared_ptr<Value> value) override;
 
 			std::string as_string() const override;
 

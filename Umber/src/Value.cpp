@@ -4,12 +4,13 @@ namespace umber
 {
 
 
-	Value::Value(Position pos_start, Position pos_end, std::shared_ptr<Context> context)
-		: m_pos_start(pos_start), m_pos_end(pos_end), m_context(context)
+	Value::Value(ValueType type, Position pos_start, Position pos_end, std::shared_ptr<Context> context)
+		: m_type(type), m_pos_start(pos_start), m_pos_end(pos_end), m_context(context)
 	{
 	}
 
-	Value::Value()
+	Value::Value(ValueType type)
+		: m_type(type)
 	{
 	}
 

@@ -90,7 +90,7 @@ namespace umber
 				return res;
 			}
 
-			cases.emplace_back(nodes::IfNode::if_case{ condition, statements, true });
+			cases.emplace_back(condition, statements, true);
 
 			res.register_advancement();
 			this->advance();
@@ -113,7 +113,7 @@ namespace umber
 				return res;
 			}
 
-			cases.emplace_back(nodes::IfNode::if_case{ condition, expr, false });
+			cases.emplace_back(condition, expr, false);
 
 		}
 #pragma endregion
@@ -148,7 +148,7 @@ namespace umber
 					return res;
 				}
 
-				cases.emplace_back(nodes::IfNode::if_case{ condition, statements, true });
+				cases.emplace_back(condition, statements, true);
 
 				res.register_advancement();
 				this->advance();
@@ -171,7 +171,7 @@ namespace umber
 					return res;
 				}
 
-				cases.emplace_back(nodes::IfNode::if_case{ condition, expr, false });
+				cases.emplace_back(condition, expr, false);
 			}
 
 		}
@@ -431,7 +431,7 @@ namespace umber
 				return res;
 			}
 
-			element_nodes.emplace_back(new_element_node);
+			element_nodes.push_back(new_element_node);
 
 			while (this->m_current_token.value().type() == TokenType::Comma)
 			{
@@ -445,7 +445,7 @@ namespace umber
 					return res;
 				}
 
-				element_nodes.emplace_back(new_element_node);
+				element_nodes.push_back(new_element_node);
 
 			}
 
@@ -599,7 +599,8 @@ namespace umber
 		std::vector<Token> arg_name_tokens;
 		if (this->m_current_token.value().type() == TokenType::Identifier)
 		{
-			arg_name_tokens.emplace_back(this->m_current_token.value());
+			arg_name_tokens.push_back(this->m_current_token.value());
+
 			res.register_advancement();
 			this->advance();
 
@@ -614,7 +615,8 @@ namespace umber
 					return res;
 				}
 
-				arg_name_tokens.emplace_back(this->m_current_token.value());
+				arg_name_tokens.push_back(this->m_current_token.value());
+
 				res.register_advancement();
 				this->advance();
 			}
@@ -761,7 +763,7 @@ namespace umber
 		{
 			return res;
 		}
-		statements.emplace_back(statement);
+		statements.push_back(statement);
 
 		bool more_statements = true;
 
@@ -792,7 +794,7 @@ namespace umber
 				continue;
 			}
 
-			statements.emplace_back(statement);
+			statements.push_back(statement);
 		}
 
 		res.success(std::make_shared<nodes::ListNode>(statements, pos_start, this->m_current_token.value().pos_start()));
@@ -1029,39 +1031,93 @@ namespace umber
 			return res;
 		}
 
-		while (this->m_current_token.value().type() == TokenType::Accessor)
+		while (this->m_current_token.value().type() == TokenType::Accessor || this->m_current_token.value().type() == TokenType::Lsquare)
 		{
 
-			res.register_advancement();
-			this->advance();
-
-			if (this->m_current_token.value().type() != TokenType::Identifier && this->m_current_token.value().type() != TokenType::Int)
-			{
-				res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected identifier or int after '.'!"));
-				return res;
-			}
-
-			Token accessor_token = this->m_current_token.value();
-
-			res.register_advancement();
-			this->advance();
-
-			if (this->m_current_token.value().type() == TokenType::Eq)
+			// TODO: reimplement
+			/*if (this->m_current_token.value().type() == TokenType::Accessor)
 			{
 				res.register_advancement();
 				this->advance();
 
-				std::shared_ptr<Node> set_node = res.register_res(this->expression());
+				if (this->m_current_token.value().type() != TokenType::Identifier)
+				{
+					res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected identifier after '.'!"));
+					return res;
+				}
+
+				std::shared_ptr<Node> accessor_node = res.register_res(this->expression());
 				if (res.has_error())
 				{
 					return res;
 				}
 
-				atom = std::make_shared<nodes::AccessorSetNode>(atom, accessor_token, set_node);
-				break;
+				if (this->m_current_token.value().type() == TokenType::Eq)
+				{
+					res.register_advancement();
+					this->advance();
+
+					std::shared_ptr<Node> set_node = res.register_res(this->expression());
+					if (res.has_error())
+					{
+						return res;
+					}
+
+					atom = std::make_shared<nodes::AccessorSetNode>(atom, accessor_node, set_node);
+					break;
+				}
+
+				atom = std::make_shared<nodes::AccessorNode>(atom, accessor_node);
+				continue;
+			}*/
+
+			if(this->m_current_token.value().type() == TokenType::Lsquare)
+			{
+				res.register_advancement();
+				this->advance();
+
+				if (this->m_current_token.value().type() != TokenType::String && this->m_current_token.value().type() != TokenType::Int && this->m_current_token.value().type() != TokenType::Identifier)
+				{
+					res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected string, int or identifier after '['!"));
+					return res;
+				}
+
+				std::shared_ptr<Node> accessor_node = res.register_res(this->expression());
+				if (res.has_error())
+				{
+					return res;
+				}
+
+				if (this->m_current_token.value().type() != TokenType::Rsquare)
+				{
+					res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '}'!"));
+					return res;
+				}
+
+				res.register_advancement();
+				this->advance();
+
+				if (this->m_current_token.value().type() == TokenType::Eq)
+				{
+					res.register_advancement();
+					this->advance();
+
+					std::shared_ptr<Node> set_node = res.register_res(this->expression());
+					if (res.has_error())
+					{
+						return res;
+					}
+
+					atom = std::make_shared<nodes::AccessorSetNode>(atom, accessor_node, set_node);
+					break;
+				}
+
+				atom = std::make_shared<nodes::AccessorNode>(atom, accessor_node);
+				continue;
 			}
 
-			atom = std::make_shared<nodes::AccessorNode>(atom, accessor_token);
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected '.' or '['!"));
+			return res;
 		}
 
 		if (this->m_current_token.value().type() == TokenType::Lparen)
@@ -1086,7 +1142,7 @@ namespace umber
 					return res;
 				}
 
-				arg_nodes.emplace_back(new_arg);
+				arg_nodes.push_back(new_arg);
 
 				while (this->m_current_token.value().type() == TokenType::Comma)
 				{
@@ -1099,7 +1155,7 @@ namespace umber
 						res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected expression!"));
 						return res;
 					}
-					arg_nodes.emplace_back(new_arg);
+					arg_nodes.push_back(new_arg);
 				}
 
 				if (this->m_current_token.value().type() != TokenType::Rparen)

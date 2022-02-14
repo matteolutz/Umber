@@ -4,6 +4,71 @@
 
 const char* test = R""""(
 
+fun bubble_sort_arr (arr, len) {
+	let mut new_arr = arr;
+	let mut swapped = 1;
+
+	while swapped {
+
+		swapped = 0;
+
+		for i = 0 to len - 1 {
+			if new_arr[i] > new_arr[i + 1] {
+
+				let cache = new_arr[i];
+				new_arr[i] = new_arr[i + 1];
+				new_arr[i + 1] = cache;
+
+				swapped  = 1;
+			};
+		};
+	};
+
+	return new_arr;
+};
+
+fun selection_sort_arr (arr, len) {
+
+	let mut new_arr = arr;
+
+	for i = 0 to len {
+		let mut lowest_value_index = i;
+
+		for j = i + 1 to len {
+			if new_arr[j] < new_arr[lowest_value_index] {
+				lowest_value_index = j;
+			};
+		};
+
+		let cache = new_arr[i];
+		new_arr[i] = new_arr[lowest_value_index];
+		new_arr[lowest_value_index] = cache;
+	};
+
+	return new_arr;
+};
+
+print(bubble_sort_arr([43895, 3, 5, 2], 4));
+print(selection_sort_arr([43895, 3, 5, 2], 4));
+
+)"""";
+
+const char* testx = R""""(
+
+fun test() {
+
+	let mut some_value = 1;
+	let another_value = 10;
+
+	while some_value {
+		some_value = 0;
+
+		print("hi");
+	};
+
+};
+
+test();
 
 )"""";
 
