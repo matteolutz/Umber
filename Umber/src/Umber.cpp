@@ -4,6 +4,7 @@
 
 const char* test = R""""(
 
+# O(n^2)
 fun bubble_sort_arr (arr, len) {
 	let mut new_arr = arr;
 	let mut swapped = 1;
@@ -27,6 +28,7 @@ fun bubble_sort_arr (arr, len) {
 	return new_arr;
 };
 
+# O(n^2)
 fun selection_sort_arr (arr, len) {
 
 	let mut new_arr = arr;
@@ -48,27 +50,47 @@ fun selection_sort_arr (arr, len) {
 	return new_arr;
 };
 
-print(bubble_sort_arr([43895, 3, 5, 2], 4));
-print(selection_sort_arr([43895, 3, 5, 2], 4));
+# O(n log2n)
+fun quick_sort_arr (arr, len) {
+
+	if len < 2 {
+		return arr;
+	};
+
+	let mut low = let mut same = let mut high = [];
+	let mut low_count = let mut high_count = 0;
+
+	let mut pivot = arr[randint(0, len - 1)];
+
+	for i = 0 to len {
+	
+		if arr[i] < pivot {
+			low = low + arr[i];
+			low_count = low_count + 1;
+		} elif arr[i] == pivot {
+			same = same + arr[i];
+		} elif arr[i] > pivot {
+			high = high + arr[i];
+			high_count = high_count + 1;
+		};
+	};
+
+	return quick_sort_arr(low, low_count) + same + quick_sort_arr(high, high_count);
+
+};
+
+let test_arr = [43895, 3, 5, 38902456, 324783, 27819047921241, 124, 1, 34264324, 23452343456464, 21312, 123124544666364, 312312, 4334657, 12];
+let test_arr_len = 15;
+
+print(bubble_sort_arr(test_arr, test_arr_len));
+print(selection_sort_arr(test_arr, test_arr_len));
+print(quick_sort_arr(test_arr, test_arr_len));
 
 )"""";
 
 const char* testx = R""""(
 
-fun test() {
 
-	let mut some_value = 1;
-	let another_value = 10;
-
-	while some_value {
-		some_value = 0;
-
-		print("hi");
-	};
-
-};
-
-test();
 
 )"""";
 
@@ -131,10 +153,9 @@ namespace umber
 		std::shared_ptr<SymbolTable> global_symbol_table = std::make_shared<SymbolTable>();
 
 		std::string print_arg_names[] = {"value"};
-		std::string print_name = "print";
 		std::shared_ptr<values::BuiltInFunction> print_test_function =
 			std::make_shared<values::BuiltInFunction>(
-				print_name,
+				"print",
 				std::vector<std::string>(std::begin(print_arg_names), std::end(print_arg_names)),
 				[](std::vector<std::shared_ptr<Value>> args, std::shared_ptr<Context> exec_ctx, values::BuiltInFunction* self) -> result::RuntimeResult {
 					auto res = result::RuntimeResult();
@@ -154,43 +175,40 @@ namespace umber
 					return res;
 				});
 
-		std::string math_mod_arg_names[] = { "value", "mod" };
-		std::string math_mod_name = "math_mod";
-		std::shared_ptr<values::BuiltInFunction> math_mod_test_function =
+		std::string rand_int_arg_names[] = { "from", "to" };
+		std::shared_ptr<values::BuiltInFunction> rand_int_test_function =
 			std::make_shared<values::BuiltInFunction>(
-				math_mod_name,
-				std::vector<std::string>(std::begin(math_mod_arg_names), std::end(math_mod_arg_names)),
+				"randint",
+				std::vector<std::string>(std::begin(rand_int_arg_names), std::end(rand_int_arg_names)),
 				[](std::vector<std::shared_ptr<Value>> args, std::shared_ptr<Context> exec_ctx, values::BuiltInFunction* self) -> result::RuntimeResult
 				{
 					auto res = result::RuntimeResult();
 
-					std::string value_name = "value";
-					std::string mod_name = "mod";
+					std::optional<SymbolTable::symbol> from = exec_ctx->symbol_table()->get("from");
+					std::optional<SymbolTable::symbol> to = exec_ctx->symbol_table()->get("to");
 
-					std::optional<SymbolTable::symbol> value = exec_ctx->symbol_table()->get(value_name);
-					std::optional<SymbolTable::symbol> mod = exec_ctx->symbol_table()->get(mod_name);
-
-					if (!value.has_value() || !mod.has_value())
+					if (!from.has_value() || !to.has_value())
 					{
 						res.failure(std::make_shared<errors::RuntimeError>(self->pos_start(), self->pos_end(), "error", exec_ctx));
 						return res;
 					}
 
-					std::shared_ptr<values::NumberValue> number = std::dynamic_pointer_cast<values::NumberValue>(value.value().m_value);
-					std::shared_ptr<values::NumberValue> mod_number = std::dynamic_pointer_cast<values::NumberValue>(mod.value().m_value);
+					std::shared_ptr<values::NumberValue> from_number = std::dynamic_pointer_cast<values::NumberValue>(from.value().m_value);
+					std::shared_ptr<values::NumberValue> to_number = std::dynamic_pointer_cast<values::NumberValue>(to.value().m_value);
 
-					if (number == nullptr || mod_number == nullptr)
+					if (from_number == nullptr || to_number == nullptr)
 					{
-						res.failure(std::make_shared<errors::RuntimeError>(self->pos_start(), self->pos_end(), "'value' must be a number!", exec_ctx));
+						res.failure(std::make_shared<errors::RuntimeError>(self->pos_start(), self->pos_end(), "'from' and 'to' must be a number!", exec_ctx));
 						return res;
 					}
 
-					res.success(std::make_shared<values::NumberValue>(std::fmod(number->value(), mod_number->value())));
+					int rand_int = from_number->value() + (std::rand() % static_cast<int>(to_number->value() - from_number->value() + 1));
+					res.success(std::make_shared<values::NumberValue>((float)rand_int));
 					return res;
 				});
 
-		global_symbol_table->declare(print_name, { print_test_function, false });
-		global_symbol_table->declare(math_mod_name, { math_mod_test_function, false });
+		global_symbol_table->declare("print", { print_test_function, false });
+		global_symbol_table->declare("randint", { rand_int_test_function, false });
 
 		global_symbol_table->declare("true", {std::make_shared<values::NumberValue>(values::NumberValue::TRUE_VALUE), false});
 		global_symbol_table->declare("false", { std::make_shared<values::NumberValue>(values::NumberValue::FALSE_VALUE), false });

@@ -86,7 +86,7 @@ namespace umber
 		inline const Position& pos_start() const { return this->m_pos_start; }
 		inline const Position& pos_end() const { return this->m_pos_end; }
 
-		bool matches(TokenType type, std::optional<std::string> value) const;
+		bool matches(const TokenType& type, const std::optional<std::string>& value) const;
 
 		inline bool has_value() const { return this->m_value.has_value(); };
 		inline int get_as_int() const { return std::stoi(this->value_or_zero()); }

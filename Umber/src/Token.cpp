@@ -13,7 +13,7 @@ namespace umber
 	{
 	}
 
-	bool Token::matches(TokenType type, std::optional<std::string> value) const
+	bool Token::matches(const TokenType& type, const std::optional<std::string>& value) const
 	{
 		return this->m_type == type && this->m_value == value;
 	}

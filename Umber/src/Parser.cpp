@@ -60,7 +60,6 @@ namespace umber
 		}
 
 		std::vector<nodes::IfNode::if_case> cases;
-		//std::shared_ptr<Node> else_case = nullptr;
 		std::optional<nodes::IfNode::if_else_case> else_case = std::nullopt;
 
 		res.register_advancement();
@@ -124,7 +123,6 @@ namespace umber
 			res.register_advancement();
 			this->advance();
 
-
 			std::shared_ptr<Node> elif_condition = res.register_res(this->expression());
 			if (res.has_error())
 			{
@@ -136,7 +134,7 @@ namespace umber
 				res.register_advancement();
 				this->advance();
 
-				std::shared_ptr<Node> statements = res.register_res(this->statements());
+				std::shared_ptr<Node> elif_statements = res.register_res(this->statements());
 				if (res.has_error())
 				{
 					return res;
@@ -148,7 +146,7 @@ namespace umber
 					return res;
 				}
 
-				cases.emplace_back(condition, statements, true);
+				cases.emplace_back(elif_condition, elif_statements, true);
 
 				res.register_advancement();
 				this->advance();
@@ -165,13 +163,13 @@ namespace umber
 				res.register_advancement();
 				this->advance();
 
-				std::shared_ptr<Node> expr = res.register_res(this->statement());
+				std::shared_ptr<Node> elif_expr = res.register_res(this->statement());
 				if (res.has_error())
 				{
 					return res;
 				}
 
-				cases.emplace_back(condition, expr, false);
+				cases.emplace_back(elif_condition, elif_expr, false);
 			}
 
 		}
@@ -225,7 +223,7 @@ namespace umber
 		}
 #pragma endregion
 
-		res.success(std::make_shared<nodes::IfNode>(cases, std::move(else_case)));
+		res.success(std::make_shared<nodes::IfNode>(cases, else_case));
 		return res;
 	}
 
@@ -924,7 +922,7 @@ namespace umber
 
 		if (res.has_error())
 		{
-			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected comp expression!"));
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_end(), "Expected comparison expression!"));
 			return res;
 		}
 
@@ -964,7 +962,7 @@ namespace umber
 
 		if (res.has_error())
 		{
-			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_start(), "Expected arith expression!"));
+			res.failure(std::make_shared<errors::InvalidSyntaxError>(this->m_current_token.value().pos_start(), this->m_current_token.value().pos_start(), "Expected arithmetic expression!"));
 			return res;
 		}
 
@@ -1033,7 +1031,6 @@ namespace umber
 
 		while (this->m_current_token.value().type() == TokenType::Accessor || this->m_current_token.value().type() == TokenType::Lsquare)
 		{
-
 			// TODO: reimplement
 			/*if (this->m_current_token.value().type() == TokenType::Accessor)
 			{
@@ -1071,7 +1068,7 @@ namespace umber
 				continue;
 			}*/
 
-			if(this->m_current_token.value().type() == TokenType::Lsquare)
+			if (this->m_current_token.value().type() == TokenType::Lsquare)
 			{
 				res.register_advancement();
 				this->advance();

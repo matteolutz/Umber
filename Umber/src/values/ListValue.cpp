@@ -18,7 +18,18 @@ namespace umber
 		std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>> ListValue::added_to(std::shared_ptr<Value> other)
 		{
 			std::unique_ptr<ListValue> new_list = std::make_unique<ListValue>(*this);
-			new_list->m_elements.push_back(other);
+
+			if (other->type() == ValueType::List)
+			{
+				for (const std::shared_ptr<Value>& other_v : std::static_pointer_cast<ListValue>(other)->elements())
+				{
+					new_list->m_elements.push_back(other_v);
+				}
+			}
+			else
+			{
+				new_list->m_elements.push_back(other);
+			}
 
 			return { std::move(new_list), nullptr };
 		}
@@ -34,10 +45,10 @@ namespace umber
 
 			if (index < 0 || index >= this->m_elements.size())
 			{
-				return { nullptr, std::make_unique<errors::RuntimeError>(this->m_pos_start, this->m_pos_end, utils::std_string_format("Index %d is out of range!", index).c_str(), this->m_context)};
+				return { nullptr, std::make_unique<errors::RuntimeError>(this->m_pos_start, this->m_pos_end, utils::std_string_format("Index %d is out of range!", index).c_str(), this->m_context) };
 			}
 
-			return { this->m_elements[index], nullptr};
+			return { this->m_elements[index], nullptr };
 		}
 
 		std::pair<std::shared_ptr<Value>, std::unique_ptr<errors::RuntimeError>> ListValue::set(std::shared_ptr<Value> accessor, std::shared_ptr<Value> value)

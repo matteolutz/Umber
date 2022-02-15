@@ -24,12 +24,12 @@ namespace umber
 
 			void register_advancement();
 
-			std::shared_ptr<Node> register_res(ParseResult res);
-			std::shared_ptr<Node> try_register_res(ParseResult res);
+			std::shared_ptr<Node> register_res(const ParseResult& res);
+			std::shared_ptr<Node> try_register_res(const ParseResult& res);
 
-			void success(std::shared_ptr<Node> node);
+			void success(const std::shared_ptr<Node>& node);
 
-			void failure(std::shared_ptr<Error> error);
+			void failure(const std::shared_ptr<Error>& error);
 
 			bool has_error() const;
 			bool has_node() const;

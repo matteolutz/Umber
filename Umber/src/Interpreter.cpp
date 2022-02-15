@@ -326,6 +326,7 @@ namespace umber
 
 		for (const nodes::IfNode::if_case& ic : node->cases())
 		{
+
 			std::shared_ptr<Value> condition_value = res.register_res(Interpreter::visit(ic.condition, context));
 			if (res.should_return())
 			{
@@ -611,7 +612,7 @@ namespace umber
 			value_to_return = std::make_shared<values::NumberValue>(values::NumberValue::NULL_VALUE);
 		}
 
-		res.success_return(value_to_return);
+		res.success_return(value_to_return->copy());
 		return res;
 	}
 
