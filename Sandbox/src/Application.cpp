@@ -3,7 +3,7 @@
 #include <iostream>
 #include <chrono>
 
-const char* lexer_test = R"""(
+const char *lexer_test = R"""(
 fun split_lines (content) {
     var lines = [];
     var current_line = "";
@@ -24,12 +24,12 @@ fun split_lines (content) {
 };
 
 file_read();
-)""""";
+)"""
+                         "";
 
 int main()
 {
 
-	umber::Test();
-	return 0;
-
+    umber::Test();
+    return 0;
 }

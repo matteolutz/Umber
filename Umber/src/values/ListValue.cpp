@@ -42,7 +42,6 @@ namespace umber
 			}
 
 			int index = (int)std::static_pointer_cast<values::NumberValue>(accessor)->value();
-
 			if (index < 0 || index >= this->m_elements.size())
 			{
 				return { nullptr, std::make_unique<errors::RuntimeError>(this->m_pos_start, this->m_pos_end, utils::std_string_format("Index %d is out of range!", index).c_str(), this->m_context) };

@@ -79,18 +79,43 @@ fun quick_sort_arr (arr, len) {
 
 };
 
+fun gen_arr (min, max) {
+
+	let mut arr = [];
+
+	for i = min to max {
+		arr = arr + i;
+	};
+	
+	return arr;
+
+};
+
 let test_arr = [43895, 3, 5, 38902456, 324783, 27819047921241, 124, 1, 34264324, 23452343456464, 21312, 123124544666364, 312312, 4334657, 12];
 let test_arr_len = 15;
 
-print(bubble_sort_arr(test_arr, test_arr_len));
-print(selection_sort_arr(test_arr, test_arr_len));
+# print(bubble_sort_arr(test_arr, test_arr_len));
+# print(selection_sort_arr(test_arr, test_arr_len));
 print(quick_sort_arr(test_arr, test_arr_len));
+
 
 )"""";
 
 const char* testx = R""""(
 
+fun gen_arr (min, max) {
 
+	let mut arr = [];
+
+	for i = min to max {
+		arr = arr + i;
+	};
+	
+	return arr;
+
+};
+
+print(gen_arr(0, 100));
 
 )"""";
 

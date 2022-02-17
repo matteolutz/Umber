@@ -1,306 +1,303 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Quelldateien">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Context.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Error.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\errors\ExpectedCharError.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\errors\IllegalCharacterError.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\errors\InvalidSyntaxError.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\errors\RuntimeError.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Interpreter.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Lexer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Node.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\AccessorNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\AccessorSetNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\BinOpNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\BreakNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\CallNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\ContinueNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\DictNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\ForNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\FunctionDefNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\IfNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\ImportNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\ListNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\NumberNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\ReturnNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\StringNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\UnaryOpNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\VarAccessNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\VarAssignNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\VarDeclarationNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\WhileNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Parser.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Position.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\result\ParseResult.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\result\RuntimeResult.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\SymbolTable.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Token.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Umber.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\utils\Utils.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Value.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\values\BaseFunctionValue.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\values\BuiltInFunction.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\values\DictValue.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\values\FunctionValue.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\values\ListValue.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\values\NumberValue.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\values\StringValue.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Constants.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Context.fwd.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Context.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Error.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\errors\ExpectedCharError.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\errors\IllegalCharacterError.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\errors\InvalidSyntaxError.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\errors\RuntimeError.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Interpreter.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Lexer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Node.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\AccessorNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\AccessorSetNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\BinOpNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\BreakNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\CallNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\ContinueNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\DictNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\ForNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\FunctionDefNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\IfNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\ImportNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\ListNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\NumberNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\ReturnNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\StringNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\UnaryOpNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\VarAccessNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\VarAssignNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\VarDeclarationNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\nodes\WhileNode.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Parser.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Position.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\result\ParseResult.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\result\RuntimeResult.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\SymbolTable.fwd.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\SymbolTable.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Token.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Umber.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\utils\Utils.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Value.fwd.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\Value.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\values\BaseFunctionValue.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\values\BuiltInFunction.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\values\DictValue.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\values\FunctionValue.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\values\ListValue.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\values\NumberValue.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\values\StringValue.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Coding\C++ Projects\Umber-CMake\Umber\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="E:\Coding\C++ Projects\Umber-CMake\Umber\src\test\primes.ub" />
+  </ItemGroup>
+  <ItemGroup>
     <Filter Include="Headerdateien">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+      <UniqueIdentifier>{15D63D0B-A9EB-3654-9B4C-1AE646DE57E0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Ressourcendateien">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{6B8A9614-ECC1-3804-8589-DA3174B7130C}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Umber.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Lexer.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Token.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Position.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Constants.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Error.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\errors\IllegalCharacterError.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\errors\ExpectedCharError.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Node.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\NumberNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\StringNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\ListNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\VarAccessNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\BinOpNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\VarAssignNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\UnaryOpNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\IfNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\ForNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\WhileNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\FunctionDefNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\CallNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\ReturnNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\ContinueNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\BreakNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\result\ParseResult.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Parser.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\errors\InvalidSyntaxError.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\VarDeclarationNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\result\RuntimeResult.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Value.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Context.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SymbolTable.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\errors\RuntimeError.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Context.fwd.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Value.fwd.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SymbolTable.fwd.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\values\NumberValue.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Interpreter.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\values\StringValue.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\values\ListValue.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utils\Utils.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\values\BaseFunctionValue.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\values\FunctionValue.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\values\BuiltInFunction.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\AccessorNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\DictNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\values\DictValue.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\AccessorSetNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nodes\ImportNode.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\Umber.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Lexer.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Position.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Token.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Error.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\errors\IllegalCharacterError.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\errors\ExpectedCharError.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Node.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\NumberNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\StringNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\ListNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\VarAccessNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\BinOpNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\VarAssignNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\UnaryOpNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\IfNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\ForNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\WhileNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\FunctionDefNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\CallNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\ReturnNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\ContinueNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\BreakNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\result\ParseResult.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Parser.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\errors\InvalidSyntaxError.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\VarDeclarationNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Value.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SymbolTable.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Context.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\errors\RuntimeError.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\result\RuntimeResult.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\values\NumberValue.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Interpreter.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\values\StringValue.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\values\ListValue.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utils\Utils.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\values\BaseFunctionValue.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\values\FunctionValue.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\values\BuiltInFunction.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\AccessorNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\DictNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\values\DictValue.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\AccessorSetNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nodes\ImportNode.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="src\test\primes.ub" />
   </ItemGroup>
 </Project>

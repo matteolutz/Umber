@@ -61,7 +61,9 @@ namespace umber
 	result::RuntimeResult Interpreter::visit_list_node(std::shared_ptr<nodes::ListNode> node, std::shared_ptr<Context> context)
 	{
 		auto res = result::RuntimeResult();
+
 		std::vector<std::shared_ptr<Value>> elements;
+		elements.reserve(node->elements().size());
 
 		for (const std::shared_ptr<Node>& n : node->elements())
 		{
@@ -72,13 +74,14 @@ namespace umber
 			}
 		}
 
-		res.success(std::make_shared<values::ListValue>(elements, node->pos_start(), node->pos_end(), context));
+		res.success(std::make_shared<values::ListValue>(std::move(elements), node->pos_start(), node->pos_end(), context));
 		return res;
 	}
 
 	result::RuntimeResult Interpreter::visit_dict_node(std::shared_ptr<nodes::DictNode> node, std::shared_ptr<Context> context)
 	{
 		auto res = result::RuntimeResult();
+
 		std::map<std::string, std::shared_ptr<Value>> elements;
 
 		for (const auto& [name, node] : node->elements())
@@ -90,7 +93,7 @@ namespace umber
 			}
 		}
 
-		res.success(std::make_shared<values::DictValue>(elements, node->pos_start(), node->pos_end(), context));
+		res.success(std::make_shared<values::DictValue>(std::move(elements), node->pos_start(), node->pos_end(), context));
 		return res;
 	}
 
@@ -108,11 +111,9 @@ namespace umber
 		std::optional<SymbolTable::symbol> value = context->symbol_table()->get(var_name);
 		if (!value.has_value())
 		{
-
 			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), utils::std_string_format("'%s' is not declared in this scope!", var_name.c_str()), context));
 			return res;
 		}
-
 
 		res.success(value.value().m_value);
 		return res;
@@ -130,20 +131,20 @@ namespace umber
 		}
 
 		std::shared_ptr<Value> new_value = res.register_res(Interpreter::visit(node->value_node(), context));
-
 		if (res.should_return())
 		{
 			return res;
 		}
 
-		bool assigned = context->symbol_table()->assign(var_name, new_value->copy());
+		bool assigned = context->symbol_table()->assign(var_name, new_value);
+
 		if (!assigned)
 		{
 			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), "Variable was either not declared in this scope or is immutable!", context));
 			return res;
 		}
 
-		res.success(new_value);
+		res.success(std::move(new_value));
 		return res;
 	}
 
@@ -161,20 +162,20 @@ namespace umber
 		}
 
 		std::shared_ptr<Value> new_value = res.register_res(Interpreter::visit(node->value_node(), context));
-
 		if (res.should_return())
 		{
 			return res;
 		}
 
-		bool assigned = context->symbol_table()->declare(var_name, { new_value->copy(), is_mutable});
+		bool assigned = context->symbol_table()->declare(var_name, { new_value, is_mutable});
+
 		if (!assigned)
 		{
 			res.failure(std::make_shared<errors::RuntimeError>(node->pos_start(), node->pos_end(), "Variable was already declared in this scope!", context));
 			return res;
 		}
 
-		res.success(new_value);
+		res.success(std::move(new_value));
 		return res;
 	}
 
@@ -194,7 +195,7 @@ namespace umber
 			return res;
 		}
 
-		std::pair<std::unique_ptr<Value>, std::shared_ptr<errors::RuntimeError>> result =
+		std::pair<std::shared_ptr<Value>, std::shared_ptr<errors::RuntimeError>> bin_op_result =
 			[&, node, context]() -> std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>>
 		{
 			if (node->op_token().type() == TokenType::Plus)
@@ -263,16 +264,18 @@ namespace umber
 			return { nullptr, std::make_unique<errors::RuntimeError>(node->pos_start(), node->pos_end(), "Unknown operation!", context) };
 		}();
 
-		if (result.second != nullptr)
+		if (bin_op_result.second != nullptr)
 		{
-			res.failure(result.second);
+			res.failure(std::move(bin_op_result.second));
 			return res;
 		}
 
-		result.first->pos_start() = node->pos_start();
-		result.first->pos_end() = node->pos_end();
+		std::shared_ptr<Value> ret_value = std::move(bin_op_result.first);
 
-		res.success(result.first->copy());
+		ret_value->pos_start() = node->pos_start();
+		ret_value->pos_end() = node->pos_end();
+
+		res.success(ret_value);
 		return res;
 	}
 
@@ -286,7 +289,7 @@ namespace umber
 			return res;
 		}
 
-		std::pair<std::unique_ptr<Value>, std::shared_ptr<errors::RuntimeError>> result =
+		std::pair<std::shared_ptr<Value>, std::shared_ptr<errors::RuntimeError>> unary_op_result =
 			[&, node, context]() -> std::pair<std::unique_ptr<Value>, std::unique_ptr<errors::RuntimeError>>
 		{
 			if (node->op_token().type() == TokenType::Minus)
@@ -295,7 +298,7 @@ namespace umber
 			}
 			if (node->op_token().type() == TokenType::Plus)
 			{
-				return { number->copy(), nullptr };
+				return { number->copy(), nullptr};
 			}
 			if (node->op_token().type() == TokenType::Not)
 			{
@@ -305,13 +308,13 @@ namespace umber
 		}();
 
 
-		if (result.second != nullptr)
+		if (unary_op_result.second != nullptr)
 		{
-			res.failure(result.second);
+			res.failure(std::move(unary_op_result.second));
 			return res;
 		}
-		
-		std::shared_ptr<Value> ret_value = result.first->copy();
+
+		std::shared_ptr<Value> ret_value = std::move(unary_op_result.first);
 
 		ret_value->pos_start() = node->pos_start();
 		ret_value->pos_end() = node->pos_end();
@@ -326,7 +329,6 @@ namespace umber
 
 		for (const nodes::IfNode::if_case& ic : node->cases())
 		{
-
 			std::shared_ptr<Value> condition_value = res.register_res(Interpreter::visit(ic.condition, context));
 			if (res.should_return())
 			{
@@ -348,8 +350,8 @@ namespace umber
 					res.success(std::make_shared<values::NumberValue>(values::NumberValue::NULL_VALUE));
 					return res;
 				}
-				
-				res.success(body_value);
+
+				res.success(std::move(body_value));
 				return res;
 			}
 		}
@@ -370,7 +372,7 @@ namespace umber
 				return res;
 			}
 
-			res.success(body_value);
+			res.success(std::move(body_value));
 			return res;
 		}
 
@@ -411,7 +413,7 @@ namespace umber
 				return res;
 			}
 
-			elements.push_back(body_value);
+			elements.push_back(std::move(body_value));
 		}
 
 		if (node->should_return_null())
@@ -420,7 +422,7 @@ namespace umber
 			return res;
 		}
 
-		res.success(std::make_shared<values::ListValue>(elements, node->pos_start(), node->pos_end(), context));
+		res.success(std::make_shared<values::ListValue>(std::move(elements), node->pos_start(), node->pos_end(), context));
 		return res;
 	}
 
@@ -501,7 +503,7 @@ namespace umber
 				return res;
 			}
 
-			elements.push_back(body_value);
+			elements.push_back(std::move(body_value));
 
 			enumerator += f_step_value;
 		}
@@ -512,7 +514,7 @@ namespace umber
 			return res;
 		}
 
-		res.success(std::make_shared<values::ListValue>(elements, node->pos_start(), node->pos_end(), context));
+		res.success(std::make_shared<values::ListValue>(std::move(elements), node->pos_start(), node->pos_end(), context));
 		return res;
 	}
 
@@ -523,9 +525,11 @@ namespace umber
 		std::optional<std::string> func_name = node->var_name_token().has_value() ? node->var_name_token().value().value() : std::nullopt;
 
 		std::vector<std::string> arg_names;
+		arg_names.reserve(node->arg_name_tokens().size());
+
 		for (const Token& an : node->arg_name_tokens())
 		{
-			if (!an.has_value())
+			if (!an.value().has_value())
 			{
 				res.failure(std::make_shared<errors::RuntimeError>(an.pos_start(), an.pos_end(), "Variable name expected!", context));
 				return res;
@@ -534,7 +538,7 @@ namespace umber
 			arg_names.push_back(an.value().value());
 		}
 
-		std::shared_ptr<values::FunctionValue> value = std::make_shared<values::FunctionValue>(func_name.value_or("<anonymous>"), node->body_node(), arg_names, node->should_auto_return(), node->pos_start(), node->pos_end(), context);
+		std::shared_ptr<values::FunctionValue> value = std::make_shared<values::FunctionValue>(func_name.value_or("<anonymous>"), node->body_node(), std::move(arg_names), node->should_auto_return(), node->pos_start(), node->pos_end(), context);
 
 		if (node->var_name_token().has_value() && node->var_name_token().value().value().has_value())
 		{
@@ -548,14 +552,16 @@ namespace umber
 			}
 		}
 
-		res.success(value);
+		res.success(std::move(value));
 		return res;
 	}
 
 	result::RuntimeResult Interpreter::visit_call_node(std::shared_ptr<nodes::CallNode> node, std::shared_ptr<Context> context)
 	{
 		auto res = result::RuntimeResult();
+
 		std::vector<std::shared_ptr<Value>> args;
+		args.reserve(node->arg_nodes().size());
 
 		std::shared_ptr<values::BaseFunctionValue> value_to_call = std::dynamic_pointer_cast<values::BaseFunctionValue>(res.register_res(Interpreter::visit(node->node_to_call(), context)));
 		if (value_to_call == nullptr)
@@ -580,7 +586,7 @@ namespace umber
 			}
 		}
 
-		std::shared_ptr<Value> return_value = res.register_res(value_to_call->execute(args));
+		std::shared_ptr<Value> return_value = res.register_res(value_to_call->execute(std::move(args)));
 		if (res.should_return())
 		{
 			return res;
@@ -590,7 +596,7 @@ namespace umber
 		return_value->pos_end() = node->pos_end();
 		return_value->context() = context;
 
-		res.success(return_value);
+		res.success(std::move(return_value));
 		return res;
 	}
 
@@ -612,7 +618,7 @@ namespace umber
 			value_to_return = std::make_shared<values::NumberValue>(values::NumberValue::NULL_VALUE);
 		}
 
-		res.success_return(value_to_return->copy());
+		res.success_return(std::move(value_to_return));
 		return res;
 	}
 
@@ -649,11 +655,11 @@ namespace umber
 		std::pair<std::shared_ptr<Value>, std::shared_ptr<errors::RuntimeError>> accessor_result = value_to_be_accessed->access(accessor_value);
 		if (accessor_result.second != nullptr)
 		{
-			res.failure(accessor_result.second);
+			res.failure(std::move(accessor_result.second));
 			return res;
 		}
 
-		std::shared_ptr<Value> ret_value = accessor_result.first;
+		std::shared_ptr<Value> ret_value = std::move(accessor_result.first);
 
 		ret_value->pos_start() = node->pos_start();
 		ret_value->pos_end() = node->pos_end();
@@ -688,11 +694,11 @@ namespace umber
 		std::pair<std::shared_ptr<Value>, std::shared_ptr<errors::RuntimeError>> accessor_set_result = value_to_be_accessed->set(accessor_value, value_to_be_set);
 		if (accessor_set_result.second != nullptr)
 		{
-			res.failure(accessor_set_result.second);
+			res.failure(std::move(accessor_set_result.second));
 			return res;
 		}
 
-		std::shared_ptr<Value> ret_value = accessor_set_result.first;
+		std::shared_ptr<Value> ret_value = std::move(accessor_set_result.first);
 
 		ret_value->pos_start() = node->pos_start();
 		ret_value->pos_end() = node->pos_end();
@@ -708,6 +714,7 @@ namespace umber
 
 		// TOOD import 
 
+		res.success(std::make_shared<values::NumberValue>(values::NumberValue::NULL_VALUE));
 		return res;
 	}
 

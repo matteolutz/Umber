@@ -88,7 +88,6 @@ namespace umber
 
 		bool matches(const TokenType& type, const std::optional<std::string>& value) const;
 
-		inline bool has_value() const { return this->m_value.has_value(); };
 		inline int get_as_int() const { return std::stoi(this->value_or_zero()); }
 		inline float get_as_float() const { return std::stof(this->value_or_zero()); }
 		inline const std::string value_or_zero() const { return this->m_value.value_or("0"); }
