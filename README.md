@@ -23,7 +23,7 @@ cd Umber
 cmake --build .
 ```
 
-Now you can copy the file in `{YOUR_ARCH}\Deubg|Release\Sandbox.exe` anywhere you want, to execute it.
+Now you can copy the file `{YOUR_ARCH}\Deubg|Release\Sandbox.exe` anywhere you want, to execute it.
 
 ### Run a file
 
