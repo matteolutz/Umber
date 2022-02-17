@@ -1,4 +1,0 @@
-E:/Coding/C++ Projects/Umber-CMake/CMakeFiles/ALL_BUILD.dir
-E:/Coding/C++ Projects/Umber-CMake/CMakeFiles/ZERO_CHECK.dir
-E:/Coding/C++ Projects/Umber-CMake/Sandbox/CMakeFiles/Sandbox.dir
-E:/Coding/C++ Projects/Umber-CMake/Umber/CMakeFiles/Umber.dir
