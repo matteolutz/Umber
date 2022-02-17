@@ -20,9 +20,6 @@
 namespace umber
 {
 
-	void Test();
-
-	void RunFile(std::string filepath);
-	std::pair<std::optional<std::vector<Token>>, std::unique_ptr<Error>> RunText(std::string text);
+	std::pair<std::shared_ptr<Value>, std::shared_ptr<Error>> run_text(const std::string &text);
 
 }
